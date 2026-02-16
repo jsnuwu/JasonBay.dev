@@ -1,0 +1,30 @@
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  background-color: #0d0d0d; 
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
+
+.app-container:not(.hero-page) .site-header {
+  background-color: #131313; 
+}
+
+.header-logo {
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.header-logo:hover {
+  opacity: 0.8;
+}

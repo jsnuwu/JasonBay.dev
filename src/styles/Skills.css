@@ -1,0 +1,15 @@
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.skills-list li {
+  background: rgba(59, 130, 246, 0.15);
+  padding: 0.6rem 1rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+}
