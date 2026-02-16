@@ -27,7 +27,7 @@ function AppWrapper() {
 
 function App() {
   return (
-    <Router>
+    <Router  basename="/JasonBay.dev">
       <AppWrapper />
     </Router>
   );
