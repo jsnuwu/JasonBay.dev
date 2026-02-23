@@ -1,34 +1,47 @@
-.hero-section {
+.hero-wrapper {
   height: 100vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: center;        
+  justify-content: center;    
+  gap: 6rem;
+  padding: 0 5%;
   text-align: center;
-  position: relative;
-  z-index: 0;
 }
 
-.hero-section h1 {
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+}
+
+.hero-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Typography */
+.hero-left h1 {
   font-size: 3.5rem;
   margin-bottom: 1rem;
   font-weight: 700;
   color: #f1f5f9;
 }
 
-.hero-section p {
+.hero-left p {
   font-size: 1.25rem;
   color: #cbd5e1;
-  max-width: 600px;
-  margin: 0 auto 2rem auto;
+  margin-bottom: 2rem;
   line-height: 1.6;
 }
 
+/* Buttons */
 .hero-buttons {
   display: flex;
-  gap: 5rem;
+  gap: 3rem;
+  justify-content: center;
 }
-
 
 .btn {
   color: white;

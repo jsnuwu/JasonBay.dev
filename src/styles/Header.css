@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(10px);
-  background-color: #0d0d0d; 
+  background-color: var(--bg-color);
   z-index: 1000;
   transition: background-color 0.3s ease;
 }
@@ -19,7 +19,7 @@
 }
 
 .header-logo {
-  color: #fff;
+  color: var(--text-color);
   font-size: 1.6rem;
   font-weight: 700;
   text-decoration: none;
@@ -27,4 +27,71 @@
 
 .header-logo:hover {
   opacity: 0.8;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+}
+
+.darkThemeBtn * {
+  transition: all 0.3s;
+}
+
+.darkThemeBtn {
+  margin-right: 80px; 
+  margin-bottom: 20px;
+}
+
+.darkThemeBtn input {
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.darkThemeBtn label {
+  border: 1px solid #efefef;
+  background: rgba(239, 239, 239, 0.5);
+  border-radius: 8px;
+  height: 34px;
+  width: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.darkThemeBtn label:active {
+  border-radius: 5px;
+}
+
+.darkThemeBtn label svg {
+  position: absolute;
+  width: 16px;
+  transition: 0.3s;
+  z-index: 1;
+  fill: #000;
+}
+
+.darkThemeBtn label svg.sun {
+  width: 20px;
+  opacity: 0;
+  fill: #fff;
+}
+
+.darkThemeBtn label svg.moon {
+  opacity: 1;
+}
+
+.darkThemeBtn input:checked + label {
+  background: #4a6cf7;
+}
+
+.darkThemeBtn input:checked + label svg.sun {
+  opacity: 1;
+}
+
+.darkThemeBtn input:checked + label svg.moon {
+  opacity: 0;
 }

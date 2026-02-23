@@ -1,0 +1,36 @@
+.profile-card {
+  position: relative;
+  width: 320px;
+  padding: 1rem;
+  border-radius: 20px;
+  background: rgba(20, 20, 30, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  overflow: hidden;
+}
+
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+.card-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top right,
+    rgba(120, 180, 255, 0.4),
+    transparent 60%
+  );
+  z-index: 0;
+}
+
+.profile-avatar {
+  width: 320px;
+  height: 420px;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}

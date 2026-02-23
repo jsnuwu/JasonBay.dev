@@ -1,3 +1,4 @@
+import { useState } from "react";
 import ProjectCard from './ProjectCard';
 import '../styles/Projects.css'; 
 
@@ -29,21 +30,28 @@ const projects: Project[] = [
     tech: 'Three.js, JavaScript, HTML/CSS',
     link: 'https://jsnuwu.github.io/Earth/',
   },
+  {
+    name: 'About Me Page (old)',
+    description: 'Dieses Repository enthält eine kurze „About Me“-Präsentation, die ich im Rahmen einer internen Vorstellung vor meinen Führungskräften gehalten habe. Ziel war es, einen Überblick über meine Person, meine Arbeitsweise und meine Schwerpunkte zu geben – kompakt und auf den Punkt. Das Projekt dient ausschließlich Dokumentations- und Referenzzwecken.',
+    tech: 'Angular, TypeScript, HTML/CSS',
+    link: 'https://jsnuwu.github.io/AboutMe/',
+  },
+    {
+    name: 'EasterEgg PoC',
+    description: 'Ein kleines Proof of Concept (PoC) für ein Easter Egg auf einer Website. Dieses Projekt war ein Mockup, um eine versteckte Funktion auszulösen, wenn der Benutzer eine bestimmte Tastenkombination eingibt.',
+    tech: 'Angular, TypeScript, HTML/CSS',
+    link: 'https://jsnuwu.github.io/EasterEggPoC/',
+  },
 ];
 
 export default function Projects() {
   return (
-    <section id="projects" className="projects-section">
+    <section className="projects-section">
       <h2>Projekte</h2>
+
       <div className="projects-grid">
         {projects.map((project, index) => (
-          <ProjectCard
-            key={index}
-            name={project.name}
-            description={project.description}
-            tech={project.tech}
-            link={project.link}
-          />
+          <ProjectCard key={index} {...project} />
         ))}
       </div>
     </section>

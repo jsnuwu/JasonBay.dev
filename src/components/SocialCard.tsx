@@ -15,7 +15,7 @@ export default function SocialCard() {
   ];
 
   return (
-    <div className="card">
+    <div className="socialCard">
       {socials.map((s, i) => (
         <a
           key={i}

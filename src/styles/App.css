@@ -1,8 +1,6 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #0c0c0c;
-  color: #e2e8f0;
   line-height: 1.6;
 }
 
@@ -44,4 +42,20 @@ h2::after {
   left: 0;
   bottom: -8px;
   border-radius: 5px;
+}
+
+body.light {
+  --bg-color: #ffffff;
+  --text-color: #111111;
+}
+
+body.dark {
+  --bg-color: #111111;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
 }

@@ -1,4 +1,4 @@
-.card {
+.socialCard {
   position: fixed;       
   top: 50%;              
   left: 0;               
@@ -13,7 +13,7 @@
   z-index: 900;
 }
 
-.card a {
+.socialCard a {
   width: 40px;          
   height: 40px;
   display: flex;
@@ -24,7 +24,7 @@
   background: transparent;
 }
 
-.card a:hover {
+.socialCard a:hover {
   transform: scale(1.1);
   background: var(--hover-color);
 }
