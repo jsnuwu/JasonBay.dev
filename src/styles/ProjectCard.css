@@ -1,8 +1,8 @@
 .project-card {
-  background: #1e293b;
+  background: var(--card-bg);
   border-radius: 20px;
   padding: 2rem;
-  border: 1px solid #334155;
+  border: 1px solid var(--card-border);
   transition: all 0.35s ease;
   display: flex;
   flex-direction: column;
@@ -12,28 +12,31 @@
 .project-card h3 {
   margin-top: 0;
   margin-bottom: 1rem;
+  color: var(--card-text);
 }
 
 .project-card p {
   flex-grow: 1;
   margin-bottom: 1.5rem;
+  color: var(--card-text);
 }
 
 .project-card small {
   opacity: 0.7;
   margin-bottom: 1rem;
+    color: var(--card-text);
 }
 
 .project-card a {
   text-decoration: none;
   font-weight: 500;
-  color: #3b82f6;
+  color: var(--card-link);
 }
 
 .project-card:hover {
   transform: translateY(-2px);
-  border-color: #3b82f6;
-  box-shadow: 0 20px 50px rgba(59,130,246,0.25);
+  border-color: var(--card-link);
+  box-shadow: 0 20px 50px var(--card-shadow);
 }
 
 .animated-button {
@@ -47,20 +50,20 @@
   font-size: 14px;
   border-radius: 100px;
   font-weight: 600;
-  color: #1f387e;
-  box-shadow: 0 0 0 2px #ffffff;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  box-shadow: 0 0 0 2px var(--button-box-shadow);
   cursor: pointer;
   overflow: hidden;
   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  background-color: #4a6cf7; 
 }
 
 .animated-button svg {
   position: absolute;
   width: 24px;
-  fill: #1f387e;
+  fill: var(--button-svg);
   z-index: 9;
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .animated-button .arr-1 { right: 16px; }
@@ -73,32 +76,65 @@
   transform: translate(-50%, -50%);
   width: 20px;
   height: 20px;
-  background-color: #4a6cf7;
+  background-color: var(--button-circle);
   border-radius: 50%;
   opacity: 0;
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .animated-button .text {
   position: relative;
   z-index: 1;
   transform: translateX(-12px);
-  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .animated-button:hover {
   box-shadow: 0 0 0 12px transparent;
-  color: #212121;
+  color: var(--button-hover-text);
   border-radius: 12px;
 }
 
 .animated-button:hover .arr-1 { right: -25%; }
 .animated-button:hover .arr-2 { left: 16px; }
 .animated-button:hover .text { transform: translateX(12px); }
-.animated-button:hover svg { fill: #1f387e; }
+.animated-button:hover svg { fill: var(--button-svg); }
 .animated-button:hover .circle { width: 220px; height: 220px; opacity: 1; }
 
 .animated-button:active {
   scale: 0.95;
-  box-shadow: 0 0 0 4px greenyellow;
+  box-shadow: 0 0 0 4px var(--button-active-shadow);
+}
+
+@media (max-width: 1024px) {
+  .project-card {
+    padding: 1.5rem;
+  }
+
+  .animated-button {
+    padding: 6px 22px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-card {
+    padding: 1.2rem;
+  }
+
+  .animated-button {
+    padding: 5px 18px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-card {
+    padding: 1rem;
+  }
+
+  .animated-button {
+    padding: 4px 14px;
+    font-size: 11px;
+  }
 }

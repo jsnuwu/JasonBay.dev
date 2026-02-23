@@ -26,4 +26,13 @@
   .projects-grid {
     grid-template-columns: 1fr;
   }
+
+  .projects-section {
+    padding: 3rem 1rem;
+  }
+
+  .projects-section h2 {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
 }

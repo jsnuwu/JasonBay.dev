@@ -6,6 +6,7 @@
   gap: 6rem;
   padding: 0 5%;
   text-align: center;
+
 }
 
 .hero-left {
@@ -13,6 +14,7 @@
   flex-direction: column;
   align-items: center;
   max-width: 600px;
+  
 }
 
 .hero-right {
@@ -21,22 +23,22 @@
   align-items: center;
 }
 
-/* Typography */
 .hero-left h1 {
   font-size: 3.5rem;
   margin-bottom: 1rem;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--hero-heading);
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 .hero-left p {
   font-size: 1.25rem;
-  color: #cbd5e1;
+  color: var(--hero-paragraph);
   margin-bottom: 2rem;
   line-height: 1.6;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 
-/* Buttons */
 .hero-buttons {
   display: flex;
   gap: 3rem;
@@ -44,30 +46,100 @@
 }
 
 .btn {
-  color: white;
+  color: var(--btn-color);
   text-decoration: none;
   font-size: 25px;
   border: none;
   background: none;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
+  
 }
 
 .btn::before {
   margin-left: auto;
 }
 
+
+
 .btn::after, .btn::before {
   content: '';
   width: 0%;
   height: 2px;
-  background: #ffffff;
+  background: var(--btn-line);
   display: block;
-  transition: 0.5s;
+  transition: 0.2s;
+  
 }
 
 .btn:hover::after, .btn:hover::before {
   width: 100%;
 }
 
+@media (max-width: 1024px) {
+  .hero-wrapper {
+    flex-direction: column;
+    gap: 3rem;
+    padding: 0 3%;
+  }
 
+  .hero-left h1 {
+    font-size: 3rem;
+  }
+
+  .hero-left p {
+    font-size: 1.15rem;
+  }
+
+  .btn {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-wrapper {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 5%;
+  }
+
+  .hero-left h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-left p {
+    font-size: 1rem;
+  }
+
+  .btn {
+    font-size: 20px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-wrapper {
+    padding: 0 2%;
+    gap: 1.5rem;
+  }
+
+  .hero-left h1 {
+    font-size: 2rem;
+  }
+
+  .hero-left p {
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    font-size: 18px;
+  }
+
+  .hero-buttons {
+    gap: 1rem;
+  }
+}

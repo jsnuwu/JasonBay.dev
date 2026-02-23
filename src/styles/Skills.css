@@ -43,3 +43,40 @@
   background: rgba(59, 130, 246, 0.3);
   box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25);
 }
+
+@media (max-width: 1000px) {
+  .skills-cloud {
+    max-width: 700px;
+    gap: 1rem 1.5rem;
+  }
+
+  .skills-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .skills-cloud {
+    flex-direction: column;
+    gap: 0.8rem 0;
+    max-width: 90%;
+  }
+
+  .skills-section h2 {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+  }
+
+  .skill-item {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .skill-item {
+    font-size: 0.8rem !important;
+    padding: 0.4rem 0.8rem !important;
+  }
+}

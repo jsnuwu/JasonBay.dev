@@ -34,3 +34,39 @@
   position: relative;
   z-index: 1;
 }
+
+@media (max-width: 1024px) {
+  .profile-card {
+    width: 280px;
+    padding: 0.9rem;
+  }
+
+  .profile-avatar {
+    width: 280px;
+    height: 370px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-card {
+    width: 240px;
+    padding: 0.8rem;
+  }
+
+  .profile-avatar {
+    width: 240px;
+    height: 320px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    width: 200px;
+    padding: 0.7rem;
+  }
+
+  .profile-avatar {
+    width: 200px;
+    height: 270px;
+  }
+}

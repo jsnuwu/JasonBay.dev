@@ -2,6 +2,91 @@ body {
   margin: 0;
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ================= Light Mode ================= */
+body.light {
+  --bg-color: #ffffff; 
+  --text-color: #111111;
+
+  /* Header & Toggle */
+  --header-bg: rgba(255, 255, 255, 0.8);
+  --toggle-bg: rgba(0, 0, 0, 0.05);
+  --toggle-fill-sun: #ffdd00;
+  --toggle-fill-moon: #000000;
+
+  /* Buttons */
+  --btn-color: #111111;         
+  --btn-line: #111111;           
+  --btn-bg: #4a6cf7;             
+  --btn-hover-text: #ffffff;     
+  --btn-hover-circle: #3b82f6; 
+  --btn-svg: #ffffff;            
+  --button-box-shadow: #00000080;
+
+  /* Hero Texte */
+  --hero-heading: #111111;    
+  --hero-paragraph: #333333;    
+
+  /* Project Cards */
+  --card-bg: #f8fbfd;           
+  --card-border: #d1d5db;        
+  --card-text: #111111;          
+  --card-link: #3b82f6;          
+  --card-shadow: rgba(59,130,246,0.15);
+
+    /* Contact Section */
+  --contact-heading: #111111;
+  --contact-text: #333333;
+  --contact-button-bg: royalblue;
+  --contact-button-text: #ffffff;
+  --contact-button-hover-bg: #4169e1;
+  --contact-input-border: #ccc;
+  --contact-input-focus: royalblue;
+}
+
+/* ================= Dark Mode ================= */
+body.dark {
+  --bg-color: #111111; 
+  --text-color: #ffffff;
+
+  /* Header & Toggle */
+  --header-bg: rgba(19, 19, 19, 0.8);
+  --toggle-bg: rgba(255, 255, 255, 0.2);
+  --toggle-fill-sun: #ffffff;
+  --toggle-fill-moon: #000000;
+
+  /* Buttons */
+  --btn-color: #ffffff;
+  --btn-line: #ffffff;
+  --btn-bg: #4a6cf7;
+  --btn-hover-text: #212121;
+  --btn-hover-circle: #4a6cf7;
+  --btn-svg: #ffffff;
+  --button-box-shadow: #ffffff80;
+
+  /* Hero Texte */
+  --hero-heading: #f1f5f9;
+  --hero-paragraph: #cbd5e1;
+
+  /* Project Cards */
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --card-text: #f1f5f9;
+  --card-link: #3b82f6;
+  --card-shadow: rgba(59,130,246,0.25);
+  
+    /* Contact Section */
+  --contact-heading: #f1f5f9;
+  --contact-text: #cbd5e1;
+  --contact-button-bg: #4a6cf7;
+  --contact-button-text: #ffffff;
+  --contact-button-hover-bg: #3b82f6;
+  --contact-input-border: #334155;
+  --contact-input-focus: #4a6cf7;
 }
 
 .app-container:not(.hero-page) {
@@ -42,20 +127,4 @@ h2::after {
   left: 0;
   bottom: -8px;
   border-radius: 5px;
-}
-
-body.light {
-  --bg-color: #ffffff;
-  --text-color: #111111;
-}
-
-body.dark {
-  --bg-color: #111111;
-  --text-color: #ffffff;
-}
-
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background 0.3s ease, color 0.3s ease;
 }

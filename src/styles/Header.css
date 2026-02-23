@@ -9,13 +9,9 @@
   align-items: center;
   justify-content: space-between;
   backdrop-filter: blur(10px);
-  background-color: var(--bg-color);
+  background-color: var(--header-bg);
   z-index: 1000;
-  transition: background-color 0.3s ease;
-}
-
-.app-container:not(.hero-page) .site-header {
-  background-color: #131313; 
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .header-logo {
@@ -23,24 +19,22 @@
   font-size: 1.6rem;
   font-weight: 700;
   text-decoration: none;
+  transition: color 0.3s ease, opacity 0.3s ease;
 }
 
 .header-logo:hover {
   opacity: 0.8;
 }
 
-.site-header {
+.darkThemeBtn {
+  margin-right: 80px; 
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
 }
 
 .darkThemeBtn * {
   transition: all 0.3s;
-}
-
-.darkThemeBtn {
-  margin-right: 80px; 
-  margin-bottom: 20px;
 }
 
 .darkThemeBtn input {
@@ -50,8 +44,8 @@
 }
 
 .darkThemeBtn label {
-  border: 1px solid #efefef;
-  background: rgba(239, 239, 239, 0.5);
+  border: 1px solid var(--text-color);
+  background: var(--toggle-bg);
   border-radius: 8px;
   height: 34px;
   width: 34px;
@@ -71,17 +65,17 @@
   width: 16px;
   transition: 0.3s;
   z-index: 1;
-  fill: #000;
 }
 
 .darkThemeBtn label svg.sun {
   width: 20px;
   opacity: 0;
-  fill: #fff;
+  fill: var(--toggle-fill-sun);
 }
 
 .darkThemeBtn label svg.moon {
   opacity: 1;
+  fill: var(--toggle-fill-moon);
 }
 
 .darkThemeBtn input:checked + label {
@@ -94,4 +88,48 @@
 
 .darkThemeBtn input:checked + label svg.moon {
   opacity: 0;
+}
+
+@media (max-width: 1024px) {
+  .site-header {
+    padding: 0 1.5rem;
+  }
+
+  .header-logo {
+    font-size: 1.4rem;
+  }
+
+  .darkThemeBtn {
+    margin-right: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: 0 1rem;
+    height: 60px;
+  }
+
+  .header-logo {
+    font-size: 1.3rem;
+  }
+
+  .darkThemeBtn {
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header {
+    padding: 0 0.5rem;
+    height: 55px;
+  }
+
+  .header-logo {
+    font-size: 1.2rem;
+  }
+
+  .darkThemeBtn {
+    margin-right: 10px;
+  }
 }
