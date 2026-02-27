@@ -13,8 +13,7 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
       <Link to="/" className="header-logo">
         Jason
       </Link>
-        Still in progress…
-      {/* Rechts: Darkmode Toggle + Burger */}
+
       <div className="header-right">
         {/* Darkmode Toggle */}
         <div className="darkThemeBtn">
