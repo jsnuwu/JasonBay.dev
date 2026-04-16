@@ -9,7 +9,6 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ name, description, tech, link }: ProjectCardProps) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    // Mittleklick mit Ctrl/Cmd wird vom Browser verarbeitet
     if (e.button === 1 || (e.ctrlKey && e.button === 0) || (e.metaKey && e.button === 0)) {
       e.preventDefault();
       window.open(link, '_blank');

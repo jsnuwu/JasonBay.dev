@@ -9,14 +9,11 @@ export default function About() {
         
         <h2>Über mich</h2>
         <br /><br />
-          <p>
-            Ich bin Fachinformatiker für Anwendungsentwicklung.
-            <br /><br />
-            Ich habe meine Ausbildung zum Fachinformatiker bei der adesso SE abgeschlossen und dabei vor allem mit TypeScript/Angular sowie Java/Spring Boot gearbeitet. Zu meinen Schwerpunkten zählten Softwareanalyse, Entwicklung, Testing und Debugging sowie UI-Gestaltung, Backend-Anbindung und agile Projektarbeit nach SCRUM. Zusätzlich konnte ich Erfahrungen in der 3D-Modellierung mit Three.js sammeln.
-            Während meiner Ausbildung habe ich mir neue Technologien sehr schnell angeeignet und zuverlässig, analytisch sowie verantwortungsbewusst gearbeitet. Auch für komplexe Problemstellungen habe ich passende Lösungen gefunden. Durch meine offene und kooperative Art wurde ich von Kolleginnen, Kollegen und Vorgesetzten gleichermaßen geschätzt.
-          </p>
+<p>
+  Ich bin Fachinformatiker für Anwendungsentwicklung.<br /><br />
+  Während meiner Ausbildung bei adesso SE habe ich Grundlagen in der Fullstack-Entwicklung gesammelt, mit Fokus auf moderne Webtechnologien wie React, Angular und Vue.js im Frontend sowie Java (Spring Boot) im Backend. Ergänzend habe ich Erfahrungen in Testing, Datenbanken und agiler Entwicklung nach Scrum gesammelt. Ich arbeite strukturiert, lerne mich schnell in neue Technologien ein und habe eine ausgeprägte lösungsorientierte Arbeitsweise.
+</p>
       </section>
-
       <Projects />
       
       <Skills />
