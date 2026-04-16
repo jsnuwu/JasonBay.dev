@@ -17,6 +17,13 @@ const projects: Project[] = [
     link: 'https://jsnuwu.github.io/react-playground/',
   },
   {
+    name: 'OnlineShopVue.js',
+    description:
+      'Dieses Projekt ist ein moderner, interaktiver Online-Shop für Bekleidung und Accessoires, entwickelt mit Vue 3, Pinia und Tailwind CSS. Es bietet eine benutzerfreundliche Oberfläche, die es Kunden ermöglicht, Produkte detailliert zu konfigurieren, bevor sie sie in den Warenkorb legen.',
+    tech: 'Vue.js, Pinia, Tailwind CSS, TypeScript, Vite',
+    link: 'https://jsnuwu.github.io/OnlineShopVue.js/',
+  },
+  {
     name: 'Angular Playground',
     description:
       'Ein Angular Playground – eine Entwicklungs- und Lernumgebung, in der ich mit Angular an kleinen Beispiel-Seiten und Konzepten experimentiert habe. Dieses Repository dient als Sandbox für Angular-Ideen, Komponenten-Tests und erste Implementierungen ohne festen Produkt-Fokus.',
