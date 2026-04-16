@@ -13,18 +13,17 @@ export default function Hero() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return (
+return (
+  <>
     <section className="hero">
-
       <div className="hero-content">
         <div className="hero-text">
-
           <h1 className="hero-title">
             Hi, ich bin <span>Jason</span>
           </h1>
 
           <p className="hero-subtitle">
-            Fachinformatiker für Anwendungsentwicklung mit Fokus auf moderne Web- und Fullstack-Entwicklung.
+           Fachinformatiker für Anwendungsentwicklung mit Vorliebe für moderne Web- und Fullstack-Entwicklung.
           </p>
 
           <div className="hero-actions">
@@ -38,10 +37,13 @@ export default function Hero() {
         </div>
       </div>
 
-<div className={`scroll-indicator ${scrolled ? 'hide' : ''}`}>
-  <div className="mouse" />
-  <span>Scroll (in progress)</span>
-</div>
+      <div className={`scroll-indicator ${scrolled ? 'hide' : ''}`}>
+        <div className="mouse" />
+        <span>Scroll (in progress)</span>
+      </div>
     </section>
-  );
+
+  </>
+);
+
 }
