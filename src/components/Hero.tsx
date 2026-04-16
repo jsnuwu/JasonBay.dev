@@ -8,39 +8,40 @@ export default function Hero() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (
-    <section className="hero-wrapper">
-      <div className="hero-left">
-        <h1>Hi, ich bin Jason</h1>
-        <p>Fachinformatiker für Anwendungsentwicklung.</p>
+    <section className="hero">
 
-        <div className="hero-buttons">
-          <Link to="/about" className="btn">
-            Was ich mache
-          </Link>
+      <div className="hero-content">
+        <div className="hero-text">
 
-          <Link to="/contact" className="btn btn-reverse">
-            Kontakt
-          </Link>
+          <h1 className="hero-title">
+            Hi, ich bin <span>Jason</span>
+          </h1>
+
+          <p className="hero-subtitle">
+            Fachinformatiker für Anwendungsentwicklung mit Fokus auf moderne Web- und Fullstack-Entwicklung.
+          </p>
+
+          <div className="hero-actions">
+            <Link to="/about" className="hero-btn primary">Was ich mache</Link>
+            <Link to="/contact" className="hero-btn">Kontakt</Link>
+          </div>
+        </div>
+
+        <div className="hero-visual">
+          <ProfileCard avatarUrl={avatar} />
         </div>
       </div>
 
-      <div className="hero-right">
-        <ProfileCard avatarUrl={avatar} />
-      </div>
-
-      {/* Scroll Hint */}
-      <div className={`scroll-hint ${scrolled ? 'hide' : ''}`}>
-        ↓ Scroll für mehr
-      </div>
+<div className={`scroll-indicator ${scrolled ? 'hide' : ''}`}>
+  <div className="mouse" />
+  <span>Scroll (in progress)</span>
+</div>
     </section>
   );
 }

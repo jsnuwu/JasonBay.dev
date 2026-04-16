@@ -1,103 +1,138 @@
-.hero-wrapper {
+.hero {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  align-items: center;        
-  justify-content: center;    
-  gap: 6rem;
-  padding: 0 5%;
-  text-align: center;
-
+  align-items: center;
+  justify-content: center;
+  padding: 0 6%;
+  overflow: hidden;
 }
 
-.hero-left {
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6rem;
+  width: 100%;
+  max-width: 1200px;   
+  margin: 0 auto;      
+  padding: 0 2rem;
+}
+
+.hero-text {
+  max-width: 600px;
+}
+
+.hero-tag {
+  display: inline-block;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  line-height: 1.1;
+}
+
+.hero-title span {
+  background: linear-gradient(90deg, #7c3aed, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.hero-btn {
+  padding: 10px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+  border: 2px solid var(--text-color);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  color: var(--text-color);
+}
+
+.hero-btn.primary {
+  background: linear-gradient(90deg, #7c3aed, #5b21b6);
+  border: none;
+  color: white;
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+}
+
+.hero-visual {
+  transform: perspective(1000px) rotateY(-8deg);
+  transition: transform 0.5s ease;
+}
+
+.hero-visual:hover {
+  transform: perspective(1000px) rotateY(0deg) scale(1.02);
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 600px;
-  
-}
-
-.hero-right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.hero-left h1 {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-  color: var(--hero-heading);
-  transition: color 0.3s ease, opacity 0.3s ease;
-}
-
-.hero-left p {
-  font-size: 1.25rem;
-  color: var(--hero-paragraph);
-  margin-bottom: 2rem;
-  line-height: 1.6;
-  transition: color 0.3s ease, opacity 0.3s ease;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 3rem;
-  justify-content: center;
-}
-
-.btn {
-  color: var(--btn-color);
-  text-decoration: none;
-  font-size: 25px;
-  border: none;
-  background: none;
-  font-weight: 600;
-  font-family: 'Poppins', sans-serif;
-  
-}
-
-.btn::before {
-  margin-left: auto;
-}
-
-
-
-.btn::after, .btn::before {
-  content: '';
-  width: 0%;
-  height: 2px;
-  background: var(--btn-line);
-  display: block;
-  transition: 0.2s;
-  
-}
-
-.btn:hover::after, .btn:hover::before {
-  width: 100%;
-}
-
-.scroll-hint {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.9rem;
+  gap: 8px;
   opacity: 0.7;
-  transition: all 0.4s ease;
-  animation: bounce 1.5s infinite;
-  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.scroll-hint.hide {
+.scroll-indicator.hide {
   opacity: 0;
-  transform: translateX(-50%) translateY(10px);
+  transform: translateX(-50%) translateY(15px);
 }
 
-@keyframes bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
+.mouse {
+  width: 20px;
+  height: 32px;
+  border: 2px solid var(--text-color);
+  border-radius: 20px;
+  position: relative;
 }
+
+.mouse::after {
+  content: '';
+  width: 4px;
+  height: 6px;
+  background: var(--text-color);
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  animation: scrollAnim 1.5s infinite;
+}
+
+@keyframes scrollAnim {
+  0% { top: 6px; opacity: 1; }
+  100% { top: 18px; opacity: 0; }
+}
+
 
 
 @media (max-width: 1024px) {

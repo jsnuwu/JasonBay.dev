@@ -23,18 +23,18 @@ const projects: Project[] = [
     tech: 'Vue.js, Pinia, Tailwind CSS, TypeScript, Vite',
     link: 'https://jsnuwu.github.io/OnlineShopVue.js/',
   },
+    {
+    name: '3D Earth',
+    description: 'Dieses Projekt ist ein Three.js Playground, in dem ich mit 3D-Grafiken im Web experimentiert habe. Konkret wurde eine 3D-Erdkugel umgesetzt, um Grundlagen von Three.js, Szenen, Kameras und Animationen zu testen. Das Repository ist als Experiment / Lernprojekt gedacht.',
+    tech: 'Three.js, JavaScript, HTML/CSS',
+    link: 'https://jsnuwu.github.io/Earth/',
+  },
   {
     name: 'Angular Playground',
     description:
       'Ein Angular Playground – eine Entwicklungs- und Lernumgebung, in der ich mit Angular an kleinen Beispiel-Seiten und Konzepten experimentiert habe. Dieses Repository dient als Sandbox für Angular-Ideen, Komponenten-Tests und erste Implementierungen ohne festen Produkt-Fokus.',
     tech: 'Angular, TypeScript, HTML/CSS',
     link: 'https://jsnuwu.github.io/angular-playground/',
-  },
-  {
-    name: '3D Earth',
-    description: 'Dieses Projekt ist ein Three.js Playground, in dem ich mit 3D-Grafiken im Web experimentiert habe. Konkret wurde eine 3D-Erdkugel umgesetzt, um Grundlagen von Three.js, Szenen, Kameras und Animationen zu testen. Das Repository ist als Experiment / Lernprojekt gedacht.',
-    tech: 'Three.js, JavaScript, HTML/CSS',
-    link: 'https://jsnuwu.github.io/Earth/',
   },
   {
     name: 'About Me Page (old)',
