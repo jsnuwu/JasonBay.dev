@@ -27,6 +27,9 @@ export default function Hero() {
               <span>💻 Fullstack</span>
               <span>🐶 Tiere</span>
               <span>🌿 Natur</span>
+              <span>🏍️ Motorrad</span>
+              <span>🎬 Editing</span>
+
             </div>
 
             <p className="hero-subtitle">
