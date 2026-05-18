@@ -7,7 +7,7 @@
 .marquee-content {
   display: flex;
   gap: 2rem;
-  width: max-content;         
+  width: max-content;
   animation: scroll 25s linear infinite;
 }
 
@@ -19,7 +19,6 @@
   white-space: nowrap;
   opacity: 0.9;
 }
-
 
 .skill-item svg {
   font-size: 2rem;
@@ -37,7 +36,7 @@
 @media (max-width: 1000px) {
   .marquee-content {
     gap: 1.5rem;
-    animation-duration: 35s; 
+    animation-duration: 35s;
   }
 
   .skill-item {
@@ -53,7 +52,7 @@
 @media (max-width: 650px) {
   .marquee-content {
     gap: 1rem;
-    animation-duration: 45s;  
+    animation-duration: 45s;
   }
 
   .skill-item {

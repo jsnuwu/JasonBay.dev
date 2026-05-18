@@ -15,7 +15,6 @@ import {
   SiPostgresql,
   SiMongodb,
   SiJavascript,
-
   SiMysql,
 } from "react-icons/si";
 import { SiSharp } from "react-icons/si";

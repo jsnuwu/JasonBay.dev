@@ -1,15 +1,17 @@
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   line-height: 1.6;
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 /* ================= Light Mode ================= */
 body.light {
-  --bg-color: #ffffff; 
+  --bg-color: #ffffff;
   --text-color: #111111;
 
   /* Header & Toggle */
@@ -17,28 +19,29 @@ body.light {
   --toggle-bg: rgba(0, 0, 0, 0.05);
   --toggle-fill-sun: #ffdd00;
   --toggle-fill-moon: #000000;
+  --span-background: rgba(0, 0, 0, 0.05);
 
   /* Buttons */
-  --btn-color: #111111;         
-  --btn-line: #111111;           
-  --btn-bg: #4a6cf7;             
-  --btn-hover-text: #ffffff;     
-  --btn-hover-circle: #3b82f6; 
-  --btn-svg: #ffffff;            
+  --btn-color: #111111;
+  --btn-line: #111111;
+  --btn-bg: #4a6cf7;
+  --btn-hover-text: #ffffff;
+  --btn-hover-circle: #3b82f6;
+  --btn-svg: #ffffff;
   --button-box-shadow: #00000080;
 
   /* Hero Texte */
-  --hero-heading: #111111;    
-  --hero-paragraph: #333333;    
+  --hero-heading: #111111;
+  --hero-paragraph: #333333;
 
   /* Project Cards */
-  --card-bg: #f8fbfd;           
-  --card-border: #d1d5db;        
-  --card-text: #111111;          
-  --card-link: #3b82f6;          
-  --card-shadow: rgba(59,130,246,0.15);
+  --card-bg: #f8fbfd;
+  --card-border: #d1d5db;
+  --card-text: #111111;
+  --card-link: #3b82f6;
+  --card-shadow: rgba(59, 130, 246, 0.15);
 
-    /* Contact Section */
+  /* Contact Section */
   --contact-heading: #111111;
   --contact-text: #333333;
   --contact-button-bg: royalblue;
@@ -50,7 +53,7 @@ body.light {
 
 /* ================= Dark Mode ================= */
 body.dark {
-  --bg-color: #111111; 
+  --bg-color: #111111;
   --text-color: #ffffff;
 
   /* Header & Toggle */
@@ -58,12 +61,14 @@ body.dark {
   --toggle-bg: rgba(255, 255, 255, 0.2);
   --toggle-fill-sun: #ffffff;
   --toggle-fill-moon: #000000;
+  --span-background: rgba(255, 255, 255, 0.05);
 
   /* Buttons */
   --btn-color: #ffffff;
   --btn-line: #ffffff;
   --btn-bg: #4a6cf7;
   --btn-hover-text: #212121;
+
   --btn-hover-circle: #4a6cf7;
   --btn-svg: #ffffff;
   --button-box-shadow: #ffffff80;
@@ -77,9 +82,9 @@ body.dark {
   --card-border: #334155;
   --card-text: #f1f5f9;
   --card-link: #3b82f6;
-  --card-shadow: rgba(59,130,246,0.25);
-  
-    /* Contact Section */
+  --card-shadow: rgba(59, 130, 246, 0.25);
+
+  /* Contact Section */
   --contact-heading: #f1f5f9;
   --contact-text: #cbd5e1;
   --contact-button-bg: #4a6cf7;
@@ -92,7 +97,7 @@ body.dark {
 .app-container:not(.hero-page) {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 70px 2rem 0 2rem; 
+  padding: 70px 2rem 0 2rem;
 }
 
 .hero-section {
@@ -103,7 +108,7 @@ body.dark {
   align-items: center;
   text-align: center;
   padding: 0 1rem;
-  position: relative; 
+  position: relative;
   z-index: 0;
 }
 

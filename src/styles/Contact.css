@@ -4,7 +4,7 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
 }
 
 .contact-section h2 {
@@ -19,8 +19,7 @@
   font-size: 1.2rem;
   margin-bottom: 2rem;
   color: var(--contact-text);
-    transition: color 0.3s ease;
-
+  transition: color 0.3s ease;
 }
 
 .send-email-button {
@@ -76,8 +75,12 @@
 }
 
 @keyframes fly-1 {
-  from { transform: translateY(0.1em); }
-  to { transform: translateY(-0.1em); }
+  from {
+    transform: translateY(0.1em);
+  }
+  to {
+    transform: translateY(-0.1em);
+  }
 }
 
 .contact-form {
@@ -112,10 +115,12 @@
   background: var(--contact-button-bg);
   color: var(--contact-button-text);
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-  display: block;   
+  transition:
+    background 0.2s,
+    transform 0.1s;
+  display: block;
   width: 40%;
-  margin: 0 auto; 
+  margin: 0 auto;
 }
 
 .contact-form button:hover {
@@ -125,7 +130,6 @@
 .contact-form button:active {
   transform: scale(0.95);
 }
-
 
 @media (max-width: 1024px) {
   .hero-wrapper {

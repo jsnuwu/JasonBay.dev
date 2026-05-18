@@ -1,16 +1,16 @@
 // src/components/Contact.jsx
-import '../styles/Contact.css';
+import "../styles/Contact.css";
 
 export default function Contact() {
   return (
     <section className="contact-section">
       <h2>Kontakt</h2>
-      <p>Ich freue mich über deine Nachricht! Schreib mir einfach eine E-Mail oder nutze das Formular unten.</p>
+      <p>
+        Ich freue mich über deine Nachricht! Schreib mir einfach eine E-Mail
+        oder nutze das Formular unten.
+      </p>
 
-      <a
-        href="mailto:Jasonbay05@gmail.com"
-        className="send-email-button"
-      >
+      <a href="mailto:Jasonbay05@gmail.com" className="send-email-button">
         <div className="svg-wrapper-1">
           <div className="svg-wrapper">
             <svg
@@ -31,16 +31,20 @@ export default function Contact() {
       </a>
 
       <form
-  className="contact-form"
-  action="https://formspree.io/f/mreakbje"
-  method="POST"
->
-  <input name="name" type="text" placeholder="Dein Name" required />
-  <input name="email" type="email" placeholder="Deine E-Mail" required />
-  <textarea name="message" placeholder="Deine Nachricht" rows={5} required></textarea>
-  <button type="submit">Absenden</button>
-</form>
-
+        className="contact-form"
+        action="https://formspree.io/f/mreakbje"
+        method="POST"
+      >
+        <input name="name" type="text" placeholder="Dein Name" required />
+        <input name="email" type="email" placeholder="Deine E-Mail" required />
+        <textarea
+          name="message"
+          placeholder="Deine Nachricht"
+          rows={5}
+          required
+        ></textarea>
+        <button type="submit">Absenden</button>
+      </form>
     </section>
   );
 }

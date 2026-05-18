@@ -1,38 +1,108 @@
-.slider-wrapper {
-  position: relative;
+.about-preview {
   width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  background: var(--bg-color);
 }
 
-.slider-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background: rgba(0, 0, 0, 0.4);
-  color: white;
-  font-size: 2rem;
+.about-title {
+  color: var(--text-color);
+  font-size: clamp(2rem, 4vw, 4rem);
+  margin-bottom: 3rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.phone-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.3s ease;
+  perspective: 1200px;
 }
 
-.slider-btn:hover {
-  background: rgba(0, 0, 0, 0.7);
-  transform: translateY(-50%) scale(1.1);
+.phone-frame {
+  position: relative;
+  width: 320px;
+  height: 650px;
+  border-radius: 45px;
+  padding: 14px;
+  background: #111;
+  box-shadow:
+    0 0 0 4px #2a2a2a,
+    0 30px 80px rgba(0, 0, 0, 0.7),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
-.slider-btn.left {
-  left: 20px;
+.phone-frame:hover {
+  transform: rotateY(0deg) rotateX(0deg) scale(1.02);
 }
 
-.slider-btn.right {
-  right: 20px;
+.phone-homebar {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  z-index: 50;
+}
+
+.phone-time {
+  position: absolute;
+  top: 23px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  z-index: 60;
+  pointer-events: none;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.phone-battery {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  width: 26px;
+  height: 13px;
+  border: 2px solid white;
+  border-radius: 4px;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  padding: 1px;
+  box-sizing: border-box;
+}
+
+.phone-battery::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  width: 2px;
+  height: 6px;
+  background: white;
+  border-radius: 2px;
+}
+
+.battery-fill {
+  width: 100%;
+  height: 100%;
+  background: #4cff4c;
+  border-radius: 2px;
 }
 
 .about-slider {
@@ -41,9 +111,9 @@
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   width: 100%;
-  height: 80vh; 
+  height: 100%;
+  border-radius: 34px;
   scrollbar-width: none;
-
 }
 
 .about-slider::-webkit-scrollbar {
@@ -52,49 +122,227 @@
 
 .slide {
   min-width: 100%;
+  width: 100%;
   height: 100%;
-  scroll-snap-align: center;
   flex-shrink: 0;
-  position: relative;
-  color: violet;
-    overflow: hidden;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+  scroll-snap-align: center;
+
+  background: #000;
 }
 
 .slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+
+  object-fit: contain;
+
+  display: block;
+
+  transition: transform 0.4s ease;
 }
 
 .slide:hover img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
-
-.slide-overlay {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-
-  color: white;
-  z-index: 2;
-}
-
-.slide-overlay h3 {
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-
 
 .slide::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.6),
-    transparent 50%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 55%);
   z-index: 1;
+}
+
+.slide-overlay {
+  position: absolute;
+  bottom: 35px;
+  left: 25px;
+  z-index: 5;
+  color: white;
+}
+
+.slide-overlay h3 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+
+  color: white;
+  font-size: 1.7rem;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.3s ease;
+}
+
+.slider-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.slider-btn.left {
+  left: 18px;
+}
+
+.slider-btn.right {
+  right: 18px;
+}
+
+@media (max-width: 768px) {
+  .about-preview {
+    padding: 2rem 1rem;
+  }
+
+  .about-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .phone-frame {
+    width: 270px;
+    height: 560px;
+
+    border-radius: 38px;
+    padding: 12px;
+  }
+
+  .about-slider {
+    border-radius: 28px;
+  }
+
+  .phone-time {
+    top: 20px;
+    font-size: 0.85rem;
+  }
+
+  .phone-battery {
+    top: 24px;
+    right: 22px;
+
+    width: 22px;
+    height: 11px;
+  }
+
+  .phone-homebar {
+    width: 90px;
+    bottom: 8px;
+  }
+
+  .slide-overlay {
+    bottom: 25px;
+    left: 20px;
+  }
+
+  .slide-overlay h3 {
+    font-size: 1.1rem;
+  }
+
+  .slider-btn {
+    width: 36px;
+    height: 36px;
+
+    font-size: 1.3rem;
+  }
+
+  .slider-btn.left {
+    left: 10px;
+  }
+
+  .slider-btn.right {
+    right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-preview {
+    min-height: auto;
+    padding: 2rem 0.5rem;
+  }
+
+  .about-title {
+    font-size: 1.7rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .phone-frame {
+    width: 230px;
+    height: 500px;
+
+    border-radius: 34px;
+    padding: 10px;
+  }
+
+  .about-slider {
+    border-radius: 24px;
+  }
+
+  .phone-time {
+    top: 18px;
+    font-size: 0.75rem;
+  }
+
+  .phone-battery {
+    top: 21px;
+    right: 18px;
+
+    width: 20px;
+    height: 10px;
+  }
+
+  .phone-homebar {
+    width: 70px;
+    height: 4px;
+  }
+
+  .slide-overlay {
+    bottom: 18px;
+    left: 16px;
+  }
+
+  .slide-overlay h3 {
+    font-size: 1rem;
+  }
+
+  .slider-btn {
+    width: 30px;
+    height: 30px;
+
+    font-size: 1rem;
+  }
+
+  .slider-btn.left {
+    left: 6px;
+  }
+
+  .slider-btn.right {
+    right: 6px;
+  }
 }
