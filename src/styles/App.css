@@ -1,3 +1,10 @@
+:root {
+  --accent-1: #4a6cf7;
+  --accent-2: #7c3aed;
+  --accent-3: #a78bfa;
+  --accent-gradient: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+}
+
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
@@ -22,13 +29,13 @@ body.light {
   --span-background: rgba(0, 0, 0, 0.05);
 
   /* Buttons */
-  --btn-color: #111111;
-  --btn-line: #111111;
-  --btn-bg: #4a6cf7;
-  --btn-hover-text: #ffffff;
-  --btn-hover-circle: #3b82f6;
-  --btn-svg: #ffffff;
-  --button-box-shadow: #00000080;
+  --button-bg: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  --button-text: #ffffff;
+  --button-hover-text: #ffffff;
+  --button-circle: rgba(255, 255, 255, 0.28);
+  --button-svg: #ffffff;
+  --button-box-shadow: rgba(74, 108, 247, 0.35);
+  --button-active-shadow: rgba(74, 108, 247, 0.5);
 
   /* Hero Texte */
   --hero-heading: #111111;
@@ -64,14 +71,13 @@ body.dark {
   --span-background: rgba(255, 255, 255, 0.05);
 
   /* Buttons */
-  --btn-color: #ffffff;
-  --btn-line: #ffffff;
-  --btn-bg: #4a6cf7;
-  --btn-hover-text: #212121;
-
-  --btn-hover-circle: #4a6cf7;
-  --btn-svg: #ffffff;
-  --button-box-shadow: #ffffff80;
+  --button-bg: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+  --button-text: #ffffff;
+  --button-hover-text: #ffffff;
+  --button-circle: rgba(255, 255, 255, 0.2);
+  --button-svg: #ffffff;
+  --button-box-shadow: rgba(124, 58, 237, 0.4);
+  --button-active-shadow: rgba(124, 58, 237, 0.6);
 
   /* Hero Texte */
   --hero-heading: #f1f5f9;
@@ -98,6 +104,12 @@ body.dark {
   max-width: 1100px;
   margin: 0 auto;
   padding: 70px 2rem 0 2rem;
+}
+
+@media (max-width: 650px) {
+  .app-container:not(.hero-page) {
+    padding-bottom: 80px;
+  }
 }
 
 .hero-section {
@@ -127,9 +139,30 @@ h2::after {
   content: "";
   width: 80px;
   height: 3px;
-  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  background: var(--accent-gradient);
   position: absolute;
   left: 0;
   bottom: -8px;
   border-radius: 5px;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

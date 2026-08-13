@@ -1,4 +1,5 @@
 import "../styles/ProjectCard.css";
+import "../styles/AnimatedButton.css";
 
 interface ProjectCardProps {
   name: string;

@@ -4,9 +4,13 @@ import "../styles/Hero.css";
 import ProfileCard from "./ProfileCard";
 import avatar from "../assets/avatar/BayJason.jpg";
 import AboutSlider from "./AboutSlider";
+import ProjectsPreview from "./previewPages/ProjectsPreview";
+import { useScrollHijackGuard } from "../hooks/useScrollHijackGuard";
 
 export default function Hero() {
   const [scrolled, setScrolled] = useState(false);
+
+  useScrollHijackGuard();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80);
@@ -17,8 +21,16 @@ export default function Hero() {
   return (
     <>
       <section className="hero">
+        <div className="hero-bg-decor" aria-hidden="true">
+          <div className="hero-blob blob-1" />
+          <div className="hero-blob blob-2" />
+          <div className="hero-grid" />
+        </div>
+
         <div className="hero-content">
           <div className="hero-text">
+            <span className="hero-kicker">Portfolio</span>
+
             <h1 className="hero-title">
               Hi, ich bin <span>Jason</span>
             </h1>
@@ -29,7 +41,6 @@ export default function Hero() {
               <span>🌿 Natur</span>
               <span>🏍️ Motorrad</span>
               <span>🎬 Editing</span>
-
             </div>
 
             <p className="hero-subtitle">
@@ -59,11 +70,13 @@ export default function Hero() {
           }
         >
           <div className="mouse" />
-          <span>Scroll (in progress)</span>
+          <span>Scroll</span>
         </div>
       </section>
 
       <AboutSlider />
+
+      <ProjectsPreview />
     </>
   );
 }

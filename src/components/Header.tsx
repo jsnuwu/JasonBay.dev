@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 
 interface HeaderProps {
@@ -13,6 +13,18 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
       <Link to="/" className="header-logo">
         Jason
       </Link>
+
+      <nav className="site-nav">
+        <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
+          Home
+        </NavLink>
+        <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
+          Über mich
+        </NavLink>
+        <NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>
+          Kontakt
+        </NavLink>
+      </nav>
 
       <div className="header-right">
         {/* Darkmode Toggle */}

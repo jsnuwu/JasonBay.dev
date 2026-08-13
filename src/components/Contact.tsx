@@ -1,9 +1,11 @@
-// src/components/Contact.jsx
 import "../styles/Contact.css";
+import { useReveal } from "../hooks/useReveal";
 
 export default function Contact() {
+  const ref = useReveal<HTMLElement>();
+
   return (
-    <section className="contact-section">
+    <section className="contact-section reveal" ref={ref}>
       <h2>Kontakt</h2>
       <p>
         Ich freue mich über deine Nachricht! Schreib mir einfach eine E-Mail

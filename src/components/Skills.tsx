@@ -1,4 +1,5 @@
 import "../styles/Skills.css";
+import { useReveal } from "../hooks/useReveal";
 import {
   FaReact,
   FaAngular,
@@ -42,8 +43,10 @@ const skills = [
 ];
 
 export default function Skills() {
+  const ref = useReveal<HTMLElement>();
+
   return (
-    <section className="skills-section">
+    <section className="skills-section reveal" ref={ref}>
       <h2>Tech Stack</h2>
 
       <div className="marquee">
