@@ -1,13 +1,13 @@
 .projects-section {
   width: 100%;
-  padding: 4rem 2rem;
+  padding: 2.5rem 2rem;
   box-sizing: border-box;
 }
 
 .projects-section h2 {
   text-align: center;
   font-size: 2rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
 .projects-grid {
@@ -28,11 +28,11 @@
   }
 
   .projects-section {
-    padding: 3rem 1rem;
+    padding: 2rem 1rem;
   }
 
   .projects-section h2 {
     font-size: 1.75rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 }

@@ -4,6 +4,7 @@ import "../styles/Hero.css";
 import ProfileCard from "./ProfileCard";
 import avatar from "../assets/avatar/BayJason.jpg";
 import AboutSlider from "./AboutSlider";
+import SocialStats from "./SocialStats";
 import ProjectsPreview from "./previewPages/ProjectsPreview";
 import { useScrollHijackGuard } from "../hooks/useScrollHijackGuard";
 
@@ -75,6 +76,8 @@ export default function Hero() {
       </section>
 
       <AboutSlider />
+
+      <SocialStats />
 
       <ProjectsPreview />
     </>

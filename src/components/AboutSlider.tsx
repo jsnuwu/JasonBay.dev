@@ -116,66 +116,12 @@ function seededShuffle<T>(items: T[], seed: number): T[] {
 
 const shuffledSlides = seededShuffle(slides, 1337);
 
-const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-  const card = e.currentTarget;
-
-  const rect = card.getBoundingClientRect();
-
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
-  const centerX = rect.width / 2;
-  const centerY = rect.height / 2;
-
-  const rotateX = -(y - centerY) / 38;
-  const rotateY = (x - centerX) / 38;
-
-  card.style.transform = `
-    rotateX(${rotateX}deg)
-    rotateY(${rotateY}deg)
-    scale(1.03)
-  `;
-};
-
-const handleMouseLeave = () => {
-  const card = document.querySelector(".phone-frame") as HTMLDivElement;
-
-  if (!card) return;
-
-  card.style.transform = `
-    rotateX(0deg)
-    rotateY(0deg)
-    scale(1)
-  `;
-};
-
 export default function AboutSlider() {
   const sectionRef = useReveal<HTMLElement>();
-  const sliderRef = useRef<HTMLDivElement | null>(null);
-
-  const [time, setTime] = useState("");
+  const trackRef = useRef<HTMLDivElement | null>(null);
   const [activeCategory, setActiveCategory] = useState<"all" | Category>(
     "all",
   );
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-
-      const formatted = now.toLocaleTimeString("de-DE", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-
-      setTime(formatted);
-    };
-
-    updateTime();
-
-    const interval = setInterval(updateTime, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const visibleSlides = useMemo(
     () =>
@@ -185,49 +131,129 @@ export default function AboutSlider() {
     [activeCategory],
   );
 
-  const loopSlides = useMemo(() => {
-    if (visibleSlides.length === 0) return [];
-    return [
-      visibleSlides[visibleSlides.length - 1],
-      ...visibleSlides,
-      visibleSlides[0],
-    ];
-  }, [visibleSlides]);
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      const { scrollLeft, scrollWidth, clientWidth } = track;
+      const maxScroll = scrollWidth - clientWidth;
+      if (maxScroll <= 1) return;
+
+      const goingForward = event.deltaY > 0;
+      const atStart = scrollLeft <= 0;
+      const atEnd = scrollLeft >= maxScroll - 1;
+      if ((goingForward && atEnd) || (!goingForward && atStart)) return;
+
+      event.preventDefault();
+      track.scrollLeft += event.deltaY;
+    };
+
+    track.addEventListener("wheel", handleWheel, { passive: false });
+    return () => track.removeEventListener("wheel", handleWheel);
+  }, []);
 
   useEffect(() => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+    const track = trackRef.current;
+    if (!track) return;
 
-    slider.scrollTo({ left: slider.offsetWidth, behavior: "instant" });
-  }, [activeCategory]);
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-  useEffect(() => {
-    const slider = sliderRef.current;
-    const total = visibleSlides.length;
-    if (!slider || total === 0) return;
+    let isDown = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+    let moved = false;
+    let lastX = 0;
+    let lastTime = 0;
+    let velocity = 0;
+    let momentumFrame: number | null = null;
 
-    const settleAtEdge = () => {
-      const width = slider.offsetWidth;
-      if (!width) return;
-
-      const index = Math.round(slider.scrollLeft / width);
-      if (index <= 0) {
-        slider.scrollTo({ left: total * width, behavior: "instant" });
-      } else if (index >= total + 1) {
-        slider.scrollTo({ left: width, behavior: "instant" });
+    const stopMomentum = () => {
+      if (momentumFrame !== null) {
+        cancelAnimationFrame(momentumFrame);
+        momentumFrame = null;
       }
     };
 
-    slider.addEventListener("scrollend", settleAtEdge);
-    return () => slider.removeEventListener("scrollend", settleAtEdge);
-  }, [visibleSlides.length]);
+    const runMomentum = () => {
+      velocity *= 0.94;
+      track.scrollLeft -= velocity * 16;
 
-  const scrollSlider = (direction: "left" | "right") => {
-    const slider = sliderRef.current;
-    if (!slider) return;
+      if (Math.abs(velocity) > 0.02) {
+        momentumFrame = requestAnimationFrame(runMomentum);
+      } else {
+        momentumFrame = null;
+        track.classList.remove("no-snap");
+      }
+    };
 
-    slider.scrollBy({
-      left: direction === "right" ? slider.offsetWidth : -slider.offsetWidth,
+    const handleMouseDown = (event: MouseEvent) => {
+      stopMomentum();
+      isDown = true;
+      moved = false;
+      startX = event.pageX;
+      startScrollLeft = track.scrollLeft;
+      lastX = event.pageX;
+      lastTime = performance.now();
+      velocity = 0;
+      track.classList.add("dragging", "no-snap");
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!isDown) return;
+      const dx = event.pageX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      track.scrollLeft = startScrollLeft - dx;
+
+      const now = performance.now();
+      const dt = now - lastTime;
+      if (dt > 0) velocity = (event.pageX - lastX) / dt;
+      lastX = event.pageX;
+      lastTime = now;
+    };
+
+    const handleDragStart = (event: DragEvent) => {
+      if (moved || isDown) event.preventDefault();
+    };
+
+    const endDrag = () => {
+      if (!isDown) return;
+      isDown = false;
+      track.classList.remove("dragging");
+      if (!reduceMotion && Math.abs(velocity) > 0.05) {
+        momentumFrame = requestAnimationFrame(runMomentum);
+      } else {
+        track.classList.remove("no-snap");
+      }
+    };
+
+    track.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", endDrag);
+    track.addEventListener("dragstart", handleDragStart);
+
+    return () => {
+      stopMomentum();
+      track.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", endDrag);
+      track.removeEventListener("dragstart", handleDragStart);
+    };
+  }, []);
+
+  useEffect(() => {
+    trackRef.current?.scrollTo({ left: 0, behavior: "instant" });
+  }, [activeCategory]);
+
+  const scrollByStep = (direction: "left" | "right") => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    const step = track.clientWidth * 0.8;
+    track.scrollBy({
+      left: direction === "right" ? step : -step,
       behavior: "smooth",
     });
   };
@@ -235,6 +261,9 @@ export default function AboutSlider() {
   return (
     <section className="about-preview reveal" ref={sectionRef}>
       <h2 className="about-title">Mehr als nur Code</h2>
+      <p className="about-subtitle">
+
+      </p>
 
       <div className="slider-categories">
         {categories.map((cat) => (
@@ -248,44 +277,40 @@ export default function AboutSlider() {
         ))}
       </div>
 
-      <div className="phone-container">
-        <div
-          className="phone-frame"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
+      <div className="gallery-row">
+        <button
+          type="button"
+          className="gallery-arrow left"
+          onClick={() => scrollByStep("left")}
+          aria-label="Zurück"
         >
-          <div className="phone-time">{time}</div>
-          <div className="phone-battery">
-            <div className="battery-fill"></div>
-          </div>
-          <button
-            className="slider-btn left"
-            onClick={() => scrollSlider("left")}
-          >
-            ‹
-          </button>
+          ‹
+        </button>
 
-          <div className="about-slider" ref={sliderRef}>
-            {loopSlides.map((slide, index) => (
-              <div className="slide" key={`${activeCategory}-${index}`}>
-                <img src={slide.img} alt={slide.title} />
-
-                <div className="slide-overlay">
-                  <h3>{slide.title}</h3>
+        <div className="gallery-track-wrapper">
+          <div className="gallery-track" ref={trackRef} key={activeCategory}>
+            {visibleSlides.map((slide, index) => (
+              <div
+                className="gallery-card"
+                key={`${slide.img}-${index}`}
+                style={{ animationDelay: `${(index % 10) * 40}ms` }}
+              >
+                <div className="gallery-card-inner">
+                  <img src={slide.img} alt="" loading="lazy" draggable={false} />
                 </div>
               </div>
             ))}
           </div>
-
-          <button
-            className="slider-btn right"
-            onClick={() => scrollSlider("right")}
-          >
-            ›
-          </button>
-
-          <div className="phone-homebar"></div>
         </div>
+
+        <button
+          type="button"
+          className="gallery-arrow right"
+          onClick={() => scrollByStep("right")}
+          aria-label="Weiter"
+        >
+          ›
+        </button>
       </div>
     </section>
   );

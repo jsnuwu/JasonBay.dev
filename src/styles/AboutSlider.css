@@ -1,20 +1,29 @@
 .about-preview {
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 4rem 1rem;
+  padding: 3.5rem 1rem 3rem;
   background: var(--bg-color);
 }
 
 .about-title {
   color: var(--text-color);
-  font-size: clamp(2rem, 4vw, 4rem);
-  margin-bottom: 3rem;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  margin-bottom: 0.75rem;
   font-weight: 700;
   letter-spacing: 1px;
+  text-align: center;
+}
+
+.about-subtitle {
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+  color: var(--text-color);
+  opacity: 0.75;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .slider-categories {
@@ -56,213 +65,168 @@
   color: #ffffff;
 }
 
-.phone-container {
+.gallery-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1180px;
+}
+
+.gallery-arrow {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1.6rem;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  perspective: 1200px;
-}
-
-.phone-frame {
-  position: relative;
-  width: 320px;
-  height: 650px;
-  border-radius: 45px;
-  padding: 14px;
-  background: #111;
-  box-shadow:
-    0 0 0 4px #2a2a2a,
-    0 30px 80px rgba(0, 0, 0, 0.7),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.05);
-  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 20px var(--card-shadow);
   transition:
-    transform 0.15s ease,
-    box-shadow 0.2s ease;
-  transform-style: preserve-3d;
-  will-change: transform;
+    transform 0.25s ease,
+    border-color 0.25s ease;
 }
 
-.phone-frame:hover {
-  transform: rotateY(0deg) rotateX(0deg) scale(1.02);
+.gallery-arrow:hover {
+  transform: translateY(-2px);
+  border-color: var(--card-link);
 }
 
-.phone-homebar {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 5px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.5);
-  z-index: 50;
+.gallery-track-wrapper {
+  flex: 1;
+  min-width: 0;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 3%,
+    #000 97%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 3%,
+    #000 97%,
+    transparent
+  );
 }
 
-.phone-time {
-  position: absolute;
-  top: 23px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 0.95rem;
-  font-weight: 600;
-  letter-spacing: 1px;
-  z-index: 60;
-  pointer-events: none;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.phone-battery {
-  position: absolute;
-  top: 28px;
-  right: 28px;
-  width: 26px;
-  height: 13px;
-  border: 2px solid white;
-  border-radius: 4px;
-  z-index: 60;
+.gallery-track {
   display: flex;
-  align-items: center;
-  padding: 1px;
-  box-sizing: border-box;
-}
-
-.phone-battery::after {
-  content: "";
-  position: absolute;
-  right: -4px;
-  width: 2px;
-  height: 6px;
-  background: white;
-  border-radius: 2px;
-}
-
-.battery-fill {
-  width: 100%;
-  height: 100%;
-  background: #4cff4c;
-  border-radius: 2px;
-}
-
-.about-slider {
-  display: flex;
+  gap: 1.1rem;
   overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  width: 100%;
-  height: 100%;
-  border-radius: 34px;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
   scrollbar-width: none;
+  padding: 0.5rem 0.25rem;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.about-slider::-webkit-scrollbar {
+.gallery-track.dragging {
+  cursor: grabbing;
+}
+
+.gallery-track.no-snap {
+  scroll-snap-type: none;
+}
+
+.gallery-track::-webkit-scrollbar {
   display: none;
 }
 
-.slide {
-  min-width: 100%;
+.gallery-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: 190px;
+  aspect-ratio: 9 / 16;
+  scroll-snap-align: start;
+  border-radius: 26px;
+  padding: 9px;
+  background: #111;
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  animation: galleryCardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s ease;
+}
+
+.gallery-card::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.18);
+  z-index: 2;
+}
+
+.gallery-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 30px 60px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.gallery-card-inner {
+  position: relative;
   width: 100%;
   height: 100%;
-  flex-shrink: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  position: relative;
+  border-radius: 18px;
   overflow: hidden;
-  scroll-snap-align: center;
-
   background: #000;
 }
 
-.slide img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-
-  object-fit: contain;
-
+.gallery-card-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
-
-  transition: transform 0.4s ease;
+  transition: transform 0.5s ease;
 }
 
-.slide:hover img {
+.gallery-card:hover .gallery-card-inner img {
   transform: scale(1.08);
 }
 
-.slide::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 55%);
-  z-index: 1;
+@keyframes galleryCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-.slide-overlay {
-  position: absolute;
-  bottom: 35px;
-  left: 25px;
-  z-index: 5;
-  color: white;
-}
-
-.slide-overlay h3 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.slider-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 30;
-
-  width: 42px;
-  height: 42px;
-
-  border: none;
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(10px);
-
-  color: white;
-  font-size: 1.7rem;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transition: all 0.3s ease;
-}
-
-.slider-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-50%) scale(1.08);
-}
-
-.slider-btn.left {
-  left: 18px;
-}
-
-.slider-btn.right {
-  right: 18px;
+@media (prefers-reduced-motion: reduce) {
+  .gallery-card {
+    animation: none;
+  }
 }
 
 @media (max-width: 768px) {
   .about-preview {
-    padding: 2rem 1rem;
+    padding: 2.5rem 1rem 2.25rem;
   }
 
-  .about-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    text-align: center;
+  .about-subtitle {
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
   }
 
   .slider-categories {
@@ -274,123 +238,51 @@
     font-size: 0.78rem;
   }
 
-  .phone-frame {
-    width: 270px;
-    height: 560px;
-
-    border-radius: 38px;
-    padding: 12px;
+  .gallery-row {
+    gap: 0.5rem;
   }
 
-  .about-slider {
-    border-radius: 28px;
-  }
-
-  .phone-time {
-    top: 20px;
-    font-size: 0.85rem;
-  }
-
-  .phone-battery {
-    top: 24px;
-    right: 22px;
-
-    width: 22px;
-    height: 11px;
-  }
-
-  .phone-homebar {
-    width: 90px;
-    bottom: 8px;
-  }
-
-  .slide-overlay {
-    bottom: 25px;
-    left: 20px;
-  }
-
-  .slide-overlay h3 {
-    font-size: 1.1rem;
-  }
-
-  .slider-btn {
+  .gallery-arrow {
     width: 36px;
     height: 36px;
-
     font-size: 1.3rem;
   }
 
-  .slider-btn.left {
-    left: 10px;
+  .gallery-track {
+    gap: 0.8rem;
   }
 
-  .slider-btn.right {
-    right: 10px;
+  .gallery-card {
+    width: 150px;
+    border-radius: 20px;
+    padding: 7px;
+  }
+
+  .gallery-card-inner {
+    border-radius: 14px;
   }
 }
 
 @media (max-width: 480px) {
   .about-preview {
-    min-height: auto;
-    padding: 2rem 0.5rem;
+    padding: 2rem 0.75rem 2rem;
   }
 
   .about-title {
-    font-size: 1.7rem;
-    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
   }
 
-  .phone-frame {
-    width: 230px;
-    height: 500px;
-
-    border-radius: 34px;
-    padding: 10px;
+  .gallery-row {
+    gap: 0.35rem;
   }
 
-  .about-slider {
-    border-radius: 24px;
-  }
-
-  .phone-time {
-    top: 18px;
-    font-size: 0.75rem;
-  }
-
-  .phone-battery {
-    top: 21px;
-    right: 18px;
-
-    width: 20px;
-    height: 10px;
-  }
-
-  .phone-homebar {
-    width: 70px;
-    height: 4px;
-  }
-
-  .slide-overlay {
-    bottom: 18px;
-    left: 16px;
-  }
-
-  .slide-overlay h3 {
-    font-size: 1rem;
-  }
-
-  .slider-btn {
+  .gallery-arrow {
     width: 30px;
     height: 30px;
-
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
-  .slider-btn.left {
-    left: 6px;
-  }
-
-  .slider-btn.right {
-    right: 6px;
+  .gallery-card {
+    width: 128px;
   }
 }
