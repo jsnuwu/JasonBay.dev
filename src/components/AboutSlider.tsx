@@ -17,11 +17,8 @@ import pet13 from "../assets/HeroImages/pets/pet13.jpeg";
 import pet14 from "../assets/HeroImages/pets/pet14.jpeg";
 
 import motorcycle from "../assets/HeroImages/motorcycle/motorcycle.jpeg";
-import motorcycle1 from "../assets/HeroImages/motorcycle/motorcycle1.jpeg";
-import motorcycle2 from "../assets/HeroImages/motorcycle/motorcycle2.jpeg";
 import motorcycle3 from "../assets/HeroImages/motorcycle/motorcycle3.jpeg";
 import motorcycle4 from "../assets/HeroImages/motorcycle/motorcycle4.jpeg";
-import motorcycle5 from "../assets/HeroImages/motorcycle/motorcycle5.jpeg";
 import motorcycle6 from "../assets/HeroImages/motorcycle/motorcycle6.jpeg";
 import motorcycle7 from "../assets/HeroImages/motorcycle/motorcycle7.jpeg";
 import motorcycle8 from "../assets/HeroImages/motorcycle/motorcycle8.jpeg";
@@ -41,6 +38,9 @@ import motorcycle21 from "../assets/HeroImages/motorcycle/motorcycle21.jpeg";
 
 import me1 from "../assets/HeroImages/me/me1.jpeg";
 import me2 from "../assets/HeroImages/me/me2.jpeg";
+import me3 from "../assets/HeroImages/me/me3.jpg";
+import me4 from "../assets/HeroImages/me/me4.jpg";
+import me5 from "../assets/HeroImages/me/me5.jpg";
 
 type Category = "pets" | "moto" | "me";
 
@@ -73,11 +73,8 @@ const slides: Slide[] = [
   { img: pet13, title: "😌", category: "pets" },
   { img: pet14, title: "👅", category: "pets" },
   { img: motorcycle, title: "🏍️", category: "moto" },
-  { img: motorcycle1, title: "🛣️", category: "moto" },
-  { img: motorcycle2, title: "⚙️", category: "moto" },
   { img: motorcycle3, title: "🔧", category: "moto" },
   { img: motorcycle4, title: "🌄", category: "moto" },
-  { img: motorcycle5, title: "🏁", category: "moto" },
   { img: motorcycle6, title: "🌅", category: "moto" },
   { img: motorcycle7, title: "🪖", category: "moto" },
   { img: motorcycle8, title: "😎", category: "moto" },
@@ -96,6 +93,9 @@ const slides: Slide[] = [
   { img: motorcycle21, title: "😌", category: "moto" },
   { img: me1, title: "🙂", category: "me" },
   { img: me2, title: "🤔", category: "me" },
+  { img: me3, title: "😎", category: "me" },
+  { img: me4, title: "📸", category: "me" },
+  { img: me5, title: "✌️", category: "me" },
 ];
 
 function seededShuffle<T>(items: T[], seed: number): T[] {
