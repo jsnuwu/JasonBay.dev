@@ -61,8 +61,15 @@
   max-width: 1000px;
 }
 
+.social-stat-cell {
+  position: relative;
+}
+
 .social-stat-card {
   position: relative;
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
   text-align: left;
   padding: 1.75rem;
   border-radius: 22px;
@@ -75,6 +82,85 @@
     transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
     border-color 0.3s ease,
     box-shadow 0.3s ease;
+}
+
+.social-stat-preview {
+  position: absolute;
+  bottom: calc(100% + 18px);
+  left: 50%;
+  width: 200px;
+  max-width: calc(100vw - 2rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.9rem 0.9rem 0.8rem;
+  border-radius: 18px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 20px 45px var(--card-shadow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 10px) scale(0.92);
+  transform-origin: bottom center;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 5;
+}
+
+.social-stat-cell:hover .social-stat-preview,
+.social-stat-cell:focus-within .social-stat-preview {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.social-stat-preview-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--card-text);
+  opacity: 0.55;
+}
+
+.social-stat-preview img,
+.social-stat-preview-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 12px;
+  object-fit: cover;
+  background: var(--span-background);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-stat-preview-icon {
+  width: 36%;
+  height: 36%;
+  object-fit: contain;
+  opacity: 0.5;
+}
+
+.social-stat-preview-caption {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--card-text);
+}
+
+.social-stat-preview-tail {
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  background: var(--card-bg);
+  border-right: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  transform: translateX(-50%) rotate(45deg);
 }
 
 .social-stat-card::before {
@@ -181,6 +267,12 @@
   -webkit-text-fill-color: transparent;
 }
 
+@media (hover: none), (pointer: coarse) {
+  .social-stat-preview {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .social-stats {
     padding: 2.5rem 1rem 3rem;
@@ -193,6 +285,10 @@
 
   .social-stat-card {
     padding: 1.4rem;
+  }
+
+  .social-stat-preview {
+    width: 170px;
   }
 }
 

@@ -14,9 +14,21 @@ interface SocialStat {
   bio?: string;
   cta?: string;
   accent: string;
+  latestPost?: { image?: string; caption: string };
 }
 
 const socials: SocialStat[] = [
+  {
+    name: "GitHub",
+    handle: "@jsnuwu",
+    href: "https://github.com/jsnuwu",
+    icon: GitHubIcon,
+    stats: [
+      { label: "Repos", value: "12" },
+      { label: "Contributions", value: "143" },
+    ],
+    accent: "linear-gradient(45deg, #8250df, #a371f7)",
+  },
   {
     name: "TikTok",
     handle: "@jsnuwu",
@@ -28,6 +40,7 @@ const socials: SocialStat[] = [
     ],
     bio: "Random edits by some guy 🫡",
     accent: "linear-gradient(45deg, #69C9D0, #EE1D52)",
+    latestPost: { caption: "Neuester Post auf TikTok ansehen →" },
   },
   {
     name: "Instagram",
@@ -37,17 +50,7 @@ const socials: SocialStat[] = [
     stats: [{ label: "Follower", value: "196" }],
     accent:
       "linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5)",
-  },
-  {
-    name: "GitHub",
-    handle: "@jsnuwu",
-    href: "https://github.com/jsnuwu",
-    icon: GitHubIcon,
-    stats: [
-      { label: "Repos", value: "12" },
-      { label: "Contributions", value: "143" },
-    ],
-    accent: "linear-gradient(45deg, #8250df, #a371f7)",
+    latestPost: { caption: "Neuester Post auf Instagram ansehen →" },
   },
   {
     name: "LinkedIn",
@@ -74,43 +77,65 @@ export default function SocialStats() {
 
       <div className="social-stats-grid">
         {socials.map((social) => (
-          <a
-            key={social.name}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-stat-card"
-            style={{ "--stat-accent": social.accent } as React.CSSProperties}
-          >
-            <div className="social-stat-header">
-              <img
-                src={social.icon}
-                alt=""
-                className="social-stat-icon"
-              />
-              <div>
-                <h3>{social.name}</h3>
-                <span>{social.handle}</span>
-              </div>
-            </div>
-
-            {social.bio && <p className="social-stat-bio">{social.bio}</p>}
-
-            {social.stats.length > 0 ? (
-              <div className="social-stat-numbers">
-                {social.stats.map((stat) => (
-                  <div key={stat.label} className="social-stat-number">
-                    <strong>{stat.value}</strong>
-                    <span>{stat.label}</span>
+          <div className="social-stat-cell" key={social.name}>
+            {social.latestPost && (
+              <div className="social-stat-preview">
+                <span className="social-stat-preview-label">
+                  Neuester Beitrag
+                </span>
+                {social.latestPost.image ? (
+                  <img src={social.latestPost.image} alt="" />
+                ) : (
+                  <div className="social-stat-preview-placeholder">
+                    <img
+                      src={social.icon}
+                      alt=""
+                      className="social-stat-preview-icon"
+                    />
                   </div>
-                ))}
+                )}
+                <span className="social-stat-preview-caption">
+                  {social.latestPost.caption}
+                </span>
+                <span className="social-stat-preview-tail" />
               </div>
-            ) : (
-              social.cta && (
-                <span className="social-stat-cta">{social.cta}</span>
-              )
             )}
-          </a>
+
+            <a
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-stat-card"
+              style={
+                { "--stat-accent": social.accent } as React.CSSProperties
+              }
+            >
+              <div className="social-stat-header">
+                <img src={social.icon} alt="" className="social-stat-icon" />
+                <div>
+                  <h3>{social.name}</h3>
+                  <span>{social.handle}</span>
+                </div>
+              </div>
+
+              {social.bio && <p className="social-stat-bio">{social.bio}</p>}
+
+              {social.stats.length > 0 ? (
+                <div className="social-stat-numbers">
+                  {social.stats.map((stat) => (
+                    <div key={stat.label} className="social-stat-number">
+                      <strong>{stat.value}</strong>
+                      <span>{stat.label}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                social.cta && (
+                  <span className="social-stat-cta">{social.cta}</span>
+                )
+              )}
+            </a>
+          </div>
         ))}
       </div>
     </section>

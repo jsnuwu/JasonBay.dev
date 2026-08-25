@@ -37,16 +37,17 @@ export default function Hero() {
             </h1>
 
             <div className="hero-tags">
+              <span>🎨 Grafikdesign</span>
+              <span>🎬 Video Editing</span>
               <span>💻 Fullstack</span>
               <span>🐶 Tiere</span>
-              <span>🌿 Natur</span>
               <span>🏍️ Motorrad</span>
-              <span>🎬 Editing</span>
+              <span>🌿 Natur</span>
             </div>
 
             <p className="hero-subtitle">
-              Fachinformatiker für Anwendungsentwicklung mit Vorliebe für
-              moderne Web- und Fullstack-Entwicklung.
+              Gestalter mit technischem Hintergrund – seit 2020 Video-Editing
+              &amp; Grafikdesign, seit 2023 auch Frontend-Entwicklung.
             </p>
 
             <div className="hero-actions">

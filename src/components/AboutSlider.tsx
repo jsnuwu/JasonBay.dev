@@ -39,24 +39,26 @@ import motorcycle21 from "../assets/HeroImages/motorcycle/motorcycle21.jpeg";
 import me1 from "../assets/HeroImages/me/me1.jpeg";
 import me2 from "../assets/HeroImages/me/me2.jpeg";
 import me3 from "../assets/HeroImages/me/me3.jpg";
-import me4 from "../assets/HeroImages/me/me4.jpg";
 import me5 from "../assets/HeroImages/me/me5.jpg";
+
+import motoClip1 from "../assets/HeroImages/videos/lv_7596400225086934277_20260813152434.mp4";
+import motoClip2 from "../assets/HeroImages/videos/lv_7654485784015260946_20260812210744.mp4";
 
 type Category = "pets" | "moto" | "me";
 
 interface Slide {
-  img: string;
+  img?: string;
+  video?: string;
   title: string;
   category: Category;
 }
 
-const categories: { key: "all" | Category; label: string; emoji: string }[] =
-  [
-    { key: "all", label: "Alles", emoji: "✨" },
-    { key: "pets", label: "Tiere", emoji: "🐶" },
-    { key: "moto", label: "Motorrad", emoji: "🏍️" },
-    { key: "me", label: "Ich", emoji: "🙂" },
-  ];
+const categories: { key: "all" | Category; label: string }[] = [
+  { key: "all", label: "Alles" },
+  { key: "pets", label: "Tiere" },
+  { key: "moto", label: "Motorrad" },
+  { key: "me", label: "Ich" },
+];
 
 const slides: Slide[] = [
   { img: pet1, title: "👆", category: "pets" },
@@ -94,7 +96,6 @@ const slides: Slide[] = [
   { img: me1, title: "🙂", category: "me" },
   { img: me2, title: "🤔", category: "me" },
   { img: me3, title: "😎", category: "me" },
-  { img: me4, title: "📸", category: "me" },
   { img: me5, title: "✌️", category: "me" },
 ];
 
@@ -122,6 +123,7 @@ export default function AboutSlider() {
   const [activeCategory, setActiveCategory] = useState<"all" | Category>(
     "all",
   );
+  const [hoveredDuo, setHoveredDuo] = useState<"a" | "b" | null>(null);
 
   const visibleSlides = useMemo(
     () =>
@@ -151,7 +153,7 @@ export default function AboutSlider() {
 
     track.addEventListener("wheel", handleWheel, { passive: false });
     return () => track.removeEventListener("wheel", handleWheel);
-  }, []);
+  }, [activeCategory]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -190,6 +192,8 @@ export default function AboutSlider() {
     };
 
     const handleMouseDown = (event: MouseEvent) => {
+      if ((event.target as HTMLElement).closest("video")) return;
+
       stopMomentum();
       isDown = true;
       moved = false;
@@ -241,7 +245,7 @@ export default function AboutSlider() {
       window.removeEventListener("mouseup", endDrag);
       track.removeEventListener("dragstart", handleDragStart);
     };
-  }, []);
+  }, [activeCategory]);
 
   useEffect(() => {
     trackRef.current?.scrollTo({ left: 0, behavior: "instant" });
@@ -265,6 +269,27 @@ export default function AboutSlider() {
 
       </p>
 
+      <div className="video-duo">
+        <video
+          className={`video-duo-item duo-a ${hoveredDuo === "a" ? "duo-active" : ""} ${hoveredDuo === "b" ? "duo-inactive" : ""}`}
+          onMouseEnter={() => setHoveredDuo("a")}
+          onMouseLeave={() => setHoveredDuo(null)}
+          src={motoClip1}
+          controls
+          playsInline
+          preload="metadata"
+        />
+        <video
+          className={`video-duo-item duo-b ${hoveredDuo === "b" ? "duo-active" : ""} ${hoveredDuo === "a" ? "duo-inactive" : ""}`}
+          onMouseEnter={() => setHoveredDuo("b")}
+          onMouseLeave={() => setHoveredDuo(null)}
+          src={motoClip2}
+          controls
+          playsInline
+          preload="metadata"
+        />
+      </div>
+
       <div className="slider-categories">
         {categories.map((cat) => (
           <button
@@ -272,7 +297,7 @@ export default function AboutSlider() {
             className={`slider-category-btn ${activeCategory === cat.key ? "active" : ""}`}
             onClick={() => setActiveCategory(cat.key)}
           >
-            <span>{cat.emoji}</span> {cat.label}
+            {cat.label}
           </button>
         ))}
       </div>
@@ -292,11 +317,26 @@ export default function AboutSlider() {
             {visibleSlides.map((slide, index) => (
               <div
                 className="gallery-card"
-                key={`${slide.img}-${index}`}
+                key={`${slide.img ?? slide.video}-${index}`}
                 style={{ animationDelay: `${(index % 10) * 40}ms` }}
               >
                 <div className="gallery-card-inner">
-                  <img src={slide.img} alt="" loading="lazy" draggable={false} />
+                  {slide.video ? (
+                    <video
+                      src={slide.video}
+                      className="gallery-card-video"
+                      controls
+                      playsInline
+                      preload="metadata"
+                    />
+                  ) : (
+                    <img
+                      src={slide.img}
+                      alt=""
+                      loading="lazy"
+                      draggable={false}
+                    />
+                  )}
                 </div>
               </div>
             ))}

@@ -1,45 +1,69 @@
 import "../styles/Skills.css";
 import { useReveal } from "../hooks/useReveal";
 import {
-  FaReact,
-  FaAngular,
-  FaJava,
-  FaDocker,
-  FaGitAlt,
-  FaNodeJs,
-  FaHtml5,
-  FaCss3Alt,
+  FaFilm,
+  FaCut,
+  FaPalette,
+  FaImage,
+  FaHashtag,
+  FaLaptopCode,
+  FaCode,
+  FaTasks,
+  FaLanguage,
 } from "react-icons/fa";
-import {
-  SiTypescript,
-  SiSpringboot,
-  SiPostgresql,
-  SiMongodb,
-  SiJavascript,
-  SiMysql,
-} from "react-icons/si";
-import { SiSharp } from "react-icons/si";
 
-const skills = [
-  { icon: <FaReact color="#61DAFB" />, name: "React" },
-  { icon: <FaAngular color="#DD0031" />, name: "Angular" },
-  { icon: <SiTypescript color="#3178C6" />, name: "TypeScript" },
-  { icon: <SiJavascript color="#F7DF1E" />, name: "JavaScript" },
+interface SkillGroup {
+  icon: React.ReactNode;
+  title: string;
+  items: string;
+}
 
-  { icon: <FaNodeJs color="#339933" />, name: "Node.js" },
-  { icon: <SiSpringboot color="#6DB33F" />, name: "Spring Boot" },
-  { icon: <FaJava color="#F89820" />, name: "Java" },
-  { icon: <SiSharp color="#239120" />, name: "C#" },
+const skillGroups: SkillGroup[] = [
+  {
+    icon: <FaFilm />,
+    title: "Video & Motion",
+    items: "Premiere Pro, After Effects, DaVinci Resolve, CapCut",
+  },
+  {
+    icon: <FaCut />,
+    title: "Schnitt & Post",
+    items: "Color Grading, Sounddesign, Untertitel, Kurzformat",
+  },
+  {
+    icon: <FaPalette />,
+    title: "Grafikdesign",
+    items: "Photoshop, Illustrator, InDesign, Canva",
+  },
+  {
+    icon: <FaImage />,
+    title: "Bildbearbeitung",
+    items: "Retusche, Freistellen, Composing",
+  },
+  {
+    icon: <FaHashtag />,
+    title: "Social Media",
+    items: "Thumbnails, Cover, Posts, Kanal-Branding",
+  },
+  {
+    icon: <FaLaptopCode />,
+    title: "Interface & Web",
+    items: "Figma, Design-Systeme, WordPress, Elementor",
+  },
+  {
+    icon: <FaCode />,
+    title: "Entwicklung",
+    items: "HTML5, CSS3, Tailwind, Angular, React, TypeScript",
+  },
+  {
+    icon: <FaTasks />,
+    title: "Arbeitsweise",
+    items: "Scrum, JIRA, Confluence, Git, KI-gestützte Workflows",
+  },
+];
 
-  { icon: <SiPostgresql color="#336791" />, name: "PostgreSQL" },
-  { icon: <SiMysql color="#4479A1" />, name: "MySQL" },
-  { icon: <SiMongodb color="#47A248" />, name: "MongoDB" },
-
-  { icon: <FaDocker color="#2496ED" />, name: "Docker" },
-  { icon: <FaGitAlt />, name: "Git" },
-
-  { icon: <FaHtml5 color="#E34F26" />, name: "HTML" },
-  { icon: <FaCss3Alt color="#1572B6" />, name: "CSS" },
+const languages = [
+  { name: "Deutsch", level: "Muttersprache" },
+  { name: "Englisch", level: "C1" },
 ];
 
 export default function Skills() {
@@ -47,17 +71,25 @@ export default function Skills() {
 
   return (
     <section className="skills-section reveal" ref={ref}>
-      <h2>Tech Stack</h2>
+      <h2>Skills</h2>
 
-      <div className="marquee">
-        <div className="marquee-content">
-          {[...skills, ...skills].map((skill, index) => (
-            <div key={index} className="skill-item">
-              {skill.icon}
-              <span>{skill.name}</span>
-            </div>
-          ))}
-        </div>
+      <div className="skills-grid">
+        {skillGroups.map((group) => (
+          <div className="skill-group" key={group.title}>
+            <div className="skill-group-icon">{group.icon}</div>
+            <h3>{group.title}</h3>
+            <p>{group.items}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="skills-languages">
+        <FaLanguage className="skills-languages-icon" />
+        {languages.map((lang) => (
+          <span key={lang.name}>
+            <strong>{lang.name}</strong> · {lang.level}
+          </span>
+        ))}
       </div>
     </section>
   );
