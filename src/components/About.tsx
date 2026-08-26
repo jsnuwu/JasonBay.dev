@@ -1,6 +1,7 @@
 import "../styles/About.css";
 import Projects from "./Projects";
 import Skills from "./Skills";
+import TechStack from "./TechStack";
 import Experience from "./Experience";
 import { useReveal } from "../hooks/useReveal";
 
@@ -69,6 +70,8 @@ export default function About() {
       <Experience />
 
       <Skills />
+
+      <TechStack />
 
       <Projects />
     </>
