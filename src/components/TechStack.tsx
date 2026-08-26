@@ -21,7 +21,7 @@ import {
 } from "react-icons/si";
 
 const techStack = [
-  { icon: <FaReact color="#61DAFB" />, name: "React" },
+  { icon: <FaReact color="#087EA4" />, name: "React" },
   { icon: <FaAngular color="#DD0031" />, name: "Angular" },
   { icon: <SiTypescript color="#3178C6" />, name: "TypeScript" },
   { icon: <SiJavascript color="#F7DF1E" />, name: "JavaScript" },

@@ -1,0 +1,86 @@
+.live-button {
+  align-self: flex-start;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 20px 10px 16px;
+  border-radius: 999px;
+  background: var(--button-bg);
+  color: var(--button-text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 8px 24px var(--button-box-shadow);
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s ease;
+}
+
+.live-button-dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ffffff;
+  animation: live-button-pulse 2s ease-in-out infinite;
+}
+
+.live-button-text {
+  color: var(--button-text);
+}
+
+.live-button-arrow {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  transition: transform 0.25s ease;
+}
+
+.live-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px var(--button-box-shadow);
+}
+
+.live-button:hover .live-button-arrow {
+  transform: translateX(4px);
+}
+
+.live-button:active {
+  transform: translateY(-1px) scale(0.97);
+  box-shadow: 0 6px 16px var(--button-active-shadow);
+}
+
+@keyframes live-button-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .live-button {
+    padding: 8px 16px 8px 13px;
+    font-size: 0.82rem;
+  }
+
+  .live-button-arrow {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .live-button {
+    padding: 7px 14px 7px 11px;
+    font-size: 0.78rem;
+  }
+
+  .live-button-arrow {
+    width: 13px;
+    height: 13px;
+  }
+}

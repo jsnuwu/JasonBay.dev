@@ -39,7 +39,7 @@ const socials: SocialStat[] = [
       { label: "Likes", value: "3.5M" },
     ],
     bio: "Random edits by some guy 🫡",
-    accent: "linear-gradient(45deg, #69C9D0, #EE1D52)",
+    accent: "linear-gradient(45deg, #0D9488, #EE1D52)",
     latestPost: { caption: "Neuester Post auf TikTok ansehen →" },
   },
   {

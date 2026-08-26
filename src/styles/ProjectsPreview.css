@@ -242,57 +242,6 @@
   margin-bottom: 1.4rem;
 }
 
-.preview-live-btn {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 16px 9px 12px;
-  border-radius: 999px;
-  background: var(--span-background);
-  border: 1px solid var(--card-border);
-  color: var(--card-text);
-  font-weight: 600;
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    background 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.preview-live-dot {
-  width: 8px;
-  height: 8px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--accent-gradient);
-  box-shadow: 0 0 0 3px var(--card-shadow);
-}
-
-.preview-live-btn svg {
-  width: 15px;
-  height: 15px;
-  fill: currentColor;
-  transition: transform 0.25s ease;
-}
-
-.preview-live-btn:hover {
-  transform: translateY(-2px);
-  border-color: var(--card-link);
-  background: var(--card-bg);
-  box-shadow: 0 10px 24px var(--card-shadow);
-}
-
-.preview-live-btn:hover svg {
-  transform: translateX(3px);
-}
-
-.preview-live-btn:active {
-  transform: translateY(0) scale(0.97);
-}
-
 .preview-dots {
   display: flex;
   justify-content: center;
@@ -343,15 +292,5 @@
 
   .preview-card-body h3 {
     font-size: 1.1rem;
-  }
-
-  .preview-live-btn {
-    padding: 8px 14px 8px 10px;
-    font-size: 0.8rem;
-  }
-
-  .preview-live-btn svg {
-    width: 13px;
-    height: 13px;
   }
 }
