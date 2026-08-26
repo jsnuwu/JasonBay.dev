@@ -7,9 +7,11 @@ import AboutSlider from "./AboutSlider";
 import SocialStats from "./SocialStats";
 import ProjectsPreview from "./previewPages/ProjectsPreview";
 import { useScrollHijackGuard } from "../hooks/useScrollHijackGuard";
+import { useLanguage } from "../i18n/useLanguage";
 
 export default function Hero() {
   const [scrolled, setScrolled] = useState(false);
+  const { t } = useLanguage();
 
   useScrollHijackGuard();
 
@@ -30,32 +32,26 @@ export default function Hero() {
 
         <div className="hero-content">
           <div className="hero-text">
-            <span className="hero-kicker">Portfolio</span>
+            <span className="hero-kicker">{t.hero.kicker}</span>
 
             <h1 className="hero-title">
-              Hi, ich bin <span>Jason</span>
+              {t.hero.titlePrefix} <span>Jason</span>
             </h1>
 
             <div className="hero-tags">
-              <span>🎨 Grafikdesign</span>
-              <span>🎬 Video Editing</span>
-              <span>💻 Fullstack</span>
-              <span>🐶 Tiere</span>
-              <span>🏍️ Motorrad</span>
-              <span>🌿 Natur</span>
+              {t.hero.tags.map((tag) => (
+                <span key={tag}>{tag}</span>
+              ))}
             </div>
 
-            <p className="hero-subtitle">
-              Gestalter mit technischem Hintergrund – seit 2020 Video-Editing
-              &amp; Grafikdesign, seit 2023 auch Frontend-Entwicklung.
-            </p>
+            <p className="hero-subtitle">{t.hero.subtitle}</p>
 
             <div className="hero-actions">
               <Link to="/about" className="hero-btn primary">
-                Was ich mache
+                {t.hero.ctaPrimary}
               </Link>
               <Link to="/contact" className="hero-btn">
-                Kontakt
+                {t.hero.ctaSecondary}
               </Link>
             </div>
           </div>
@@ -72,7 +68,7 @@ export default function Hero() {
           }
         >
           <div className="mouse" />
-          <span>Scroll</span>
+          <span>{t.hero.scroll}</span>
         </div>
       </section>
 

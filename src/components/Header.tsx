@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
+import { useLanguage } from "../i18n/useLanguage";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -7,27 +8,44 @@ interface HeaderProps {
 }
 
 export default function Header({ darkMode, setDarkMode }: HeaderProps) {
+  const { lang, setLang, t } = useLanguage();
+
   return (
     <header className="site-header">
-      {/* Logo links */}
       <Link to="/" className="header-logo">
         Jason
       </Link>
 
       <nav className="site-nav">
         <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
-          Home
+          {t.header.home}
         </NavLink>
         <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
-          Über mich
+          {t.header.about}
         </NavLink>
         <NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>
-          Kontakt
+          {t.header.contact}
         </NavLink>
       </nav>
 
       <div className="header-right">
-        {/* Darkmode Toggle */}
+        <div className="lang-toggle" role="group" aria-label="Language">
+          <button
+            type="button"
+            className={lang === "de" ? "active" : ""}
+            onClick={() => setLang("de")}
+          >
+            DE
+          </button>
+          <button
+            type="button"
+            className={lang === "en" ? "active" : ""}
+            onClick={() => setLang("en")}
+          >
+            EN
+          </button>
+        </div>
+
         <div className="darkThemeBtn">
           <input
             type="checkbox"
@@ -36,7 +54,6 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
             onChange={() => setDarkMode((prev) => !prev)}
           />
           <label htmlFor="darkmode-toggle">
-            {/* SUN */}
             <svg viewBox="0 0 512 512" className="sun">
               <g transform="translate(0 512) scale(.1 -.1)">
                 <path d="m2513 5105c-59-25-63-46-63-320 0-266 4-288 54-315 33-17 79-17 112 0 50 27 54 49 54 315 0 275-4 295-65 321-42 17-51 17-92-1z" />
@@ -50,7 +67,6 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
                 <path d="m2540 663c-87-28-90-37-90-330 0-227 2-251 19-279 40-66 142-66 182 0 17 28 19 52 19 279 0 266-4 291-52 314-32 16-60 22-78 16z" />
               </g>
             </svg>
-            {/* MOON */}
             <svg viewBox="0 0 512 512" className="moon">
               <g transform="translate(0 512) scale(.1 -.1)">
                 <path d="m2090 5105c-248-51-443-118-659-226-514-256-909-652-1161-1163-94-191-139-311-185-490-127-500-110-999 51-1468 133-389 331-706 624-998 403-404 875-642 1460-736 147-24 529-24 693 0 539 78 981 283 1390 644 362 319 647 793 766 1270 46 186 56 256 42 299-22 71-80 116-151 117-73 1-104-19-181-116-307-390-733-627-1233-689-119-14-385-7-501 15-582 106-1066 469-1321 991-120 246-171 452-181 731-21 586 230 1126 695 1493z" />

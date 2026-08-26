@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../../styles/ProjectsPreview.css";
 import { projects } from "../../data/projects";
 import { useReveal } from "../../hooks/useReveal";
+import { useLanguage } from "../../i18n/useLanguage";
 import LiveButton from "../LiveButton";
 
 function formatUrl(url: string) {
@@ -16,6 +17,7 @@ function formatUrl(url: string) {
 export default function ProjectsPreview() {
   const sectionRef = useReveal<HTMLElement>();
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const { lang, t } = useLanguage();
   const activeRef = useRef(0);
   const userInteractedRef = useRef(false);
   const [active, setActive] = useState(0);
@@ -79,19 +81,16 @@ export default function ProjectsPreview() {
 
   return (
     <section className="projects-preview reveal" ref={sectionRef}>
-      <span className="projects-preview-kicker">Live Vorschau</span>
-      <h2 className="projects-preview-title">Meine Projekte</h2>
-      <p className="projects-preview-subtitle">
-        Ein paar Einblicke in Dinge, die ich gebaut habe – klick dich durch
-        oder öffne sie live.
-      </p>
+      <span className="projects-preview-kicker">{t.projectsPreview.kicker}</span>
+      <h2 className="projects-preview-title">{t.projectsPreview.title}</h2>
+      <p className="projects-preview-subtitle">{t.projectsPreview.subtitle}</p>
 
       <div className="preview-carousel-wrapper">
         <button
           type="button"
           className="preview-arrow left"
           onClick={() => scrollToIndex(active - 1)}
-          aria-label="Vorheriges Projekt"
+          aria-label={t.projectsPreview.previousProject}
         >
           ‹
         </button>
@@ -111,7 +110,7 @@ export default function ProjectsPreview() {
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`${project.name} live öffnen`}
+                aria-label={t.projectsPreview.openLiveAria(project.name)}
               >
                 <iframe
                   src={project.link}
@@ -119,12 +118,16 @@ export default function ProjectsPreview() {
                   loading={index === 0 ? "eager" : "lazy"}
                   tabIndex={-1}
                 />
-                <span className="preview-frame-hint">Live öffnen ↗</span>
+                <span className="preview-frame-hint">
+                  {t.projectsPreview.openLive}
+                </span>
               </a>
 
               <div className="preview-card-body">
                 <h3>{project.name}</h3>
-                <p>{project.description}</p>
+                <p>
+                  {lang === "en" ? project.descriptionEn : project.description}
+                </p>
                 <small className="preview-tech">{project.tech}</small>
 
                 <LiveButton href={project.link} />
@@ -137,7 +140,7 @@ export default function ProjectsPreview() {
           type="button"
           className="preview-arrow right"
           onClick={() => scrollToIndex(active + 1)}
-          aria-label="Nächstes Projekt"
+          aria-label={t.projectsPreview.nextProject}
         >
           ›
         </button>
@@ -150,7 +153,7 @@ export default function ProjectsPreview() {
             key={project.name}
             className={`preview-dot ${index === active ? "active" : ""}`}
             onClick={() => scrollToIndex(index)}
-            aria-label={`Zu ${project.name} springen`}
+            aria-label={t.projectsPreview.jumpTo(project.name)}
           />
         ))}
       </div>

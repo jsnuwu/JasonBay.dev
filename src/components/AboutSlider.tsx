@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "../styles/AboutSlider.css";
 import { useReveal } from "../hooks/useReveal";
+import { useLanguage } from "../i18n/useLanguage";
 
 import pet1 from "../assets/HeroImages/pets/pet1.jpeg";
 import pet2 from "../assets/HeroImages/pets/pet2.jpeg";
@@ -52,13 +53,6 @@ interface Slide {
   title: string;
   category: Category;
 }
-
-const categories: { key: "all" | Category; label: string }[] = [
-  { key: "all", label: "Alles" },
-  { key: "pets", label: "Tiere" },
-  { key: "moto", label: "Motorrad" },
-  { key: "me", label: "Ich" },
-];
 
 const slides: Slide[] = [
   { img: pet1, title: "👆", category: "pets" },
@@ -120,6 +114,7 @@ const shuffledSlides = seededShuffle(slides, 1337);
 export default function AboutSlider() {
   const sectionRef = useReveal<HTMLElement>();
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<"all" | Category>(
     "all",
   );
@@ -264,7 +259,7 @@ export default function AboutSlider() {
 
   return (
     <section className="about-preview reveal" ref={sectionRef}>
-      <h2 className="about-title">Mehr als nur Code</h2>
+      <h2 className="about-title">{t.aboutSlider.title}</h2>
       <p className="about-subtitle">
 
       </p>
@@ -291,7 +286,7 @@ export default function AboutSlider() {
       </div>
 
       <div className="slider-categories">
-        {categories.map((cat) => (
+        {t.aboutSlider.categories.map((cat) => (
           <button
             key={cat.key}
             className={`slider-category-btn ${activeCategory === cat.key ? "active" : ""}`}
@@ -307,7 +302,7 @@ export default function AboutSlider() {
           type="button"
           className="gallery-arrow left"
           onClick={() => scrollByStep("left")}
-          aria-label="Zurück"
+          aria-label={t.aboutSlider.back}
         >
           ‹
         </button>
@@ -347,7 +342,7 @@ export default function AboutSlider() {
           type="button"
           className="gallery-arrow right"
           onClick={() => scrollByStep("right")}
-          aria-label="Weiter"
+          aria-label={t.aboutSlider.next}
         >
           ›
         </button>

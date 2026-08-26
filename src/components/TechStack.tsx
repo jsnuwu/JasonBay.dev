@@ -1,5 +1,6 @@
 import "../styles/TechStack.css";
 import { useReveal } from "../hooks/useReveal";
+import { useLanguage } from "../i18n/useLanguage";
 import {
   FaReact,
   FaAngular,
@@ -44,10 +45,11 @@ const techStack = [
 
 export default function TechStack() {
   const ref = useReveal<HTMLElement>();
+  const { t } = useLanguage();
 
   return (
     <section className="techstack-section reveal" ref={ref}>
-      <h2>Tech Stack</h2>
+      <h2>{t.techStack.heading}</h2>
 
       <div className="marquee">
         <div className="marquee-content">

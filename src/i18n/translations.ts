@@ -1,0 +1,437 @@
+export type Lang = "de" | "en";
+
+export interface Translations {
+  header: {
+    home: string;
+    about: string;
+    contact: string;
+  };
+  hero: {
+    kicker: string;
+    titlePrefix: string;
+    tags: string[];
+    subtitle: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    scroll: string;
+  };
+  aboutSlider: {
+    title: string;
+    categories: { key: "all" | "pets" | "moto" | "me"; label: string }[];
+    back: string;
+    next: string;
+  };
+  socialStats: {
+    kicker: string;
+    title: string;
+    subtitle: string;
+    linkedinCta: string;
+    latestPost: string;
+    tiktokPreviewCaption: string;
+    instagramPreviewCaption: string;
+  };
+  projectsPreview: {
+    kicker: string;
+    title: string;
+    subtitle: string;
+    previousProject: string;
+    nextProject: string;
+    openLive: string;
+    openLiveAria: (name: string) => string;
+    jumpTo: (name: string) => string;
+  };
+  liveButton: {
+    label: string;
+  };
+  about: {
+    heading: string;
+    lead: string;
+    body: string;
+    spotlight: {
+      kicker: string;
+      heading: string;
+      subtitle: string;
+      statFollowerValue: string;
+      statFollowerLabel: string;
+      statLikesValue: string;
+      statLikesLabel: string;
+      statExperienceValue: string;
+      statExperienceLabel: string;
+      list: string[];
+    };
+  };
+  experience: {
+    heading: string;
+    entries: {
+      org: string;
+      role: string;
+      period: string;
+      bullets: string[];
+    }[];
+  };
+  skills: {
+    heading: string;
+    groups: { title: string; items: string }[];
+    languages: { name: string; level: string }[];
+  };
+  techStack: {
+    heading: string;
+  };
+  projects: {
+    heading: string;
+    skillsLabel: string;
+  };
+  contact: {
+    heading: string;
+    intro: string;
+    send: string;
+    namePlaceholder: string;
+    emailPlaceholder: string;
+    messagePlaceholder: string;
+    submit: string;
+  };
+}
+
+export const translations: Record<Lang, Translations> = {
+  de: {
+    header: {
+      home: "Home",
+      about: "Über mich",
+      contact: "Kontakt",
+    },
+    hero: {
+      kicker: "Portfolio",
+      titlePrefix: "Hi, ich bin",
+      tags: [
+        "🎨 Grafikdesign",
+        "🎬 Video Editing",
+        "💻 Fullstack",
+        "🐶 Tiere",
+        "🏍️ Motorrad",
+        "🌿 Natur",
+      ],
+      subtitle:
+        "Gestalter mit technischem Hintergrund – seit 2020 Video-Editing & Grafikdesign, seit 2023 auch Software-Entwickler.",
+      ctaPrimary: "Was ich mache",
+      ctaSecondary: "Kontakt",
+      scroll: "Scroll",
+    },
+    aboutSlider: {
+      title: "Mehr als nur Code",
+      categories: [
+        { key: "all", label: "Alles" },
+        { key: "pets", label: "Tiere" },
+        { key: "moto", label: "Motorrad" },
+        { key: "me", label: "Ich" },
+      ],
+      back: "Zurück",
+      next: "Weiter",
+    },
+    socialStats: {
+      kicker: "Abseits vom Code",
+      title: "Auch online unterwegs",
+      subtitle:
+        "Ein paar Zahlen von den Kanälen, auf denen ich sonst noch unterwegs bin.",
+      linkedinCta: "Lass uns vernetzen →",
+      latestPost: "Neuester Beitrag",
+      tiktokPreviewCaption: "Neuester Post auf TikTok ansehen →",
+      instagramPreviewCaption: "Neuester Post auf Instagram ansehen →",
+    },
+    projectsPreview: {
+      kicker: "Live Vorschau",
+      title: "Meine Projekte",
+      subtitle:
+        "Ein paar Einblicke in Dinge, die ich gebaut habe – klick dich durch oder öffne sie live.",
+      previousProject: "Vorheriges Projekt",
+      nextProject: "Nächstes Projekt",
+      openLive: "Live öffnen ↗",
+      openLiveAria: (name) => `${name} live öffnen`,
+      jumpTo: (name) => `Zu ${name} springen`,
+    },
+    liveButton: {
+      label: "Live ansehen",
+    },
+    about: {
+      heading: "Über mich",
+      lead: "Gestalter mit technischem Hintergrund.",
+      body: "Seit 2020 schneide ich Videos für Social Media – auf meinem eigenen TikTok-Kanal mit über 20.000 Followern und 3,5 Mio. Likes. Dazu kommen Thumbnails, Social-Media-Grafiken und Bildbearbeitung mit der Adobe-Suite. Beruflich gestalte ich seit drei Jahren digitale Oberflächen – von Layout, Typografie und Bildsprache bis zum fertigen Livegang. Was ich mitbringe: ein Auge für Timing und Komposition, saubere Dateien und ein Kopf, der auch die technische Seite versteht.",
+      spotlight: {
+        kicker: "Video & Grafikdesign",
+        heading: "TikTok @jsnuwu – eigener Kanal seit 2020",
+        subtitle: "Konzeption, Schnitt und Gestaltung in Eigenregie",
+        statFollowerValue: "20.800",
+        statFollowerLabel: "Follower",
+        statLikesValue: "3,5 Mio.",
+        statLikesLabel: "Likes",
+        statExperienceValue: "5 Jahre",
+        statExperienceLabel: "Schnitt-Praxis",
+        list: [
+          "Schnitt, Color Grading und Sounddesign von Kurzvideos mit Premiere Pro, After Effects und DaVinci Resolve",
+          "Gestaltung von Thumbnails, Cover-Grafiken und Kanal-Branding mit Photoshop und Illustrator",
+          "Bildbearbeitung und Retusche – Freistellen, Composings, Farblooks",
+          "Kontinuierlicher Reichweitenaufbau: Auswertung von Hook, Schnittrhythmus und Formatlänge",
+        ],
+      },
+    },
+    experience: {
+      heading: "Werdegang",
+      entries: [
+        {
+          org: "TELUTION",
+          role: "Junior Software Engineer – Frontend",
+          period: "06/2026 – heute",
+          bullets: [
+            "Visuelle Umsetzung von Web-Oberflächen für 4 Kundenprojekte – Layout, Typografie, Bildsprache und responsives Verhalten",
+            "Gestaltung und Pflege von Websites mit WordPress und Elementor inkl. individueller Layout-Anpassungen",
+            "Aufbau wiederverwendbarer Frontend-Komponenten mit Angular, Backend-Anpassungen mit PHP",
+          ],
+        },
+        {
+          org: "adesso SE",
+          role: "Fachinformatiker für Anwendungsentwicklung – Ausbildung",
+          period: "09/2023 – 01/2026",
+          bullets: [
+            "Umsetzung von Frontend-Komponenten nach Design-Vorgaben mit Angular, Backend-Services mit Java und Spring Boot",
+            "Arbeit im Scrum-Team mit JIRA und Confluence",
+          ],
+        },
+        {
+          org: "Lebenshilfe Vaihingen-Mühlacker",
+          role: "FSJ – Freiwilliges Soziales Jahr, Wohlfahrtswerk für Baden-Württemberg",
+          period: "09/2022 – 08/2023",
+          bullets: [
+            "Begleitung von Menschen mit Behinderungen im Alltag, Freizeitgestaltung und Ausflüge",
+          ],
+        },
+      ],
+    },
+    skills: {
+      heading: "Skills",
+      groups: [
+        {
+          title: "Video & Motion",
+          items: "Premiere Pro, After Effects, DaVinci Resolve, CapCut",
+        },
+        {
+          title: "Schnitt & Post",
+          items: "Color Grading, Sounddesign, Untertitel, Kurzformat",
+        },
+        {
+          title: "Grafikdesign",
+          items: "Photoshop, Illustrator, InDesign, Canva",
+        },
+        {
+          title: "Bildbearbeitung",
+          items: "Retusche, Freistellen, Composing",
+        },
+        {
+          title: "Social Media",
+          items: "Thumbnails, Cover, Posts, Kanal-Branding",
+        },
+        {
+          title: "Interface & Web",
+          items: "Figma, Design-Systeme, WordPress, Elementor",
+        },
+        {
+          title: "Entwicklung",
+          items: "HTML5, CSS3, Tailwind, Angular, React, TypeScript",
+        },
+        {
+          title: "Arbeitsweise",
+          items: "Scrum, JIRA, Confluence, Git, KI-gestützte Workflows",
+        },
+      ],
+      languages: [
+        { name: "Deutsch", level: "Muttersprache" },
+        { name: "Englisch", level: "C1" },
+      ],
+    },
+    techStack: {
+      heading: "Tech Stack",
+    },
+    projects: {
+      heading: "Projekte",
+      skillsLabel: "Skills:",
+    },
+    contact: {
+      heading: "Kontakt",
+      intro:
+        "Ich freue mich über deine Nachricht! Schreib mir einfach eine E-Mail oder nutze das Formular unten.",
+      send: "send",
+      namePlaceholder: "Dein Name",
+      emailPlaceholder: "Deine E-Mail",
+      messagePlaceholder: "Deine Nachricht",
+      submit: "Absenden",
+    },
+  },
+  en: {
+    header: {
+      home: "Home",
+      about: "About",
+      contact: "Contact",
+    },
+    hero: {
+      kicker: "Portfolio",
+      titlePrefix: "Hi, I'm",
+      tags: [
+        "🎨 Graphic Design",
+        "🎬 Video Editing",
+        "💻 Fullstack",
+        "🐶 Pets",
+        "🏍️ Motorcycles",
+        "🌿 Nature",
+      ],
+      subtitle:
+        "A designer with a technical background – video editing & graphic design since 2020, software developer since 2023.",
+      ctaPrimary: "What I do",
+      ctaSecondary: "Contact",
+      scroll: "Scroll",
+    },
+    aboutSlider: {
+      title: "More than just code",
+      categories: [
+        { key: "all", label: "All" },
+        { key: "pets", label: "Pets" },
+        { key: "moto", label: "Motorcycles" },
+        { key: "me", label: "Me" },
+      ],
+      back: "Back",
+      next: "Next",
+    },
+    socialStats: {
+      kicker: "Beyond the code",
+      title: "Also active online",
+      subtitle: "A few numbers from the channels I'm active on elsewhere.",
+      linkedinCta: "Let's connect →",
+      latestPost: "Latest post",
+      tiktokPreviewCaption: "Watch my latest TikTok post →",
+      instagramPreviewCaption: "View my latest Instagram post →",
+    },
+    projectsPreview: {
+      kicker: "Live Preview",
+      title: "My Projects",
+      subtitle:
+        "A few glimpses of things I've built – click through or open them live.",
+      previousProject: "Previous project",
+      nextProject: "Next project",
+      openLive: "Open live ↗",
+      openLiveAria: (name) => `Open ${name} live`,
+      jumpTo: (name) => `Jump to ${name}`,
+    },
+    liveButton: {
+      label: "View live",
+    },
+    about: {
+      heading: "About me",
+      lead: "A designer with a technical background.",
+      body: "Since 2020 I've been editing videos for social media – on my own TikTok channel with over 20,000 followers and 3.5M likes. On top of that come thumbnails, social media graphics and photo editing with the Adobe suite. Professionally, I've been designing digital interfaces for three years – from layout, typography and visual language all the way to launch. What I bring: an eye for timing and composition, clean files, and a mind that understands the technical side too.",
+      spotlight: {
+        kicker: "Video & Graphic Design",
+        heading: "TikTok @jsnuwu – my own channel since 2020",
+        subtitle: "Concept, editing and design, all done myself",
+        statFollowerValue: "20.8K",
+        statFollowerLabel: "Followers",
+        statLikesValue: "3.5M",
+        statLikesLabel: "Likes",
+        statExperienceValue: "5 years",
+        statExperienceLabel: "Editing Experience",
+        list: [
+          "Editing, color grading and sound design for short-form videos with Premiere Pro, After Effects and DaVinci Resolve",
+          "Designing thumbnails, cover graphics and channel branding with Photoshop and Illustrator",
+          "Photo editing and retouching – cutouts, composites, color looks",
+          "Continuous growth work: analyzing hooks, pacing and format length",
+        ],
+      },
+    },
+    experience: {
+      heading: "Experience",
+      entries: [
+        {
+          org: "TELUTION",
+          role: "Junior Software Engineer – Frontend",
+          period: "06/2026 – present",
+          bullets: [
+            "Visual implementation of web interfaces for 4 client projects – layout, typography, visual language and responsive behavior",
+            "Designing and maintaining websites with WordPress and Elementor, including custom layout adjustments",
+            "Building reusable frontend components with Angular, backend adjustments with PHP",
+          ],
+        },
+        {
+          org: "adesso SE",
+          role: "IT Specialist for Application Development – Apprenticeship",
+          period: "09/2023 – 01/2026",
+          bullets: [
+            "Implementing frontend components from design specs with Angular, backend services with Java and Spring Boot",
+            "Working in a Scrum team with JIRA and Confluence",
+          ],
+        },
+        {
+          org: "Lebenshilfe Vaihingen-Mühlacker",
+          role: "Voluntary Social Year (FSJ), Wohlfahrtswerk für Baden-Württemberg",
+          period: "09/2022 – 08/2023",
+          bullets: [
+            "Supporting people with disabilities in daily life, leisure activities and outings",
+          ],
+        },
+      ],
+    },
+    skills: {
+      heading: "Skills",
+      groups: [
+        {
+          title: "Video & Motion",
+          items: "Premiere Pro, After Effects, DaVinci Resolve, CapCut",
+        },
+        {
+          title: "Editing & Post",
+          items: "Color grading, sound design, subtitles, short-form",
+        },
+        {
+          title: "Graphic Design",
+          items: "Photoshop, Illustrator, InDesign, Canva",
+        },
+        {
+          title: "Photo Editing",
+          items: "Retouching, cutouts, compositing",
+        },
+        {
+          title: "Social Media",
+          items: "Thumbnails, cover art, posts, channel branding",
+        },
+        {
+          title: "Interface & Web",
+          items: "Figma, design systems, WordPress, Elementor",
+        },
+        {
+          title: "Development",
+          items: "HTML5, CSS3, Tailwind, Angular, React, TypeScript",
+        },
+        {
+          title: "Working Method",
+          items: "Scrum, JIRA, Confluence, Git, AI-assisted workflows",
+        },
+      ],
+      languages: [
+        { name: "German", level: "Native" },
+        { name: "English", level: "C1" },
+      ],
+    },
+    techStack: {
+      heading: "Tech Stack",
+    },
+    projects: {
+      heading: "Projects",
+      skillsLabel: "Skills:",
+    },
+    contact: {
+      heading: "Contact",
+      intro:
+        "I'd love to hear from you! Just send me an email or use the form below.",
+      send: "send",
+      namePlaceholder: "Your name",
+      emailPlaceholder: "Your email",
+      messagePlaceholder: "Your message",
+      submit: "Send",
+    },
+  },
+};

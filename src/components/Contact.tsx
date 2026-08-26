@@ -1,16 +1,15 @@
 import "../styles/Contact.css";
 import { useReveal } from "../hooks/useReveal";
+import { useLanguage } from "../i18n/useLanguage";
 
 export default function Contact() {
   const ref = useReveal<HTMLElement>();
+  const { t } = useLanguage();
 
   return (
     <section className="contact-section reveal" ref={ref}>
-      <h2>Kontakt</h2>
-      <p>
-        Ich freue mich über deine Nachricht! Schreib mir einfach eine E-Mail
-        oder nutze das Formular unten.
-      </p>
+      <h2>{t.contact.heading}</h2>
+      <p>{t.contact.intro}</p>
 
       <a href="mailto:Jasonbay05@gmail.com" className="send-email-button">
         <div className="svg-wrapper-1">
@@ -29,7 +28,7 @@ export default function Contact() {
             </svg>
           </div>
         </div>
-        <span>send</span>
+        <span>{t.contact.send}</span>
       </a>
 
       <form
@@ -37,15 +36,25 @@ export default function Contact() {
         action="https://formspree.io/f/mreakbje"
         method="POST"
       >
-        <input name="name" type="text" placeholder="Dein Name" required />
-        <input name="email" type="email" placeholder="Deine E-Mail" required />
+        <input
+          name="name"
+          type="text"
+          placeholder={t.contact.namePlaceholder}
+          required
+        />
+        <input
+          name="email"
+          type="email"
+          placeholder={t.contact.emailPlaceholder}
+          required
+        />
         <textarea
           name="message"
-          placeholder="Deine Nachricht"
+          placeholder={t.contact.messagePlaceholder}
           rows={5}
           required
         ></textarea>
-        <button type="submit">Absenden</button>
+        <button type="submit">{t.contact.submit}</button>
       </form>
     </section>
   );

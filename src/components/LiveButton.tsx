@@ -1,4 +1,5 @@
 import "../styles/LiveButton.css";
+import { useLanguage } from "../i18n/useLanguage";
 
 interface LiveButtonProps {
   href: string;
@@ -6,6 +7,8 @@ interface LiveButtonProps {
 }
 
 export default function LiveButton({ href, onClick }: LiveButtonProps) {
+  const { t } = useLanguage();
+
   return (
     <a
       href={href}
@@ -15,7 +18,7 @@ export default function LiveButton({ href, onClick }: LiveButtonProps) {
       onClick={onClick}
     >
       <span className="live-button-dot" />
-      <span className="live-button-text">Live ansehen</span>
+      <span className="live-button-text">{t.liveButton.label}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"

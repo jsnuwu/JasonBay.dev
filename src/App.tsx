@@ -11,6 +11,7 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import SocialCard from "./components/SocialCard";
+import { LanguageProvider } from "./i18n/LanguageContext";
 
 function AppWrapper() {
   const location = useLocation();
@@ -45,9 +46,11 @@ function AppWrapper() {
 
 function App() {
   return (
-    <Router basename="/JasonBay.dev">
-      <AppWrapper />
-    </Router>
+    <LanguageProvider>
+      <Router basename="/JasonBay.dev">
+        <AppWrapper />
+      </Router>
+    </LanguageProvider>
   );
 }
 
