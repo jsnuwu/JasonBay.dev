@@ -72,11 +72,11 @@ export default function Hero() {
         </div>
       </section>
 
+      <ProjectsPreview />
+
       <AboutSlider />
 
       <SocialStats />
-
-      <ProjectsPreview />
     </>
   );
 }

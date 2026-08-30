@@ -14,14 +14,14 @@ import {
 } from "react-icons/fa";
 
 const groupIcons: React.ReactNode[] = [
+  <FaCode />,
+  <FaLaptopCode />,
+  <FaTasks />,
   <FaFilm />,
-  <FaCut />,
   <FaPalette />,
+  <FaCut />,
   <FaImage />,
   <FaHashtag />,
-  <FaLaptopCode />,
-  <FaCode />,
-  <FaTasks />,
 ];
 
 export default function Skills() {

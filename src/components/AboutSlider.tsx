@@ -42,9 +42,6 @@ import me2 from "../assets/HeroImages/me/me2.jpeg";
 import me3 from "../assets/HeroImages/me/me3.jpg";
 import me5 from "../assets/HeroImages/me/me5.jpg";
 
-import motoClip1 from "../assets/HeroImages/videos/lv_7596400225086934277_20260813152434.mp4";
-import motoClip2 from "../assets/HeroImages/videos/lv_7654485784015260946_20260812210744.mp4";
-
 type Category = "pets" | "moto" | "me";
 
 interface Slide {
@@ -118,7 +115,6 @@ export default function AboutSlider() {
   const [activeCategory, setActiveCategory] = useState<"all" | Category>(
     "all",
   );
-  const [hoveredDuo, setHoveredDuo] = useState<"a" | "b" | null>(null);
 
   const visibleSlides = useMemo(
     () =>
@@ -260,30 +256,6 @@ export default function AboutSlider() {
   return (
     <section className="about-preview reveal" ref={sectionRef}>
       <h2 className="about-title">{t.aboutSlider.title}</h2>
-      <p className="about-subtitle">
-
-      </p>
-
-      <div className="video-duo">
-        <video
-          className={`video-duo-item duo-a ${hoveredDuo === "a" ? "duo-active" : ""} ${hoveredDuo === "b" ? "duo-inactive" : ""}`}
-          onMouseEnter={() => setHoveredDuo("a")}
-          onMouseLeave={() => setHoveredDuo(null)}
-          src={motoClip1}
-          controls
-          playsInline
-          preload="metadata"
-        />
-        <video
-          className={`video-duo-item duo-b ${hoveredDuo === "b" ? "duo-active" : ""} ${hoveredDuo === "a" ? "duo-inactive" : ""}`}
-          onMouseEnter={() => setHoveredDuo("b")}
-          onMouseLeave={() => setHoveredDuo(null)}
-          src={motoClip2}
-          controls
-          playsInline
-          preload="metadata"
-        />
-      </div>
 
       <div className="slider-categories">
         {t.aboutSlider.categories.map((cat) => (

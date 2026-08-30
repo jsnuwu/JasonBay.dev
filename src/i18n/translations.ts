@@ -103,21 +103,19 @@ export const translations: Record<Lang, Translations> = {
       kicker: "Portfolio",
       titlePrefix: "Hi, ich bin",
       tags: [
-        "🎨 Grafikdesign",
+        "💻 Frontend Dev",
+        "⚛️ React & TypeScript",
+        "🎨 Design",
         "🎬 Video Editing",
-        "💻 Fullstack",
-        "🐶 Tiere",
-        "🏍️ Motorrad",
-        "🌿 Natur",
       ],
       subtitle:
-        "Gestalter mit technischem Hintergrund – seit 2020 Video-Editing & Grafikdesign, seit 2023 auch Software-Entwickler.",
+        "Junior Software Engineer mit Fokus auf Frontend-Entwicklung – React, Angular, Vue.js und moderne Webtechnologien. Nebenbei: Video-Editing & Grafikdesign seit 2020.",
       ctaPrimary: "Was ich mache",
       ctaSecondary: "Kontakt",
       scroll: "Scroll",
     },
     aboutSlider: {
-      title: "Mehr als nur Code",
+      title: "Nebenbei",
       categories: [
         { key: "all", label: "Alles" },
         { key: "pets", label: "Tiere" },
@@ -153,10 +151,10 @@ export const translations: Record<Lang, Translations> = {
     },
     about: {
       heading: "Über mich",
-      lead: "Gestalter mit technischem Hintergrund.",
-      body: "Seit 2020 schneide ich Videos für Social Media – auf meinem eigenen TikTok-Kanal mit über 20.000 Followern und 3,5 Mio. Likes. Dazu kommen Thumbnails, Social-Media-Grafiken und Bildbearbeitung mit der Adobe-Suite. Beruflich gestalte ich seit drei Jahren digitale Oberflächen – von Layout, Typografie und Bildsprache bis zum fertigen Livegang. Was ich mitbringe: ein Auge für Timing und Komposition, saubere Dateien und ein Kopf, der auch die technische Seite versteht.",
+      lead: "Junior Software Engineer mit Fokus auf Frontend-Entwicklung.",
+      body: "Ich bin Junior Software Engineer mit Fokus auf moderne Webentwicklung und Frontend-Technologien wie React, Angular und Vue.js – von durchdachten Oberflächen bis zur Backend-Anbindung. Daneben schneide ich seit 2020 Videos für Social Media und gestalte Grafiken; mein eigener TikTok-Kanal hat über 20.000 Follower und 3,5 Mio. Likes. Was ich mitbringe: sauberer Code, ein Auge für Timing und Komposition, und die Bereitschaft, mich kontinuierlich in neue Technologien einzuarbeiten.",
       spotlight: {
-        kicker: "Video & Grafikdesign",
+        kicker: "Nebenbei: Video & Grafikdesign",
         heading: "TikTok @jsnuwu – eigener Kanal seit 2020",
         subtitle: "Konzeption, Schnitt und Gestaltung in Eigenregie",
         statFollowerValue: "20.800",
@@ -166,10 +164,8 @@ export const translations: Record<Lang, Translations> = {
         statExperienceValue: "5 Jahre",
         statExperienceLabel: "Schnitt-Praxis",
         list: [
-          "Schnitt, Color Grading und Sounddesign von Kurzvideos mit Premiere Pro, After Effects und DaVinci Resolve",
+          "Schnitt, Color Grading und Sounddesign von Kurzvideos mit After Effects und DaVinci Resolve",
           "Gestaltung von Thumbnails, Cover-Grafiken und Kanal-Branding mit Photoshop und Illustrator",
-          "Bildbearbeitung und Retusche – Freistellen, Composings, Farblooks",
-          "Kontinuierlicher Reichweitenaufbau: Auswertung von Hook, Schnittrhythmus und Formatlänge",
         ],
       },
     },
@@ -178,12 +174,13 @@ export const translations: Record<Lang, Translations> = {
       entries: [
         {
           org: "TELUTION",
-          role: "Junior Software Engineer – Frontend",
+          role: "Junior Software Engineer",
           period: "06/2026 – heute",
           bullets: [
-            "Visuelle Umsetzung von Web-Oberflächen für 4 Kundenprojekte – Layout, Typografie, Bildsprache und responsives Verhalten",
-            "Gestaltung und Pflege von Websites mit WordPress und Elementor inkl. individueller Layout-Anpassungen",
-            "Aufbau wiederverwendbarer Frontend-Komponenten mit Angular, Backend-Anpassungen mit PHP",
+            "Mitarbeit an der Entwicklung und Betreuung von 4 Kundenprojekten",
+            "Entwicklung und Anpassung von Webanwendungen mit PHP, Angular und WordPress",
+            "Erstellung und Pflege von Webseiten mit WordPress und Elementor inklusive individueller Anpassungen und Erweiterungen",
+            "Umsetzung von Frontend-Komponenten mit Angular sowie Backend-Anpassungen mit PHP",
           ],
         },
         {
@@ -191,8 +188,10 @@ export const translations: Record<Lang, Translations> = {
           role: "Fachinformatiker für Anwendungsentwicklung – Ausbildung",
           period: "09/2023 – 01/2026",
           bullets: [
-            "Umsetzung von Frontend-Komponenten nach Design-Vorgaben mit Angular, Backend-Services mit Java und Spring Boot",
-            "Arbeit im Scrum-Team mit JIRA und Confluence",
+            "Entwicklung und Wartung von Backend- und Frontend-Komponenten mit Fokus auf Java, Spring Boot, Angular und PostgreSQL",
+            "Mitarbeit an interner Webanwendung zur Erfassung und Verwaltung von Mitarbeiterprofilen (Profiler, 2025)",
+            "Unterstützung des IT-Support",
+            "Durchführung von Frontend-Bugfixes",
           ],
         },
         {
@@ -200,7 +199,8 @@ export const translations: Record<Lang, Translations> = {
           role: "FSJ – Freiwilliges Soziales Jahr, Wohlfahrtswerk für Baden-Württemberg",
           period: "09/2022 – 08/2023",
           bullets: [
-            "Begleitung von Menschen mit Behinderungen im Alltag, Freizeitgestaltung und Ausflüge",
+            "Begleitung und Unterstützung von Menschen mit Behinderungen im Alltag, inklusive Freizeitaktivitäten und Ausflügen",
+            "Mitwirkung bei der Alltagsgestaltung: Kochen, Haushaltsaktivitäten und Förderung der Selbstständigkeit",
           ],
         },
       ],
@@ -209,16 +209,28 @@ export const translations: Record<Lang, Translations> = {
       heading: "Skills",
       groups: [
         {
-          title: "Video & Motion",
-          items: "Premiere Pro, After Effects, DaVinci Resolve, CapCut",
+          title: "Entwicklung",
+          items: "HTML5, CSS3, Angular, React, Vue.js, TypeScript",
         },
         {
-          title: "Schnitt & Post",
-          items: "Color Grading, Sounddesign, Untertitel, Kurzformat",
+          title: "Interface & Web",
+          items: "Figma, Design-Systeme, WordPress, Elementor",
+        },
+        {
+          title: "Arbeitsweise",
+          items: "Scrum, JIRA, Confluence, Git, KI-gestützte Workflows",
+        },
+        {
+          title: "Video & Motion",
+          items: "After Effects, DaVinci Resolve, CapCut",
         },
         {
           title: "Grafikdesign",
           items: "Photoshop, Illustrator, InDesign, Canva",
+        },
+        {
+          title: "Schnitt & Post",
+          items: "Color Grading, Sounddesign, Untertitel, Kurzformat",
         },
         {
           title: "Bildbearbeitung",
@@ -227,18 +239,6 @@ export const translations: Record<Lang, Translations> = {
         {
           title: "Social Media",
           items: "Thumbnails, Cover, Posts, Kanal-Branding",
-        },
-        {
-          title: "Interface & Web",
-          items: "Figma, Design-Systeme, WordPress, Elementor",
-        },
-        {
-          title: "Entwicklung",
-          items: "HTML5, CSS3, Tailwind, Angular, React, TypeScript",
-        },
-        {
-          title: "Arbeitsweise",
-          items: "Scrum, JIRA, Confluence, Git, KI-gestützte Workflows",
         },
       ],
       languages: [
@@ -274,21 +274,19 @@ export const translations: Record<Lang, Translations> = {
       kicker: "Portfolio",
       titlePrefix: "Hi, I'm",
       tags: [
-        "🎨 Graphic Design",
+        "💻 Frontend Dev",
+        "⚛️ React & TypeScript",
+        "🎨 Design",
         "🎬 Video Editing",
-        "💻 Fullstack",
-        "🐶 Pets",
-        "🏍️ Motorcycles",
-        "🌿 Nature",
       ],
       subtitle:
-        "A designer with a technical background – video editing & graphic design since 2020, software developer since 2023.",
+        "Junior Software Engineer focused on frontend development – React, Angular, Vue.js and modern web technologies. On the side: video editing & graphic design since 2020.",
       ctaPrimary: "What I do",
       ctaSecondary: "Contact",
       scroll: "Scroll",
     },
     aboutSlider: {
-      title: "More than just code",
+      title: "On the side",
       categories: [
         { key: "all", label: "All" },
         { key: "pets", label: "Pets" },
@@ -323,10 +321,10 @@ export const translations: Record<Lang, Translations> = {
     },
     about: {
       heading: "About me",
-      lead: "A designer with a technical background.",
-      body: "Since 2020 I've been editing videos for social media – on my own TikTok channel with over 20,000 followers and 3.5M likes. On top of that come thumbnails, social media graphics and photo editing with the Adobe suite. Professionally, I've been designing digital interfaces for three years – from layout, typography and visual language all the way to launch. What I bring: an eye for timing and composition, clean files, and a mind that understands the technical side too.",
+      lead: "Junior Software Engineer focused on frontend development.",
+      body: "I'm a Junior Software Engineer focused on modern web development and frontend technologies like React, Angular and Vue.js – from thoughtful interfaces to backend integration. Alongside that, I've been editing videos for social media and designing graphics since 2020; my own TikTok channel has over 20,000 followers and 3.5M likes. What I bring: clean code, an eye for timing and composition, and a drive to keep learning new technologies.",
       spotlight: {
-        kicker: "Video & Graphic Design",
+        kicker: "On the side: Video & Graphic Design",
         heading: "TikTok @jsnuwu – my own channel since 2020",
         subtitle: "Concept, editing and design, all done myself",
         statFollowerValue: "20.8K",
@@ -336,10 +334,8 @@ export const translations: Record<Lang, Translations> = {
         statExperienceValue: "5 years",
         statExperienceLabel: "Editing Experience",
         list: [
-          "Editing, color grading and sound design for short-form videos with Premiere Pro, After Effects and DaVinci Resolve",
+          "Editing, color grading and sound design for short-form videos with After Effects and DaVinci Resolve",
           "Designing thumbnails, cover graphics and channel branding with Photoshop and Illustrator",
-          "Photo editing and retouching – cutouts, composites, color looks",
-          "Continuous growth work: analyzing hooks, pacing and format length",
         ],
       },
     },
@@ -348,12 +344,13 @@ export const translations: Record<Lang, Translations> = {
       entries: [
         {
           org: "TELUTION",
-          role: "Junior Software Engineer – Frontend",
+          role: "Junior Software Engineer",
           period: "06/2026 – present",
           bullets: [
-            "Visual implementation of web interfaces for 4 client projects – layout, typography, visual language and responsive behavior",
-            "Designing and maintaining websites with WordPress and Elementor, including custom layout adjustments",
-            "Building reusable frontend components with Angular, backend adjustments with PHP",
+            "Contributing to the development and maintenance of 4 client projects",
+            "Developing and customizing web applications with PHP, Angular and WordPress",
+            "Creating and maintaining websites with WordPress and Elementor, including custom adjustments and extensions",
+            "Implementing frontend components with Angular as well as backend adjustments with PHP",
           ],
         },
         {
@@ -361,8 +358,10 @@ export const translations: Record<Lang, Translations> = {
           role: "IT Specialist for Application Development – Apprenticeship",
           period: "09/2023 – 01/2026",
           bullets: [
-            "Implementing frontend components from design specs with Angular, backend services with Java and Spring Boot",
-            "Working in a Scrum team with JIRA and Confluence",
+            "Developing and maintaining backend and frontend components with a focus on Java, Spring Boot, Angular and PostgreSQL",
+            "Contributing to an internal web application for capturing and managing employee profiles (Profiler, 2025)",
+            "Supporting the IT support team",
+            "Performing frontend bug fixes",
           ],
         },
         {
@@ -370,7 +369,8 @@ export const translations: Record<Lang, Translations> = {
           role: "Voluntary Social Year (FSJ), Wohlfahrtswerk für Baden-Württemberg",
           period: "09/2022 – 08/2023",
           bullets: [
-            "Supporting people with disabilities in daily life, leisure activities and outings",
+            "Supporting and assisting people with disabilities in daily life, including leisure activities and outings",
+            "Helping shape everyday life: cooking, household activities, and fostering independence",
           ],
         },
       ],
@@ -379,16 +379,28 @@ export const translations: Record<Lang, Translations> = {
       heading: "Skills",
       groups: [
         {
-          title: "Video & Motion",
-          items: "Premiere Pro, After Effects, DaVinci Resolve, CapCut",
+          title: "Development",
+          items: "HTML5, CSS3, Angular, React, Vue.js, TypeScript",
         },
         {
-          title: "Editing & Post",
-          items: "Color grading, sound design, subtitles, short-form",
+          title: "Interface & Web",
+          items: "Figma, design systems, WordPress, Elementor",
+        },
+        {
+          title: "Working Method",
+          items: "Scrum, JIRA, Confluence, Git, AI-assisted workflows",
+        },
+        {
+          title: "Video & Motion",
+          items: "After Effects, DaVinci Resolve, CapCut",
         },
         {
           title: "Graphic Design",
           items: "Photoshop, Illustrator, InDesign, Canva",
+        },
+        {
+          title: "Editing & Post",
+          items: "Color grading, sound design, subtitles, short-form",
         },
         {
           title: "Photo Editing",
@@ -397,18 +409,6 @@ export const translations: Record<Lang, Translations> = {
         {
           title: "Social Media",
           items: "Thumbnails, cover art, posts, channel branding",
-        },
-        {
-          title: "Interface & Web",
-          items: "Figma, design systems, WordPress, Elementor",
-        },
-        {
-          title: "Development",
-          items: "HTML5, CSS3, Tailwind, Angular, React, TypeScript",
-        },
-        {
-          title: "Working Method",
-          items: "Scrum, JIRA, Confluence, Git, AI-assisted workflows",
         },
       ],
       languages: [
