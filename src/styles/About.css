@@ -50,6 +50,17 @@
   color: var(--card-text);
 }
 
+.video-spotlight-handle {
+  color: var(--card-link);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.video-spotlight-handle:hover {
+  border-color: var(--card-link);
+}
+
 .video-spotlight-sub {
   margin: 0 0 1.5rem;
   font-size: 0.95rem;

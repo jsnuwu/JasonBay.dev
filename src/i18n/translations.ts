@@ -17,7 +17,10 @@ export interface Translations {
   };
   aboutSlider: {
     title: string;
-    categories: { key: "all" | "pets" | "moto" | "me"; label: string }[];
+    categories: {
+      key: "all" | "pets" | "moto" | "hike" | "me";
+      label: string;
+    }[];
     back: string;
     next: string;
   };
@@ -120,6 +123,7 @@ export const translations: Record<Lang, Translations> = {
         { key: "all", label: "Alles" },
         { key: "pets", label: "Tiere" },
         { key: "moto", label: "Motorrad" },
+        { key: "hike", label: "Wandern" },
         { key: "me", label: "Ich" },
       ],
       back: "Zurück",
@@ -291,6 +295,7 @@ export const translations: Record<Lang, Translations> = {
         { key: "all", label: "All" },
         { key: "pets", label: "Pets" },
         { key: "moto", label: "Motorcycles" },
+        { key: "hike", label: "Hiking" },
         { key: "me", label: "Me" },
       ],
       back: "Back",

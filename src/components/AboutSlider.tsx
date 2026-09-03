@@ -42,7 +42,17 @@ import me2 from "../assets/HeroImages/me/me2.jpeg";
 import me3 from "../assets/HeroImages/me/me3.jpg";
 import me5 from "../assets/HeroImages/me/me5.jpg";
 
-type Category = "pets" | "moto" | "me";
+import hike1 from "../assets/hike/hike1.jpg";
+import hike2 from "../assets/hike/hike2.jpg";
+import hike3 from "../assets/hike/hike3.jpg";
+import hike4 from "../assets/hike/hike4.jpg";
+import hike5 from "../assets/hike/hike5.jpg";
+import hike6 from "../assets/hike/hike6.jpg";
+import hike7 from "../assets/hike/hike7.jpg";
+import hike8 from "../assets/hike/hike8.jpg";
+import hike9 from "../assets/hike/hike9.jpg";
+
+type Category = "pets" | "moto" | "hike" | "me";
 
 interface Slide {
   img?: string;
@@ -84,6 +94,15 @@ const slides: Slide[] = [
   { img: motorcycle19, title: "🏔️", category: "moto" },
   { img: motorcycle20, title: "🌃", category: "moto" },
   { img: motorcycle21, title: "😌", category: "moto" },
+  { img: hike1, title: "⛰️", category: "hike" },
+  { img: hike2, title: "🌲", category: "hike" },
+  { img: hike3, title: "🥾", category: "hike" },
+  { img: hike4, title: "🏔️", category: "hike" },
+  { img: hike5, title: "🌤️", category: "hike" },
+  { img: hike6, title: "🏞️", category: "hike" },
+  { img: hike7, title: "🌿", category: "hike" },
+  { img: hike8, title: "💧", category: "hike" },
+  { img: hike9, title: "🧭", category: "hike" },
   { img: me1, title: "🙂", category: "me" },
   { img: me2, title: "🤔", category: "me" },
   { img: me3, title: "😎", category: "me" },
