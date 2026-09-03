@@ -1,8 +1,8 @@
 import "../styles/SocialCard.css";
-import InstagramIcon from "../assets/images/instagram.png";
+import InstagramIcon from "../assets/images/Instagram.png";
 import TikTokIcon from "../assets/images/TikTok.png";
 import GitHubIcon from "../assets/images/GitHub.png";
-import LinkedInIcon from "../assets/images/linkedin.png";
+import LinkedInIcon from "../assets/images/LinkedIn.png";
 import YoutubeIcon from "../assets/images/Youtube.png";
 
 export default function SocialCard() {

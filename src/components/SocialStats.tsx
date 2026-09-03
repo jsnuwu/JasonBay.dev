@@ -1,10 +1,10 @@
 import "../styles/SocialStats.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
-import InstagramIcon from "../assets/images/instagram.png";
+import InstagramIcon from "../assets/images/Instagram.png";
 import TikTokIcon from "../assets/images/TikTok.png";
 import GitHubIcon from "../assets/images/GitHub.png";
-import LinkedInIcon from "../assets/images/linkedin.png";
+import LinkedInIcon from "../assets/images/LinkedIn.png";
 
 interface SocialStat {
   name: string;

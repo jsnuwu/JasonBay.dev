@@ -11,6 +11,7 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import SocialCard from "./components/SocialCard";
+import CustomCursor from "./components/CustomCursor";
 import { LanguageProvider } from "./i18n/LanguageContext";
 
 function AppWrapper() {
@@ -25,12 +26,14 @@ function AppWrapper() {
 
   useEffect(() => {
     const theme = darkMode ? "dark" : "light";
-    document.body.className = theme;
+    document.body.classList.remove("dark", "light");
+    document.body.classList.add(theme);
     localStorage.setItem("theme", theme);
   }, [darkMode]);
 
   return (
     <div className={`app-container ${isHero ? "hero-page" : ""}`}>
+      <CustomCursor />
       <Header darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <Routes>

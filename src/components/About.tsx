@@ -11,6 +11,9 @@ export default function About() {
   const spotlightRef = useReveal<HTMLElement>();
   const { t } = useLanguage();
 
+  const [headingBefore, headingAfter] =
+    t.about.spotlight.heading.split("@jsnuwu");
+
   return (
     <>
       <section className="about-section reveal" ref={ref}>
@@ -23,7 +26,18 @@ export default function About() {
         <span className="video-spotlight-kicker">
           {t.about.spotlight.kicker}
         </span>
-        <h3>{t.about.spotlight.heading}</h3>
+        <h3>
+          {headingBefore}
+          <a
+            href="https://www.tiktok.com/@jsnuwu"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="video-spotlight-handle"
+          >
+            @jsnuwu
+          </a>
+          {headingAfter}
+        </h3>
         <p className="video-spotlight-sub">{t.about.spotlight.subtitle}</p>
 
         <div className="video-spotlight-stats">
