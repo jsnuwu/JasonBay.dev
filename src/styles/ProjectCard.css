@@ -5,7 +5,10 @@
   z-index: 1;
   padding: 2rem;
   border: 1px solid var(--card-border);
-  transition: all 0.35s ease;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,7 +39,7 @@
 }
 
 .project-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-6px) scale(1.035);
   border-color: var(--card-link);
   box-shadow: 0 20px 50px var(--card-shadow);
 }

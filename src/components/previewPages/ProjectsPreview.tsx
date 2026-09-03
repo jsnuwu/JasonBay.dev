@@ -112,12 +112,14 @@ export default function ProjectsPreview() {
                 rel="noopener noreferrer"
                 aria-label={t.projectsPreview.openLiveAria(project.name)}
               >
-                <iframe
-                  src={project.link}
-                  title={project.name}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  tabIndex={-1}
-                />
+                {Math.abs(index - active) <= 1 && (
+                  <iframe
+                    src={project.link}
+                    title={project.name}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    tabIndex={-1}
+                  />
+                )}
                 <span className="preview-frame-hint">
                   {t.projectsPreview.openLive}
                 </span>
