@@ -137,7 +137,7 @@
 .gallery-card {
   position: relative;
   flex: 0 0 auto;
-  width: 120px;
+  width: 150px;
   aspect-ratio: 9 / 16;
   scroll-snap-align: start;
   border-radius: 18px;
@@ -234,7 +234,7 @@
   }
 
   .gallery-card {
-    width: 105px;
+    width: 130px;
     border-radius: 15px;
     padding: 5px;
   }
@@ -264,6 +264,6 @@
   }
 
   .gallery-card {
-    width: 92px;
+    width: 110px;
   }
 }
