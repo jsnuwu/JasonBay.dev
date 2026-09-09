@@ -47,7 +47,7 @@
   margin-bottom: 2rem;
 }
 
-.send-email-button span {
+.send-email-button .send-email-label {
   display: block;
   margin-left: 0.3em;
   transition: all 0.3s ease-in-out;
@@ -73,7 +73,7 @@
   transform: translateX(1.2em) rotate(45deg) scale(1.1);
 }
 
-.send-email-button:hover span {
+.send-email-button:hover .send-email-label {
   transform: translateX(5em);
 }
 

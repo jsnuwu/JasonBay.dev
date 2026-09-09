@@ -1,6 +1,7 @@
 import "../styles/Experience.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
+import ScrambledText from "./ScrambledText";
 
 export default function Experience() {
   const ref = useReveal<HTMLElement>();
@@ -8,7 +9,7 @@ export default function Experience() {
 
   return (
     <section className="experience-section reveal" ref={ref}>
-      <h2>{t.experience.heading}</h2>
+      <ScrambledText as="h2" text={t.experience.heading} />
 
       <div className="experience-timeline">
         {t.experience.entries.map((entry) => (
@@ -20,14 +21,20 @@ export default function Experience() {
             <div className="experience-content">
               <div className="experience-header">
                 <div>
-                  <h3>{entry.org}</h3>
-                  <span className="experience-role">{entry.role}</span>
+                  <ScrambledText as="h3" text={entry.org} />
+                  <span className="experience-role">
+                    <ScrambledText text={entry.role} />
+                  </span>
                 </div>
-                <span className="experience-period">{entry.period}</span>
+                <span className="experience-period">
+                  <ScrambledText text={entry.period} />
+                </span>
               </div>
               <ul>
                 {entry.bullets.map((bullet) => (
-                  <li key={bullet}>{bullet}</li>
+                  <li key={bullet}>
+                    <ScrambledText text={bullet} />
+                  </li>
                 ))}
               </ul>
             </div>

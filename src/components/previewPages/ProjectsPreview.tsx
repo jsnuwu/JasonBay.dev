@@ -4,6 +4,7 @@ import { projects } from "../../data/projects";
 import { useReveal } from "../../hooks/useReveal";
 import { useLanguage } from "../../i18n/useLanguage";
 import LiveButton from "../LiveButton";
+import ScrambledText from "../ScrambledText";
 
 function formatUrl(url: string) {
   try {
@@ -20,11 +21,21 @@ export default function ProjectsPreview() {
   const { lang, t } = useLanguage();
   const activeRef = useRef(0);
   const userInteractedRef = useRef(false);
+  const animationFrameRef = useRef<number | null>(null);
+  const isAnimatingRef = useRef(false);
   const [active, setActive] = useState(0);
 
   useEffect(() => {
     activeRef.current = active;
   }, [active]);
+
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -64,26 +75,65 @@ export default function ProjectsPreview() {
 
     userInteractedRef.current = true;
     const clamped = (index + projects.length) % projects.length;
-    track.scrollTo({
-      left: clamped * track.offsetWidth,
-      behavior: "smooth",
-    });
     setActive(clamped);
+
+    if (animationFrameRef.current !== null) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    const startLeft = track.scrollLeft;
+    const targetLeft = clamped * track.offsetWidth;
+    const distance = targetLeft - startLeft;
+    const duration = 420;
+    const holdMs = 500;
+    const startTime = performance.now();
+
+    isAnimatingRef.current = true;
+
+    const step = (now: number) => {
+      const elapsed = now - startTime;
+
+      if (elapsed < duration) {
+        const progress = elapsed / duration;
+        const eased = 1 - Math.pow(1 - progress, 3);
+        track.scrollLeft = startLeft + distance * eased;
+        animationFrameRef.current = requestAnimationFrame(step);
+      } else if (elapsed < duration + holdMs) {
+        track.scrollLeft = targetLeft;
+        animationFrameRef.current = requestAnimationFrame(step);
+      } else {
+        animationFrameRef.current = null;
+        isAnimatingRef.current = false;
+      }
+    };
+    animationFrameRef.current = requestAnimationFrame(step);
   };
 
   const handleScroll = () => {
     const track = trackRef.current;
-    if (!track || track.offsetWidth === 0) return;
+    if (!track || track.offsetWidth === 0 || isAnimatingRef.current) return;
 
     const index = Math.round(track.scrollLeft / track.offsetWidth);
     setActive(index);
   };
 
   return (
-    <section className="projects-preview reveal" ref={sectionRef}>
-      <span className="projects-preview-kicker">{t.projectsPreview.kicker}</span>
-      <h2 className="projects-preview-title">{t.projectsPreview.title}</h2>
-      <p className="projects-preview-subtitle">{t.projectsPreview.subtitle}</p>
+    <section
+      id="projects-preview"
+      className="projects-preview reveal"
+      ref={sectionRef}
+    >
+      <span className="projects-preview-kicker">
+        <ScrambledText text={t.projectsPreview.kicker} />
+      </span>
+      <ScrambledText
+        as="h2"
+        className="projects-preview-title"
+        text={t.projectsPreview.title}
+      />
+      <p className="projects-preview-subtitle">
+        <ScrambledText text={t.projectsPreview.subtitle} />
+      </p>
 
       <div className="preview-carousel-wrapper">
         <button
@@ -102,7 +152,9 @@ export default function ProjectsPreview() {
                 <span className="browser-dot red" />
                 <span className="browser-dot yellow" />
                 <span className="browser-dot green" />
-                <span className="preview-url">{formatUrl(project.link)}</span>
+                <span className="preview-url">
+                  <ScrambledText text={formatUrl(project.link)} />
+                </span>
               </div>
 
               <a
@@ -121,16 +173,24 @@ export default function ProjectsPreview() {
                   />
                 )}
                 <span className="preview-frame-hint">
-                  {t.projectsPreview.openLive}
+                  <ScrambledText text={t.projectsPreview.openLive} />
                 </span>
               </a>
 
               <div className="preview-card-body">
-                <h3>{project.name}</h3>
+                <ScrambledText as="h3" text={project.name} />
                 <p>
-                  {lang === "en" ? project.descriptionEn : project.description}
+                  <ScrambledText
+                    text={
+                      lang === "en"
+                        ? project.descriptionEn
+                        : project.description
+                    }
+                  />
                 </p>
-                <small className="preview-tech">{project.tech}</small>
+                <small className="preview-tech">
+                  <ScrambledText text={project.tech} />
+                </small>
 
                 <LiveButton href={project.link} />
               </div>

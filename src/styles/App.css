@@ -16,6 +16,12 @@ body {
     color 0.3s ease;
 }
 
+#projects-preview,
+#gallery,
+#tiktok-showcase {
+  scroll-margin-top: 90px;
+}
+
 body.light {
   --bg-color: #ffffff;
   --text-color: #111111;
@@ -114,6 +120,20 @@ h2::after {
   left: 0;
   bottom: -8px;
   border-radius: 5px;
+  transition:
+    width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  h2:hover::after {
+    width: 130px;
+    box-shadow: 0 0 18px rgba(124, 58, 237, 0.55);
+  }
+}
+
+.is-scrambled {
+  color: var(--accent-2);
 }
 
 .reveal {

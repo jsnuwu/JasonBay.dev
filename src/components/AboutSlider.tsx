@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import "../styles/AboutSlider.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
+import ScrambledText from "./ScrambledText";
 
 import pet1 from "../assets/HeroImages/pets/pet1.jpeg";
 import pet2 from "../assets/HeroImages/pets/pet2.jpeg";
@@ -17,20 +19,16 @@ import pet12 from "../assets/HeroImages/pets/pet12.jpeg";
 import pet13 from "../assets/HeroImages/pets/pet13.jpeg";
 import pet14 from "../assets/HeroImages/pets/pet14.jpeg";
 
-import motorcycle from "../assets/HeroImages/motorcycle/motorcycle.jpeg";
-import motorcycle3 from "../assets/HeroImages/motorcycle/motorcycle3.jpeg";
 import motorcycle4 from "../assets/HeroImages/motorcycle/motorcycle4.jpeg";
 import motorcycle6 from "../assets/HeroImages/motorcycle/motorcycle6.jpeg";
 import motorcycle7 from "../assets/HeroImages/motorcycle/motorcycle7.jpeg";
 import motorcycle8 from "../assets/HeroImages/motorcycle/motorcycle8.jpeg";
 import motorcycle9 from "../assets/HeroImages/motorcycle/motorcycle9.jpeg";
-import motorcycle10 from "../assets/HeroImages/motorcycle/motorcycle10.jpeg";
 import motorcycle11 from "../assets/HeroImages/motorcycle/motorcycle11.jpeg";
 import motorcycle12 from "../assets/HeroImages/motorcycle/motorcycle12.jpeg";
 import motorcycle13 from "../assets/HeroImages/motorcycle/motorcycle13.jpeg";
 import motorcycle14 from "../assets/HeroImages/motorcycle/motorcycle14.jpeg";
 import motorcycle15 from "../assets/HeroImages/motorcycle/motorcycle15.jpeg";
-import motorcycle16 from "../assets/HeroImages/motorcycle/motorcycle16.jpeg";
 import motorcycle17 from "../assets/HeroImages/motorcycle/motorcycle17.jpeg";
 import motorcycle18 from "../assets/HeroImages/motorcycle/motorcycle18.jpeg";
 import motorcycle19 from "../assets/HeroImages/motorcycle/motorcycle19.jpeg";
@@ -41,6 +39,7 @@ import me1 from "../assets/HeroImages/me/me1.jpeg";
 import me2 from "../assets/HeroImages/me/me2.jpeg";
 import me3 from "../assets/HeroImages/me/me3.jpg";
 import me5 from "../assets/HeroImages/me/me5.jpg";
+import me6 from "../assets/HeroImages/me/me6.jpeg";
 
 import hike1 from "../assets/hike/hike1.jpg";
 import hike2 from "../assets/hike/hike2.jpg";
@@ -48,7 +47,6 @@ import hike3 from "../assets/hike/hike3.jpg";
 import hike4 from "../assets/hike/hike4.jpg";
 import hike5 from "../assets/hike/hike5.jpg";
 import hike6 from "../assets/hike/hike6.jpg";
-import hike7 from "../assets/hike/hike7.jpg";
 import hike8 from "../assets/hike/hike8.jpg";
 import hike9 from "../assets/hike/hike9.jpg";
 
@@ -75,20 +73,16 @@ const slides: Slide[] = [
   { img: pet12, title: "🐽", category: "pets" },
   { img: pet13, title: "😌", category: "pets" },
   { img: pet14, title: "👅", category: "pets" },
-  { img: motorcycle, title: "🏍️", category: "moto" },
-  { img: motorcycle3, title: "🔧", category: "moto" },
   { img: motorcycle4, title: "🌄", category: "moto" },
   { img: motorcycle6, title: "🌅", category: "moto" },
   { img: motorcycle7, title: "🪖", category: "moto" },
   { img: motorcycle8, title: "😎", category: "moto" },
   { img: motorcycle9, title: "🔥", category: "moto" },
-  { img: motorcycle10, title: "🌆", category: "moto" },
   { img: motorcycle11, title: "🚦", category: "moto" },
   { img: motorcycle12, title: "🅿️", category: "moto" },
   { img: motorcycle13, title: "🛠️", category: "moto" },
   { img: motorcycle14, title: "🌇", category: "moto" },
   { img: motorcycle15, title: "🧢", category: "moto" },
-  { img: motorcycle16, title: "🕶️", category: "moto" },
   { img: motorcycle17, title: "🚏", category: "moto" },
   { img: motorcycle18, title: "💨", category: "moto" },
   { img: motorcycle19, title: "🏔️", category: "moto" },
@@ -100,13 +94,13 @@ const slides: Slide[] = [
   { img: hike4, title: "🏔️", category: "hike" },
   { img: hike5, title: "🌤️", category: "hike" },
   { img: hike6, title: "🏞️", category: "hike" },
-  { img: hike7, title: "🌿", category: "hike" },
   { img: hike8, title: "💧", category: "hike" },
   { img: hike9, title: "🧭", category: "hike" },
   { img: me1, title: "🙂", category: "me" },
   { img: me2, title: "🤔", category: "me" },
   { img: me3, title: "😎", category: "me" },
   { img: me5, title: "✌️", category: "me" },
+  { img: me6, title: "📸", category: "me" },
 ];
 
 function seededShuffle<T>(items: T[], seed: number): T[] {
@@ -130,10 +124,12 @@ const shuffledSlides = seededShuffle(slides, 1337);
 export default function AboutSlider() {
   const sectionRef = useReveal<HTMLElement>();
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const draggedRef = useRef(false);
   const { t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<"all" | Category>(
     "all",
   );
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const visibleSlides = useMemo(
     () =>
@@ -207,6 +203,7 @@ export default function AboutSlider() {
       stopMomentum();
       isDown = true;
       moved = false;
+      draggedRef.current = false;
       startX = event.pageX;
       startScrollLeft = track.scrollLeft;
       lastX = event.pageX;
@@ -218,7 +215,10 @@ export default function AboutSlider() {
     const handleMouseMove = (event: MouseEvent) => {
       if (!isDown) return;
       const dx = event.pageX - startX;
-      if (Math.abs(dx) > 4) moved = true;
+      if (Math.abs(dx) > 4) {
+        moved = true;
+        draggedRef.current = true;
+      }
       track.scrollLeft = startScrollLeft - dx;
 
       const now = performance.now();
@@ -261,6 +261,28 @@ export default function AboutSlider() {
     trackRef.current?.scrollTo({ left: 0, behavior: "instant" });
   }, [activeCategory]);
 
+  useEffect(() => {
+    if (!lightboxImg) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setLightboxImg(null);
+    };
+    window.addEventListener("keydown", handleKey);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [lightboxImg]);
+
+  const handleCardClick = (img?: string) => {
+    if (draggedRef.current || !img) return;
+    setLightboxImg(img);
+  };
+
   const scrollByStep = (direction: "left" | "right") => {
     const track = trackRef.current;
     if (!track) return;
@@ -273,8 +295,8 @@ export default function AboutSlider() {
   };
 
   return (
-    <section className="about-preview reveal" ref={sectionRef}>
-      <h2 className="about-title">{t.aboutSlider.title}</h2>
+    <section id="gallery" className="about-preview reveal" ref={sectionRef}>
+      <ScrambledText as="h2" className="about-title" text={t.aboutSlider.title} />
 
       <div className="slider-categories">
         {t.aboutSlider.categories.map((cat) => (
@@ -302,9 +324,10 @@ export default function AboutSlider() {
           <div className="gallery-track" ref={trackRef} key={activeCategory}>
             {visibleSlides.map((slide, index) => (
               <div
-                className="gallery-card"
+                className={`gallery-card ${slide.img ? "clickable" : ""}`}
                 key={`${slide.img ?? slide.video}-${index}`}
                 style={{ animationDelay: `${(index % 10) * 40}ms` }}
+                onClick={() => handleCardClick(slide.img)}
               >
                 <div className="gallery-card-inner">
                   {slide.video ? (
@@ -338,6 +361,32 @@ export default function AboutSlider() {
           ›
         </button>
       </div>
+
+      {lightboxImg &&
+        createPortal(
+          <div
+            className="gallery-lightbox"
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setLightboxImg(null)}
+          >
+            <button
+              type="button"
+              className="gallery-lightbox-close"
+              aria-label={t.aboutSlider.close}
+              onClick={() => setLightboxImg(null)}
+            >
+              ×
+            </button>
+            <img
+              src={lightboxImg}
+              alt=""
+              className="gallery-lightbox-img"
+              onClick={(event) => event.stopPropagation()}
+            />
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }

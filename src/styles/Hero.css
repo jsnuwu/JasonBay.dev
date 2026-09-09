@@ -130,18 +130,21 @@
   animation-delay: 0.15s;
 }
 
-.hero-tags span {
+.hero-tags .hero-tag {
   font-size: 0.8rem;
   padding: 6px 12px;
   border-radius: 999px;
   background: var(--span-background);
   border: 1px solid transparent;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
   transition:
     border-color 0.25s ease,
     transform 0.25s ease;
 }
 
-.hero-tags span:hover {
+.hero-tags .hero-tag:hover {
   border-color: var(--card-link);
   transform: translateY(-2px);
 }
@@ -156,7 +159,7 @@
   animation-delay: 0.05s;
 }
 
-.hero-title span {
+.hero-title .hero-title-highlight {
   background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -212,14 +215,37 @@
 }
 
 .hero-btn.primary {
+  position: relative;
+  overflow: hidden;
   background: var(--accent-gradient);
   border: none;
   color: white;
   box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
 }
 
+.hero-btn.primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+
 .hero-btn:hover {
   transform: translateY(-3px);
+}
+
+.hero-btn.primary:hover::before {
+  left: 130%;
 }
 
 .hero-btn.primary:hover {

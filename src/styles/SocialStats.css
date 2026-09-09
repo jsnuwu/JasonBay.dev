@@ -5,7 +5,6 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  background: var(--bg-color);
 }
 
 .social-stats-kicker {
@@ -213,7 +212,7 @@
   color: var(--card-text);
 }
 
-.social-stat-header span {
+.social-stat-header .social-stat-handle {
   display: block;
   font-size: 0.85rem;
   color: var(--card-text);

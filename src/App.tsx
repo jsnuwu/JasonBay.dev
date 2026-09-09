@@ -12,6 +12,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import SocialCard from "./components/SocialCard";
 import CustomCursor from "./components/CustomCursor";
+import SideOrnaments from "./components/SideOrnaments";
 import { LanguageProvider } from "./i18n/LanguageContext";
 
 function AppWrapper() {
@@ -33,6 +34,7 @@ function AppWrapper() {
 
   return (
     <div className={`app-container ${isHero ? "hero-page" : ""}`}>
+      <SideOrnaments />
       <CustomCursor />
       <Header darkMode={darkMode} setDarkMode={setDarkMode} />
 

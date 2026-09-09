@@ -1,6 +1,7 @@
 import "../styles/SocialStats.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
+import ScrambledText from "./ScrambledText";
 import InstagramIcon from "../assets/images/Instagram.png";
 import TikTokIcon from "../assets/images/TikTok.png";
 import GitHubIcon from "../assets/images/GitHub.png";
@@ -70,9 +71,17 @@ export default function SocialStats() {
 
   return (
     <section className="social-stats reveal" ref={sectionRef}>
-      <span className="social-stats-kicker">{t.socialStats.kicker}</span>
-      <h2 className="social-stats-title">{t.socialStats.title}</h2>
-      <p className="social-stats-subtitle">{t.socialStats.subtitle}</p>
+      <span className="social-stats-kicker">
+        <ScrambledText text={t.socialStats.kicker} />
+      </span>
+      <ScrambledText
+        as="h2"
+        className="social-stats-title"
+        text={t.socialStats.title}
+      />
+      <p className="social-stats-subtitle">
+        <ScrambledText text={t.socialStats.subtitle} />
+      </p>
 
       <div className="social-stats-grid">
         {socials.map((social) => (
@@ -80,7 +89,7 @@ export default function SocialStats() {
             {social.latestPost && (
               <div className="social-stat-preview">
                 <span className="social-stat-preview-label">
-                  {t.socialStats.latestPost}
+                  <ScrambledText text={t.socialStats.latestPost} />
                 </span>
                 {social.latestPost.image ? (
                   <img src={social.latestPost.image} alt="" />
@@ -94,7 +103,7 @@ export default function SocialStats() {
                   </div>
                 )}
                 <span className="social-stat-preview-caption">
-                  {social.latestPost.caption}
+                  <ScrambledText text={social.latestPost.caption} />
                 </span>
                 <span className="social-stat-preview-tail" />
               </div>
@@ -112,25 +121,37 @@ export default function SocialStats() {
               <div className="social-stat-header">
                 <img src={social.icon} alt="" className="social-stat-icon" />
                 <div>
-                  <h3>{social.name}</h3>
-                  <span>{social.handle}</span>
+                  <ScrambledText as="h3" text={social.name} />
+                  <span className="social-stat-handle">
+                    <ScrambledText text={social.handle} />
+                  </span>
                 </div>
               </div>
 
-              {social.bio && <p className="social-stat-bio">{social.bio}</p>}
+              {social.bio && (
+                <p className="social-stat-bio">
+                  <ScrambledText text={social.bio} />
+                </p>
+              )}
 
               {social.stats.length > 0 ? (
                 <div className="social-stat-numbers">
                   {social.stats.map((stat) => (
                     <div key={stat.label} className="social-stat-number">
-                      <strong>{stat.value}</strong>
-                      <span>{stat.label}</span>
+                      <strong>
+                        <ScrambledText text={stat.value} />
+                      </strong>
+                      <span>
+                        <ScrambledText text={stat.label} />
+                      </span>
                     </div>
                   ))}
                 </div>
               ) : (
                 social.cta && (
-                  <span className="social-stat-cta">{social.cta}</span>
+                  <span className="social-stat-cta">
+                    <ScrambledText text={social.cta} />
+                  </span>
                 )
               )}
             </a>

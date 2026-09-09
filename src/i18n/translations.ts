@@ -9,7 +9,7 @@ export interface Translations {
   hero: {
     kicker: string;
     titlePrefix: string;
-    tags: string[];
+    tags: { label: string; target: string }[];
     subtitle: string;
     ctaPrimary: string;
     ctaSecondary: string;
@@ -23,6 +23,7 @@ export interface Translations {
     }[];
     back: string;
     next: string;
+    close: string;
   };
   socialStats: {
     kicker: string;
@@ -93,6 +94,19 @@ export interface Translations {
     messagePlaceholder: string;
     submit: string;
   };
+  tiktokShowcase: {
+    kicker: string;
+    title: string;
+    subtitle: string;
+    prev: string;
+    next: string;
+    mute: string;
+    unmute: string;
+    play: string;
+    pause: string;
+    volume: string;
+    jumpTo: (index: number) => string;
+  };
 }
 
 export const translations: Record<Lang, Translations> = {
@@ -106,10 +120,9 @@ export const translations: Record<Lang, Translations> = {
       kicker: "Portfolio",
       titlePrefix: "Hi, ich bin",
       tags: [
-        "💻 Frontend Dev",
-        "⚛️ React & TypeScript",
-        "🎨 Design",
-        "🎬 Video Editing",
+        { label: "💻 Frontend Dev", target: "projects-preview" },
+        { label: "🖼️ Galerie", target: "gallery" },
+        { label: "🎬 Video Editing", target: "tiktok-showcase" },
       ],
       subtitle:
         "Junior Software Engineer mit Fokus auf Frontend-Entwicklung – React, Angular, Vue.js und moderne Webtechnologien. Nebenbei: Video-Editing & Grafikdesign seit 2020.",
@@ -128,6 +141,7 @@ export const translations: Record<Lang, Translations> = {
       ],
       back: "Zurück",
       next: "Weiter",
+      close: "Schließen",
     },
     socialStats: {
       kicker: "Abseits vom Code",
@@ -267,6 +281,19 @@ export const translations: Record<Lang, Translations> = {
       messagePlaceholder: "Deine Nachricht",
       submit: "Absenden",
     },
+    tiktokShowcase: {
+      kicker: "TikTok",
+      title: "Ein paar Einblicke",
+      subtitle: "Mehr davon auf TikTok ansehen →",
+      prev: "Vorheriges Video",
+      next: "Nächstes Video",
+      mute: "Stummschalten",
+      unmute: "Ton an",
+      play: "Abspielen",
+      pause: "Pausieren",
+      volume: "Lautstärke",
+      jumpTo: (index) => `Zu Video ${index} springen`,
+    },
   },
   en: {
     header: {
@@ -278,10 +305,9 @@ export const translations: Record<Lang, Translations> = {
       kicker: "Portfolio",
       titlePrefix: "Hi, I'm",
       tags: [
-        "💻 Frontend Dev",
-        "⚛️ React & TypeScript",
-        "🎨 Design",
-        "🎬 Video Editing",
+        { label: "💻 Frontend Dev", target: "projects-preview" },
+        { label: "🖼️ Gallery", target: "gallery" },
+        { label: "🎬 Video Editing", target: "tiktok-showcase" },
       ],
       subtitle:
         "Junior Software Engineer focused on frontend development – React, Angular, Vue.js and modern web technologies. On the side: video editing & graphic design since 2020.",
@@ -300,6 +326,7 @@ export const translations: Record<Lang, Translations> = {
       ],
       back: "Back",
       next: "Next",
+      close: "Close",
     },
     socialStats: {
       kicker: "Beyond the code",
@@ -437,6 +464,19 @@ export const translations: Record<Lang, Translations> = {
       emailPlaceholder: "Your email",
       messagePlaceholder: "Your message",
       submit: "Send",
+    },
+    tiktokShowcase: {
+      kicker: "TikTok",
+      title: "A few glimpses",
+      subtitle: "See more on TikTok →",
+      prev: "Previous video",
+      next: "Next video",
+      mute: "Mute",
+      unmute: "Unmute",
+      play: "Play",
+      pause: "Pause",
+      volume: "Volume",
+      jumpTo: (index) => `Jump to video ${index}`,
     },
   },
 };

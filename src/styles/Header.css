@@ -65,6 +65,10 @@
   opacity: 1;
 }
 
+.site-nav a:hover::after {
+  transform: scaleX(1);
+}
+
 .site-nav a.active {
   opacity: 1;
 }

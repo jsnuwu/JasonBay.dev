@@ -8,6 +8,9 @@ import SocialStats from "./SocialStats";
 import ProjectsPreview from "./previewPages/ProjectsPreview";
 import { useScrollHijackGuard } from "../hooks/useScrollHijackGuard";
 import { useLanguage } from "../i18n/useLanguage";
+import WelcomeHeroAnimation from "./WelcomeHeroAnimation";
+import ScrambledText from "./ScrambledText";
+import TikTokShowcase from "./TikTokShowcase";
 
 export default function Hero() {
   const [scrolled, setScrolled] = useState(false);
@@ -23,6 +26,8 @@ export default function Hero() {
 
   return (
     <>
+      <WelcomeHeroAnimation />
+
       <section className="hero">
         <div className="hero-bg-decor" aria-hidden="true">
           <div className="hero-blob blob-1" />
@@ -32,19 +37,38 @@ export default function Hero() {
 
         <div className="hero-content">
           <div className="hero-text">
-            <span className="hero-kicker">{t.hero.kicker}</span>
+            <span className="hero-kicker">
+              <ScrambledText text={t.hero.kicker} />
+            </span>
 
             <h1 className="hero-title">
-              {t.hero.titlePrefix} <span>Jason</span>
+              <ScrambledText text={t.hero.titlePrefix} />{" "}
+              <span className="hero-title-highlight">
+                <ScrambledText text="Jason" />
+              </span>
             </h1>
 
             <div className="hero-tags">
               {t.hero.tags.map((tag) => (
-                <span key={tag}>{tag}</span>
+                <a
+                  key={tag.target}
+                  href={`#${tag.target}`}
+                  className="hero-tag"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    document
+                      .getElementById(tag.target)
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  <ScrambledText text={tag.label} />
+                </a>
               ))}
             </div>
 
-            <p className="hero-subtitle">{t.hero.subtitle}</p>
+            <p className="hero-subtitle">
+              <ScrambledText text={t.hero.subtitle} />
+            </p>
 
             <div className="hero-actions">
               <Link to="/about" className="hero-btn primary">
@@ -68,7 +92,9 @@ export default function Hero() {
           }
         >
           <div className="mouse" />
-          <span>{t.hero.scroll}</span>
+          <span>
+            <ScrambledText text={t.hero.scroll} />
+          </span>
         </div>
       </section>
 
@@ -77,6 +103,8 @@ export default function Hero() {
       <AboutSlider />
 
       <SocialStats />
+
+      <TikTokShowcase />
     </>
   );
 }
