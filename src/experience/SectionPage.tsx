@@ -8,7 +8,7 @@ import portrait from "../assets/avatar/BayJason.jpg";
 import tiktokLogo from "../assets/images/TikTok.png";
 import youtubeLogo from "../assets/images/Youtube.png";
 import instagramLogo from "../assets/images/Instagram.png";
-import adessoLogo from "../assets/images/adesso-logo.png";
+import adessoLogo from "../assets/images/adessologo2.png";
 import telutionLogo from "../assets/images/telution-logo.webp";
 import lebenshilfeLogo from "../assets/images/lebenshilfe.de-removebg-preview.png";
 

@@ -1136,8 +1136,8 @@ body.reticle-active * {
   box-sizing: border-box;
 }
 .spt-badge[data-org="adesso"] img {
-  padding: 0.1rem;
-  transform: scale(1.25);
+  padding: 0;
+  transform: scale(1.05);
 }
 .spt-body { padding-top: 0.35rem; }
 .spt-period {
