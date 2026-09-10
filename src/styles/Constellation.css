@@ -1135,6 +1135,10 @@ body.reticle-active * {
   padding: 0.5rem;
   box-sizing: border-box;
 }
+.spt-badge[data-org="adesso"] img {
+  padding: 0.1rem;
+  transform: scale(1.25);
+}
 .spt-body { padding-top: 0.35rem; }
 .spt-period {
   font-size: 0.68rem;

@@ -30,7 +30,8 @@ const ORG_LOGOS: [string, string][] = [
 
 function orgLogo(org: string) {
   const key = org.toLowerCase();
-  for (const [match, logo] of ORG_LOGOS) if (key.includes(match)) return logo;
+  for (const [match, logo] of ORG_LOGOS)
+    if (key.includes(match)) return { logo, slug: match };
   return null;
 }
 
@@ -278,10 +279,11 @@ export default function SectionPage({ id, onBack }: Props) {
               <li key={e.org}>
                 <span
                   className={`spt-badge${logo ? " has-logo" : ""}`}
+                  data-org={logo?.slug}
                   aria-hidden="true"
                 >
                   {logo ? (
-                    <img src={logo} alt="" loading="lazy" />
+                    <img src={logo.logo} alt="" loading="lazy" />
                   ) : (
                     e.org.replace(/[^A-Za-zÄÖÜ]/g, "").slice(0, 2).toUpperCase()
                   )}
