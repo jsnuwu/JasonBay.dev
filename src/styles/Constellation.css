@@ -877,7 +877,36 @@ body.reticle-active * {
 }
 
 .sp-social { display: block; }
-.sp-social-links { margin-top: 3rem; }
+.sp-social-links {
+  list-style: none;
+  margin: 3rem 0 0;
+  padding: 0;
+  max-width: 620px;
+}
+.sp-social-links li {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+}
+.sp-social-links a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  color: var(--exp-ink);
+  text-decoration: none;
+}
+.sp-social-links a:hover { opacity: 0.6; }
+.sp-social-logo {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.sp-social-name { font-size: 1rem; font-weight: 500; }
+.sp-social-handle {
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: var(--exp-ink-soft);
+}
 
 /* ---- project showcase (old portfolio style) ---- */
 .showcase {

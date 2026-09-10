@@ -5,6 +5,15 @@ import GallerySection from "./sections/GallerySection";
 import TikTokSection from "./sections/TikTokSection";
 import OldPortfolio from "../components/OldPortfolio";
 import portrait from "../assets/avatar/BayJason.jpg";
+import tiktokLogo from "../assets/images/TikTok.png";
+import youtubeLogo from "../assets/images/Youtube.png";
+import instagramLogo from "../assets/images/Instagram.png";
+
+const SOCIAL_LOGOS: Record<string, string> = {
+  TikTok: tiktokLogo,
+  YouTube: youtubeLogo,
+  Instagram: instagramLogo,
+};
 
 interface Props {
   id: string;
@@ -218,20 +227,23 @@ export default function SectionPage({ id, onBack }: Props) {
         {id === "social" && (
           <div className="sp-social">
             <TikTokSection />
-            <ul className="sp-plain sp-social-links">
+            <ul className="sp-social-links">
               {getSocials()
                 .filter((s) =>
                   ["Instagram", "TikTok", "YouTube"].includes(s.label),
                 )
                 .map((s) => (
                   <li key={s.label}>
-                    <a
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <span>{s.label}</span>
-                      <span>{s.handle} ↗</span>
+                    <a href={s.href} target="_blank" rel="noopener noreferrer">
+                      <img
+                        className="sp-social-logo"
+                        src={SOCIAL_LOGOS[s.label]}
+                        alt=""
+                        aria-hidden="true"
+                        loading="lazy"
+                      />
+                      <span className="sp-social-name">{s.label}</span>
+                      <span className="sp-social-handle">{s.handle} ↗</span>
                     </a>
                   </li>
                 ))}

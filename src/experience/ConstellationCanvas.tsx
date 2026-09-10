@@ -354,16 +354,16 @@ export default function ConstellationCanvas({
         const dist = camera.position.distanceTo(tmp);
         tmp.project(camera);
         const behind = tmp.z > 1;
-        const rawX = (tmp.x * 0.5 + 0.5) * w;
-        const rawY = (-tmp.y * 0.5 + 0.5) * h;
-        const x = THREE.MathUtils.clamp(rawX, 12, w - 12);
-        const y = THREE.MathUtils.clamp(rawY, 56, h - 56);
-        const ax = x < w * 0.36 ? "0%" : x > w * 0.64 ? "-100%" : "-50%";
-        el.style.transform = `translate(${ax}, -50%) translate(${x}px, ${y}px)`;
+        const x = (tmp.x * 0.5 + 0.5) * w;
+        const y = (-tmp.y * 0.5 + 0.5) * h;
+        const ax =
+          a.position[0] < -1.4 ? "0%" : a.position[0] > 1.4 ? "-100%" : "-50%";
+        el.style.transform = `translate(${ax}, -50%) translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+        const off = x < -40 || x > w + 40 || y < -40 || y > h + 40;
         const fade = THREE.MathUtils.clamp(1 - (dist - 6) / 22, 0.12, 1);
-        el.style.opacity = behind ? "0" : String(fade);
-        el.style.pointerEvents = behind || fade < 0.3 ? "none" : "auto";
-        el.classList.toggle("is-lit", !behind && a.id === active);
+        el.style.opacity = behind || off ? "0" : String(fade);
+        el.style.pointerEvents = behind || off || fade < 0.3 ? "none" : "auto";
+        el.classList.toggle("is-lit", !behind && !off && a.id === active);
       });
 
       renderer.render(scene3, camera);
