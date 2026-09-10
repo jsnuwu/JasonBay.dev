@@ -27,13 +27,13 @@ export default function TikTokSection() {
   const [progress, setProgress] = useState(0);
 
   const videoRef = useRef<HTMLVideoElement>(null);
-  const screenRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
   const lockRef = useRef(false);
 
   const step = useCallback((d: number) => {
     if (lockRef.current) return;
     lockRef.current = true;
-    setIndex((p) => ((p + d) % VIDEOS.length + VIDEOS.length) % VIDEOS.length);
+    setIndex((p) => (((p + d) % VIDEOS.length) + VIDEOS.length) % VIDEOS.length);
     setPlaying(true);
     window.setTimeout(() => (lockRef.current = false), 450);
   }, []);
@@ -49,11 +49,12 @@ export default function TikTokSection() {
   }, [index, playing, muted, volume]);
 
   useEffect(() => {
-    const node = screenRef.current;
+    const node = stageRef.current;
     if (!node) return;
     const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
       e.preventDefault();
-      if (Math.abs(e.deltaY) < 12) return;
+      if (Math.abs(e.deltaY) < 14) return;
       step(e.deltaY > 0 ? 1 : -1);
     };
     node.addEventListener("wheel", onWheel, { passive: false });
@@ -77,13 +78,8 @@ export default function TikTokSection() {
   return (
     <div className="tsec">
       <div className="tsec-dock">
-        <div className="tsec-phone">
-          <span className="tsec-notch" aria-hidden="true" />
-          <div
-            className="tsec-screen"
-            ref={screenRef}
-            onClick={() => setPlaying((p) => !p)}
-          >
+        <div className="tsec-stage" ref={stageRef}>
+          <div className="tsec-screen" onClick={() => setPlaying((p) => !p)}>
             <video
               key={VIDEOS[index]}
               ref={videoRef}
@@ -96,26 +92,23 @@ export default function TikTokSection() {
               onTimeUpdate={onTime}
             />
 
-            {!playing && <span className="tsec-play-ind" aria-hidden="true">▶</span>}
+            {!playing && (
+              <span className="tsec-play-ind" aria-hidden="true">
+                ▶
+              </span>
+            )}
 
-            <button
-              className="tsec-ctl play"
-              onClick={(e) => {
-                stop(e);
-                setPlaying((p) => !p);
-              }}
-              aria-label={playing ? tk.pause : tk.play}
-            >
-              {playing ? "❚❚" : "▶"}
-            </button>
-
-            <div className="tsec-vol" onClick={stop}>
+            <div className="tsec-bar" onClick={stop}>
               <button
-                className="tsec-ctl mute"
-                onClick={(e) => {
-                  stop(e);
-                  setMuted((m) => !m);
-                }}
+                className="tsec-ctl"
+                onClick={() => setPlaying((p) => !p)}
+                aria-label={playing ? tk.pause : tk.play}
+              >
+                {playing ? "❚❚" : "▶"}
+              </button>
+              <button
+                className="tsec-ctl"
+                onClick={() => setMuted((m) => !m)}
                 aria-label={silent ? tk.unmute : tk.mute}
               >
                 {silent ? "MUTE" : "VOL"}
@@ -130,28 +123,19 @@ export default function TikTokSection() {
                 onChange={onVolume}
                 aria-label={tk.volume}
               />
+              <span className="tsec-counter">
+                {String(index + 1).padStart(2, "0")} /{" "}
+                {String(VIDEOS.length).padStart(2, "0")}
+              </span>
+              <span className="tsec-arrows">
+                <button onClick={() => step(-1)} aria-label={tk.prev}>
+                  ‹
+                </button>
+                <button onClick={() => step(1)} aria-label={tk.next}>
+                  ›
+                </button>
+              </span>
             </div>
-
-            <button
-              className="tsec-edge prev"
-              onClick={(e) => {
-                stop(e);
-                step(-1);
-              }}
-              aria-label={tk.prev}
-            >
-              ▲
-            </button>
-            <button
-              className="tsec-edge next"
-              onClick={(e) => {
-                stop(e);
-                step(1);
-              }}
-              aria-label={tk.next}
-            >
-              ▼
-            </button>
 
             <div className="tsec-progress">
               <span style={{ width: `${progress}%` }} />

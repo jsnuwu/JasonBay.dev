@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useLanguage } from "../i18n/useLanguage";
-import { EMAIL, getProjects, getSocials } from "./content";
+import { EMAIL, getSocials } from "./content";
 import GallerySection from "./sections/GallerySection";
 import TikTokSection from "./sections/TikTokSection";
+import ProjectShowcase from "./sections/ProjectShowcase";
 
 interface Props {
   id: string;
@@ -88,7 +89,7 @@ export default function SectionPage({ id, onBack }: Props) {
       <div className="sp-body">
         {id === "gallery" && <GallerySection />}
         {id === "tiktok" && <TikTokSection />}
-        {id === "work" && <WorkBody de={de} />}
+        {id === "work" && <ProjectShowcase />}
         {id === "experience" && (
           <ul className="sp-timeline">
             {t.experience.entries.map((e) => (
@@ -137,61 +138,67 @@ export default function SectionPage({ id, onBack }: Props) {
           <div className="sp-prose">
             <p>
               {de
-                ? "Seit 2020 Video-Editing und Grafikdesign, seit 2023 in der Softwareentwicklung — vom Freiwilligen Sozialen Jahr über die Ausbildung zum Fachinformatiker bei adesso bis zur aktuellen Rolle als Junior Software Engineer bei TELUTION."
-                : "Video editing and graphic design since 2020, software development since 2023 — from a voluntary social year, through an apprenticeship as an IT specialist at adesso, to the current role as a Junior Software Engineer at TELUTION."}
+                ? "Vor der Ausbildung ein Freiwilliges Soziales Jahr bei der Lebenshilfe Vaihingen-Mühlacker (09/2022 – 08/2023). Danach die Ausbildung zum Fachinformatiker für Anwendungsentwicklung bei der adesso SE, abgeschlossen im Januar 2026 (IHK). Seither Junior Software Engineer bei Telution mit Schwerpunkt Frontend — Angular, TypeScript und WordPress. Parallel dazu seit Jahren eigener Video-Schnitt und Social-Media-Content."
+                : "Before the apprenticeship, a voluntary social year at Lebenshilfe Vaihingen-Mühlacker (09/2022 – 08/2023). Then an apprenticeship as an IT specialist for application development at adesso SE, completed in January 2026 (IHK). Since then a Junior Software Engineer at Telution with a frontend focus — Angular, TypeScript and WordPress. Alongside that, years of self-made video editing and social media content."}
             </p>
           </div>
         )}
         {id === "contact" && (
-          <div className="sp-prose">
-            <p>{t.contact.intro}</p>
-            <a className="sp-email" href={`mailto:${EMAIL}`}>
-              {EMAIL}
-            </a>
-            <ul className="sp-plain">
-              {getSocials().map((s) => (
-                <li key={s.label}>
-                  <a href={s.href} target="_blank" rel="noopener noreferrer">
-                    {s.label}
-                  </a>
-                  <span>{s.handle} ↗</span>
-                </li>
-              ))}
-            </ul>
+          <div className="sp-contact">
+            <div className="sp-prose">
+              <p>{t.contact.intro}</p>
+              <a className="sp-email" href={`mailto:${EMAIL}`}>
+                {EMAIL}
+              </a>
+              <ul className="sp-plain">
+                {getSocials().map((s) => (
+                  <li key={s.label}>
+                    <a href={s.href} target="_blank" rel="noopener noreferrer">
+                      {s.label}
+                    </a>
+                    <span>{s.handle} ↗</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <form
+              className="sp-form"
+              action="https://formspree.io/f/mreakbje"
+              method="POST"
+            >
+              <label>
+                <span>{de ? "Name" : "Name"}</span>
+                <input
+                  name="name"
+                  type="text"
+                  placeholder={t.contact.namePlaceholder}
+                  required
+                />
+              </label>
+              <label>
+                <span>{de ? "E-Mail" : "Email"}</span>
+                <input
+                  name="email"
+                  type="email"
+                  placeholder={t.contact.emailPlaceholder}
+                  required
+                />
+              </label>
+              <label>
+                <span>{de ? "Nachricht" : "Message"}</span>
+                <textarea
+                  name="message"
+                  rows={5}
+                  placeholder={t.contact.messagePlaceholder}
+                  required
+                />
+              </label>
+              <button type="submit">{t.contact.submit}</button>
+            </form>
           </div>
         )}
       </div>
     </div>
-  );
-}
-
-function WorkBody({ de }: { de: boolean }) {
-  const projects = getProjects();
-  return (
-    <ol className="sp-work">
-      {projects.map((p) => (
-        <li key={p.name}>
-          <a href={p.link} target="_blank" rel="noopener noreferrer">
-            <span className="spw-preview" aria-hidden="true">
-              <iframe
-                src={p.link}
-                title={p.name}
-                loading="lazy"
-                tabIndex={-1}
-                scrolling="no"
-              />
-              <span className="spw-preview-veil" />
-            </span>
-            <span className="spw-index">{p.index}</span>
-            <span className="spw-name">{p.name}</span>
-            <span className="spw-desc">
-              {de ? p.description : p.descriptionEn}
-            </span>
-            <span className="spw-tech">{p.tech}</span>
-            <span className="spw-open">{de ? "LIVE ÖFFNEN ↗" : "OPEN LIVE ↗"}</span>
-          </a>
-        </li>
-      ))}
-    </ol>
   );
 }

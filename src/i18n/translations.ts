@@ -182,8 +182,8 @@ export const translations: Record<Lang, Translations> = {
         statExperienceValue: "5 Jahre",
         statExperienceLabel: "Schnitt-Praxis",
         list: [
-          "Schnitt, Color Grading und Sounddesign von Kurzvideos mit After Effects und DaVinci Resolve",
-          "Gestaltung von Thumbnails, Cover-Grafiken und Kanal-Branding mit Photoshop und Illustrator",
+          "Eigene Edits von Schnitt bis Veröffentlichung auf TikTok, YouTube und Instagram",
+          "Gefühl für Bildaufbau, Timing und Reichweite",
         ],
       },
     },
@@ -191,25 +191,24 @@ export const translations: Record<Lang, Translations> = {
       heading: "Werdegang",
       entries: [
         {
-          org: "TELUTION",
+          org: "Telution",
           role: "Junior Software Engineer",
           period: "06/2026 – heute",
           bullets: [
-            "Mitarbeit an der Entwicklung und Betreuung von 4 Kundenprojekten",
-            "Entwicklung und Anpassung von Webanwendungen mit PHP, Angular und WordPress",
-            "Erstellung und Pflege von Webseiten mit WordPress und Elementor inklusive individueller Anpassungen und Erweiterungen",
-            "Umsetzung von Frontend-Komponenten mit Angular sowie Backend-Anpassungen mit PHP",
+            "Frontend-Komponenten mit Angular und TypeScript, angebunden an bestehende PHP-Backends",
+            "Kundenwebsites mit WordPress und Elementor, erweitert um eigenen PHP- und CSS-Code",
+            "Bugfixing und Feature-Erweiterungen im laufenden Betrieb",
           ],
         },
         {
-          org: "adesso SE",
-          role: "Fachinformatiker für Anwendungsentwicklung – Ausbildung",
+          org: "adesso SE · Ausbildung",
+          role: "Fachinformatiker für Anwendungsentwicklung",
           period: "09/2023 – 01/2026",
           bullets: [
-            "Entwicklung und Wartung von Backend- und Frontend-Komponenten mit Fokus auf Java, Spring Boot, Angular und PostgreSQL",
-            "Mitarbeit an interner Webanwendung zur Erfassung und Verwaltung von Mitarbeiterprofilen (Profiler, 2025)",
-            "Unterstützung des IT-Support",
-            "Durchführung von Frontend-Bugfixes",
+            "Frontend mit Angular und TypeScript, Backend mit Java, Spring Boot und PostgreSQL",
+            "Profiler (internes Produkt, 05/2025 – 12/2025): Frontend-Komponenten und UI-Bugfixes",
+            "Scrum-Team: Git, Code Reviews, JIRA, Confluence",
+            "IT-Support",
           ],
         },
         {
@@ -227,36 +226,28 @@ export const translations: Record<Lang, Translations> = {
       heading: "Skills",
       groups: [
         {
-          title: "Entwicklung",
-          items: "HTML5, CSS3, Angular, React, Vue.js, TypeScript",
+          title: "Schwerpunkt Frontend",
+          items: "HTML5, CSS3, JavaScript, TypeScript, Angular, Tailwind CSS, Responsive Design",
         },
         {
-          title: "Interface & Web",
-          items: "Figma, Design-Systeme, WordPress, Elementor",
+          title: "Design & Web",
+          items: "Figma, WordPress, Elementor",
         },
         {
-          title: "Arbeitsweise",
-          items: "Scrum, JIRA, Confluence, Git, KI-gestützte Workflows",
+          title: "Weitere Frameworks",
+          items: "React, Vue.js",
         },
         {
-          title: "Video & Motion",
-          items: "After Effects, DaVinci Resolve, CapCut",
+          title: "Backend & Daten",
+          items: "PHP, Java, Spring Boot, PostgreSQL, MySQL, MongoDB",
         },
         {
-          title: "Grafikdesign",
-          items: "Photoshop, Illustrator, InDesign, Canva",
+          title: "Tools & Arbeitsweise",
+          items: "Git, Docker, Scrum, Unit Testing, JIRA, Confluence, YouTrack",
         },
         {
-          title: "Schnitt & Post",
-          items: "Color Grading, Sounddesign, Untertitel, Kurzformat",
-        },
-        {
-          title: "Bildbearbeitung",
-          items: "Retusche, Freistellen, Composing",
-        },
-        {
-          title: "Social Media",
-          items: "Thumbnails, Cover, Posts, Kanal-Branding",
+          title: "Content & Social",
+          items: "Video-Schnitt, TikTok, YouTube, Instagram",
         },
       ],
       languages: [
@@ -366,8 +357,8 @@ export const translations: Record<Lang, Translations> = {
         statExperienceValue: "5 years",
         statExperienceLabel: "Editing Experience",
         list: [
-          "Editing, color grading and sound design for short-form videos with After Effects and DaVinci Resolve",
-          "Designing thumbnails, cover graphics and channel branding with Photoshop and Illustrator",
+          "My own edits from cut to release on TikTok, YouTube and Instagram",
+          "A feel for framing, timing and reach",
         ],
       },
     },
@@ -375,25 +366,24 @@ export const translations: Record<Lang, Translations> = {
       heading: "Experience",
       entries: [
         {
-          org: "TELUTION",
+          org: "Telution",
           role: "Junior Software Engineer",
           period: "06/2026 – present",
           bullets: [
-            "Contributing to the development and maintenance of 4 client projects",
-            "Developing and customizing web applications with PHP, Angular and WordPress",
-            "Creating and maintaining websites with WordPress and Elementor, including custom adjustments and extensions",
-            "Implementing frontend components with Angular as well as backend adjustments with PHP",
+            "Frontend components with Angular and TypeScript, wired into existing PHP backends",
+            "Client websites with WordPress and Elementor, extended with custom PHP and CSS",
+            "Bug fixing and feature work in production",
           ],
         },
         {
-          org: "adesso SE",
-          role: "IT Specialist for Application Development – Apprenticeship",
+          org: "adesso SE · Apprenticeship",
+          role: "IT Specialist for Application Development",
           period: "09/2023 – 01/2026",
           bullets: [
-            "Developing and maintaining backend and frontend components with a focus on Java, Spring Boot, Angular and PostgreSQL",
-            "Contributing to an internal web application for capturing and managing employee profiles (Profiler, 2025)",
-            "Supporting the IT support team",
-            "Performing frontend bug fixes",
+            "Frontend with Angular and TypeScript, backend with Java, Spring Boot and PostgreSQL",
+            "Profiler (internal product, 05/2025 – 12/2025): frontend components and UI bug fixes",
+            "Scrum team: Git, code reviews, JIRA, Confluence",
+            "IT support",
           ],
         },
         {
@@ -411,36 +401,28 @@ export const translations: Record<Lang, Translations> = {
       heading: "Skills",
       groups: [
         {
-          title: "Development",
-          items: "HTML5, CSS3, Angular, React, Vue.js, TypeScript",
+          title: "Frontend focus",
+          items: "HTML5, CSS3, JavaScript, TypeScript, Angular, Tailwind CSS, Responsive Design",
         },
         {
-          title: "Interface & Web",
-          items: "Figma, design systems, WordPress, Elementor",
+          title: "Design & Web",
+          items: "Figma, WordPress, Elementor",
         },
         {
-          title: "Working Method",
-          items: "Scrum, JIRA, Confluence, Git, AI-assisted workflows",
+          title: "Other frameworks",
+          items: "React, Vue.js",
         },
         {
-          title: "Video & Motion",
-          items: "After Effects, DaVinci Resolve, CapCut",
+          title: "Backend & Data",
+          items: "PHP, Java, Spring Boot, PostgreSQL, MySQL, MongoDB",
         },
         {
-          title: "Graphic Design",
-          items: "Photoshop, Illustrator, InDesign, Canva",
+          title: "Tools & Method",
+          items: "Git, Docker, Scrum, Unit Testing, JIRA, Confluence, YouTrack",
         },
         {
-          title: "Editing & Post",
-          items: "Color grading, sound design, subtitles, short-form",
-        },
-        {
-          title: "Photo Editing",
-          items: "Retouching, cutouts, compositing",
-        },
-        {
-          title: "Social Media",
-          items: "Thumbnails, cover art, posts, channel branding",
+          title: "Content & Social",
+          items: "Video editing, TikTok, YouTube, Instagram",
         },
       ],
       languages: [

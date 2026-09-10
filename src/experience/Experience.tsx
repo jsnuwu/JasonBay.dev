@@ -4,10 +4,10 @@ import { useLanguage } from "../i18n/useLanguage";
 import ConstellationCanvas, { type Anchor, type SceneId } from "./ConstellationCanvas";
 import Reticle from "./Reticle";
 import SectionPage from "./SectionPage";
+import ProjectShowcase from "./sections/ProjectShowcase";
 import {
   EMAIL,
   getIdentity,
-  getProjects,
   getRadialKeywords,
   getSectionNodes,
 } from "./content";
@@ -29,7 +29,6 @@ export default function Experience() {
   const keywords = useMemo(() => getRadialKeywords(lang), [lang]);
   const sections = useMemo(() => getSectionNodes(lang), [lang]);
   const identity = useMemo(() => getIdentity(lang), [lang]);
-  const projects = useMemo(() => getProjects(), []);
 
   const anchors: Anchor[] = useMemo(() => {
     if (scene === "main") {
@@ -138,8 +137,8 @@ export default function Experience() {
 
   const de = lang === "de";
   const roleLine = de
-    ? "Software Engineer & Video Editor — Deutschland"
-    : "Software Engineer & Video Editor — Germany";
+    ? "Frontend Developer — Vaihingen an der Enz"
+    : "Frontend Developer — Vaihingen an der Enz";
   const hint =
     scene === "main"
       ? de
@@ -257,21 +256,10 @@ export default function Experience() {
             <div className="panel-head">
               <span>{de ? "AUSGEWÄHLTE ARBEITEN" : "SELECTED WORK"}</span>
               <button className="panel-more" onClick={() => openPage("work")}>
-                {de ? "ALLE ANSEHEN ↓" : "VIEW ALL ↓"}
+                {de ? "GANZE SEITE ↗" : "FULL PAGE ↗"}
               </button>
             </div>
-            <ul className="project-list">
-              {projects.map((p) => (
-                <li key={p.name}>
-                  <a href={p.link} target="_blank" rel="noopener noreferrer">
-                    <span className="p-index">{p.index}</span>
-                    <span className="p-name">{p.name}</span>
-                    <span className="p-tech">{p.tech}</span>
-                    <span className="p-open">{de ? "ÖFFNEN ↗" : "OPEN ↗"}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <ProjectShowcase compact />
           </section>
         )}
       </div>

@@ -22,27 +22,20 @@ export interface SocialLink {
   href: string;
 }
 
-// primary disciplines
+// primary focus (from CV)
 const STRONG_KEYWORDS = [
-  "FRONTEND",
-  "REACT",
   "ANGULAR",
-  "VUE",
   "TYPESCRIPT",
+  "HTML5",
+  "CSS3",
+  "JAVASCRIPT",
+  "TAILWIND",
+  "WORDPRESS",
   "VIDEO EDITING",
-  "MOTION DESIGN",
-  "GRAPHIC DESIGN",
 ];
 
-// real secondary tools / methods
-const FAINT_KEYWORDS = [
-  "FIGMA",
-  "GIT",
-  "WORDPRESS",
-  "AFTER EFFECTS",
-  "DAVINCI RESOLVE",
-  "PHOTOSHOP",
-];
+// secondary skills / tools (from CV)
+const FAINT_KEYWORDS = ["REACT", "VUE.JS", "FIGMA", "GIT", "DOCKER", "PHP"];
 
 export interface Identity {
   name: string;
@@ -54,8 +47,8 @@ export function getIdentity(lang: Lang): Identity {
     name: "JASON BAY",
     tagline:
       lang === "de"
-        ? "Software Engineer & Editor — Deutschland"
-        : "Software Engineer & Editor — Germany",
+        ? "Frontend Developer — Web & UI"
+        : "Frontend Developer — Web & UI",
   };
 }
 
