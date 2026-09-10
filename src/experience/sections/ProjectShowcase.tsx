@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../../i18n/useLanguage";
 import { getProjects } from "../content";
 
@@ -19,10 +20,44 @@ export default function ProjectShowcase({ compact = false }: Props) {
   const de = lang === "de";
   const projects = getProjects();
 
+  const [visible, setVisible] = useState<Set<number>>(() => new Set([0, 1]));
+  const cardRefs = useRef<Array<HTMLElement | null>>([]);
+
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => {
+        setVisible((prev) => {
+          let changed = false;
+          const next = new Set(prev);
+          entries.forEach((en) => {
+            if (en.isIntersecting) {
+              const i = Number((en.target as HTMLElement).dataset.i);
+              if (!next.has(i)) {
+                next.add(i);
+                changed = true;
+              }
+            }
+          });
+          return changed ? next : prev;
+        });
+      },
+      { rootMargin: "400px 0px" },
+    );
+    cardRefs.current.forEach((el) => el && io.observe(el));
+    return () => io.disconnect();
+  }, [projects.length]);
+
   return (
     <div className={`showcase ${compact ? "is-compact" : ""}`}>
       {projects.map((p, i) => (
-        <article className="showcase-card" key={p.name}>
+        <article
+          className="showcase-card"
+          key={p.name}
+          data-i={i}
+          ref={(el) => {
+            cardRefs.current[i] = el;
+          }}
+        >
           <div className="showcase-bar">
             <span className="showcase-dot" />
             <span className="showcase-dot" />
@@ -37,7 +72,7 @@ export default function ProjectShowcase({ compact = false }: Props) {
             rel="noopener noreferrer"
             aria-label={de ? `${p.name} live öffnen` : `Open ${p.name} live`}
           >
-            {i < (compact ? 2 : 4) && (
+            {visible.has(i) && (
               <iframe
                 src={p.link}
                 title={p.name}

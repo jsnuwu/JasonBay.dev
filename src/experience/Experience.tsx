@@ -4,7 +4,6 @@ import { useLanguage } from "../i18n/useLanguage";
 import ConstellationCanvas, { type Anchor, type SceneId } from "./ConstellationCanvas";
 import Reticle from "./Reticle";
 import SectionPage from "./SectionPage";
-import ProjectShowcase from "./sections/ProjectShowcase";
 import {
   EMAIL,
   getIdentity,
@@ -13,7 +12,7 @@ import {
 } from "./content";
 import "../styles/Constellation.css";
 
-const ORDER: SceneId[] = ["main", "about", "portfolio"];
+const ORDER: SceneId[] = ["main", "about"];
 
 export default function Experience() {
   const { lang, setLang } = useLanguage();
@@ -217,11 +216,8 @@ export default function Experience() {
               {de ? "ÜBER MICH" : "ABOUT ME"}
             </button>
             <button
-              className={scene === "portfolio" ? "active" : ""}
-              onClick={() => {
-                playBlip();
-                goScene("portfolio");
-              }}
+              className={page === "work" ? "active" : ""}
+              onClick={() => openPage("work")}
             >
               PORTFOLIO
             </button>
@@ -251,17 +247,6 @@ export default function Experience() {
           </span>
         </div>
 
-        {scene === "portfolio" && (
-          <section className="panel portfolio-panel">
-            <div className="panel-head">
-              <span>{de ? "AUSGEWÄHLTE ARBEITEN" : "SELECTED WORK"}</span>
-              <button className="panel-more" onClick={() => openPage("work")}>
-                {de ? "GANZE SEITE ↗" : "FULL PAGE ↗"}
-              </button>
-            </div>
-            <ProjectShowcase compact />
-          </section>
-        )}
       </div>
 
       {page && <SectionPage id={page} onBack={() => setPage(null)} />}

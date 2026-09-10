@@ -85,7 +85,7 @@ export function getSectionNodes(lang: Lang): SectionNode[] {
   const de = lang === "de";
   return [
     { id: "about", label: de ? "ÜBER MICH" : "ABOUT", position: [-4.2, -1.6, 1.2], scale: 1 },
-    { id: "work", label: de ? "ARBEITEN" : "WORK", position: [-3.6, 2.8, -2.4], scale: 1.35 },
+    { id: "work", label: "PORTFOLIO", position: [-3.6, 2.8, -2.4], scale: 1.35 },
     { id: "skills", label: "SKILLS", position: [0.4, 2.4, 0.2], scale: 0.8 },
     { id: "experience", label: de ? "WERDEGANG" : "EXPERIENCE", position: [-5.4, 0.6, -1.1], scale: 1.5 },
     { id: "gallery", label: de ? "GALERIE" : "GALLERY", position: [3.4, 1.1, -3.2], scale: 0.9 },

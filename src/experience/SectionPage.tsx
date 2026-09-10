@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { EMAIL, getSocials } from "./content";
 import GallerySection from "./sections/GallerySection";
@@ -12,7 +12,7 @@ interface Props {
 
 const TITLES: Record<string, { de: string; en: string }> = {
   about: { de: "Über mich", en: "About" },
-  work: { de: "Arbeiten", en: "Work" },
+  work: { de: "Portfolio", en: "Portfolio" },
   skills: { de: "Skills", en: "Skills" },
   experience: { de: "Werdegang", en: "Experience" },
   gallery: { de: "Galerie", en: "Gallery" },
@@ -28,8 +28,8 @@ const INTRO: Record<string, { de: string; en: string }> = {
     en: "Who I am and how I work.",
   },
   work: {
-    de: "Ausgewählte Projekte — anklicken öffnet die Live-Version.",
-    en: "Selected projects — click to open the live version.",
+    de: "Web-Projekte und Video-Arbeiten. Jede Karte öffnet die Live-Version.",
+    en: "Web projects and video work. Each card opens the live version.",
   },
   skills: {
     de: "Werkzeuge und Methoden, mit denen ich täglich arbeite.",
@@ -62,10 +62,72 @@ export default function SectionPage({ id, onBack }: Props) {
   const { t, lang } = useLanguage();
   const de = lang === "de";
   const scrollRef = useRef<HTMLDivElement>(null);
+  const overscrollRef = useRef(0);
+  const leavingRef = useRef(false);
+  const [pull, setPull] = useState(0);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0 });
   }, [id]);
+
+  useEffect(() => {
+    const node = scrollRef.current;
+    if (!node) return;
+
+    const leave = () => {
+      if (leavingRef.current) return;
+      leavingRef.current = true;
+      node.classList.add("is-leaving");
+      window.setTimeout(onBack, 420);
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (leavingRef.current) return;
+      if (node.scrollTop > 0) {
+        overscrollRef.current = 0;
+        if (pull !== 0) setPull(0);
+        return;
+      }
+      if (e.deltaY < 0) {
+        overscrollRef.current += -e.deltaY;
+        const p = Math.min(1, overscrollRef.current / 320);
+        setPull(p);
+        if (overscrollRef.current > 320) leave();
+      } else {
+        overscrollRef.current = 0;
+        if (pull !== 0) setPull(0);
+      }
+    };
+
+    let touchY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      touchY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (leavingRef.current || node.scrollTop > 0) return;
+      const dy = e.touches[0].clientY - touchY;
+      if (dy > 0) {
+        overscrollRef.current = dy;
+        setPull(Math.min(1, dy / 200));
+        if (dy > 200) leave();
+      }
+    };
+    const onTouchEnd = () => {
+      overscrollRef.current = 0;
+      setPull(0);
+    };
+
+    node.addEventListener("wheel", onWheel, { passive: true });
+    node.addEventListener("touchstart", onTouchStart, { passive: true });
+    node.addEventListener("touchmove", onTouchMove, { passive: true });
+    node.addEventListener("touchend", onTouchEnd, { passive: true });
+    return () => {
+      node.removeEventListener("wheel", onWheel);
+      node.removeEventListener("touchstart", onTouchStart);
+      node.removeEventListener("touchmove", onTouchMove);
+      node.removeEventListener("touchend", onTouchEnd);
+    };
+  }, [onBack, pull]);
 
   const title = TITLES[id] ? (de ? TITLES[id].de : TITLES[id].en) : id;
   const intro = INTRO[id] ? (de ? INTRO[id].de : INTRO[id].en) : "";
@@ -73,7 +135,19 @@ export default function SectionPage({ id, onBack }: Props) {
     String(Object.keys(TITLES).indexOf(id) + 1).padStart(2, "0") + " / 09";
 
   return (
-    <div className="section-page" ref={scrollRef}>
+    <div
+      className="section-page"
+      ref={scrollRef}
+      style={{ transform: pull ? `translateY(${pull * 40}px)` : undefined }}
+    >
+      <div
+        className="sp-pull"
+        style={{ opacity: pull, transform: `scaleX(${0.2 + pull * 0.8})` }}
+        aria-hidden="true"
+      >
+        <span>{de ? "LOSLASSEN FÜR RAUM" : "RELEASE FOR SPACE"}</span>
+      </div>
+
       <div className="sp-topbar">
         <button className="sp-back" onClick={onBack}>
           {de ? "↑ ZURÜCK ZUM RAUM" : "↑ BACK TO SPACE"}
@@ -109,14 +183,36 @@ export default function SectionPage({ id, onBack }: Props) {
           </ul>
         )}
         {id === "skills" && (
-          <ul className="sp-grid">
-            {t.skills.groups.map((g) => (
-              <li key={g.title}>
-                <span className="spg-title">{g.title}</span>
-                <span className="spg-items">{g.items}</span>
-              </li>
+          <div className="sp-skills">
+            {t.skills.groups.map((g, gi) => (
+              <div className="skrow" key={g.title}>
+                <span className="skrow-num">
+                  {String(gi + 1).padStart(2, "0")}
+                </span>
+                <h3 className="skrow-title">{g.title}</h3>
+                <ul className="skrow-tags">
+                  {g.items.split(",").map((it) => (
+                    <li key={it.trim()}>{it.trim()}</li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+            <div className="skrow skrow-langs">
+              <span className="skrow-num">
+                {String(t.skills.groups.length + 1).padStart(2, "0")}
+              </span>
+              <h3 className="skrow-title">
+                {de ? "Sprachen" : "Languages"}
+              </h3>
+              <ul className="skrow-tags">
+                {t.skills.languages.map((l) => (
+                  <li key={l.name}>
+                    {l.name} · {l.level}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
         )}
         {id === "languages" && (
           <ul className="sp-plain">
