@@ -1122,6 +1122,18 @@ body.reticle-active * {
   font-weight: 600;
   letter-spacing: 0.04em;
   background: var(--exp-paper);
+  overflow: hidden;
+}
+.spt-badge.has-logo {
+  border-color: rgba(0, 0, 0, 0.25);
+  background: #fff;
+}
+.spt-badge.has-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0.5rem;
+  box-sizing: border-box;
 }
 .spt-body { padding-top: 0.35rem; }
 .spt-period {

@@ -8,6 +8,9 @@ import portrait from "../assets/avatar/BayJason.jpg";
 import tiktokLogo from "../assets/images/TikTok.png";
 import youtubeLogo from "../assets/images/Youtube.png";
 import instagramLogo from "../assets/images/Instagram.png";
+import adessoLogo from "../assets/images/adesso-logo.png";
+import telutionLogo from "../assets/images/telution-logo.webp";
+import lebenshilfeLogo from "../assets/images/lebenshilfe.de-removebg-preview.png";
 
 const SOCIAL_LOGOS: Record<string, string> = {
   tiktok: tiktokLogo,
@@ -17,6 +20,18 @@ const SOCIAL_LOGOS: Record<string, string> = {
 
 function socialKey(name: string) {
   return name.trim().toLowerCase();
+}
+
+const ORG_LOGOS: [string, string][] = [
+  ["telution", telutionLogo],
+  ["adesso", adessoLogo],
+  ["lebenshilfe", lebenshilfeLogo],
+];
+
+function orgLogo(org: string) {
+  const key = org.toLowerCase();
+  for (const [match, logo] of ORG_LOGOS) if (key.includes(match)) return logo;
+  return null;
 }
 
 interface Props {
@@ -257,10 +272,19 @@ export default function SectionPage({ id, onBack }: Props) {
         {id === "work" && <OldPortfolio />}
         {id === "experience" && (
           <ol className="sp-timeline">
-            {t.experience.entries.map((e) => (
+            {t.experience.entries.map((e) => {
+              const logo = orgLogo(e.org);
+              return (
               <li key={e.org}>
-                <span className="spt-badge" aria-hidden="true">
-                  {e.org.replace(/[^A-Za-zÄÖÜ]/g, "").slice(0, 2).toUpperCase()}
+                <span
+                  className={`spt-badge${logo ? " has-logo" : ""}`}
+                  aria-hidden="true"
+                >
+                  {logo ? (
+                    <img src={logo} alt="" loading="lazy" />
+                  ) : (
+                    e.org.replace(/[^A-Za-zÄÖÜ]/g, "").slice(0, 2).toUpperCase()
+                  )}
                 </span>
                 <div className="spt-body">
                   <span className="spt-period">{e.period}</span>
@@ -273,7 +297,8 @@ export default function SectionPage({ id, onBack }: Props) {
                   </ul>
                 </div>
               </li>
-            ))}
+              );
+            })}
           </ol>
         )}
         {id === "skills" && (
