@@ -10,10 +10,14 @@ import youtubeLogo from "../assets/images/Youtube.png";
 import instagramLogo from "../assets/images/Instagram.png";
 
 const SOCIAL_LOGOS: Record<string, string> = {
-  TikTok: tiktokLogo,
-  YouTube: youtubeLogo,
-  Instagram: instagramLogo,
+  tiktok: tiktokLogo,
+  youtube: youtubeLogo,
+  instagram: instagramLogo,
 };
+
+function socialKey(name: string) {
+  return name.trim().toLowerCase();
+}
 
 interface Props {
   id: string;
@@ -237,7 +241,7 @@ export default function SectionPage({ id, onBack }: Props) {
                     <a href={s.href} target="_blank" rel="noopener noreferrer">
                       <img
                         className="sp-social-logo"
-                        src={SOCIAL_LOGOS[s.label]}
+                        src={SOCIAL_LOGOS[socialKey(s.label)]}
                         alt=""
                         aria-hidden="true"
                         loading="lazy"
@@ -283,10 +287,19 @@ export default function SectionPage({ id, onBack }: Props) {
                 <ul className="skrow-tags">
                   {g.items.split(",").map((raw) => {
                     const it = raw.trim();
+                    const logo = SOCIAL_LOGOS[socialKey(it)];
                     const icon = skillIcon(it);
                     return (
                       <li key={it}>
-                        {icon ? (
+                        {logo ? (
+                          <img
+                            className="skrow-logo"
+                            src={logo}
+                            alt=""
+                            aria-hidden="true"
+                            loading="lazy"
+                          />
+                        ) : icon ? (
                           <i className={icon} aria-hidden="true" />
                         ) : (
                           <span className="skrow-mono" aria-hidden="true">

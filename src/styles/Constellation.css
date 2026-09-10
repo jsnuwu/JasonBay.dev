@@ -1241,6 +1241,12 @@ body.reticle-active * {
   font-size: 1.1rem;
   line-height: 1;
 }
+.skrow-logo {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
 .skrow-mono {
   width: 18px;
   height: 18px;
