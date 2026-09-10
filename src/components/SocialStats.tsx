@@ -33,7 +33,7 @@ export default function SocialStats() {
         { label: "Repos", value: "12" },
         { label: "Contributions", value: "143" },
       ],
-      accent: "linear-gradient(45deg, #8250df, #a371f7)",
+      accent: "#0969da",
     },
     {
       name: "TikTok",
@@ -44,8 +44,8 @@ export default function SocialStats() {
         { label: "Follower", value: "20.8K" },
         { label: "Likes", value: "3.5M" },
       ],
-      bio: "Random edits by some guy 🫡",
-      accent: "linear-gradient(45deg, #0D9488, #EE1D52)",
+      bio: "Random edits by some guy",
+      accent: "#ee1d52",
       latestPost: { caption: t.socialStats.tiktokPreviewCaption },
     },
     {
@@ -54,8 +54,7 @@ export default function SocialStats() {
       href: "https://www.instagram.com/jsnuwu/",
       icon: InstagramIcon,
       stats: [{ label: "Follower", value: "196" }],
-      accent:
-        "linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5)",
+      accent: "#d62976",
       latestPost: { caption: t.socialStats.instagramPreviewCaption },
     },
     {
@@ -65,13 +64,12 @@ export default function SocialStats() {
       icon: LinkedInIcon,
       stats: [],
       cta: t.socialStats.linkedinCta,
-      accent: "linear-gradient(45deg, #0072b1, #00a0dc)",
+      accent: "#0a66c2",
     },
   ];
 
   return (
     <section className="social-stats reveal" ref={sectionRef}>
-      <span className="social-stats-kicker">{t.socialStats.kicker}</span>
       <ScrambledText
         as="h2"
         className="social-stats-title"

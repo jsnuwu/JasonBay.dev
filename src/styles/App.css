@@ -1,8 +1,12 @@
 :root {
-  --accent-1: #4a6cf7;
-  --accent-2: #7c3aed;
-  --accent-3: #a78bfa;
-  --accent-gradient: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  --accent: #e0603a;
+  --accent-strong: #c94c28;
+
+  /* legacy aliases kept so existing rules resolve to the single solid accent */
+  --accent-1: var(--accent);
+  --accent-2: var(--accent);
+  --accent-3: var(--accent-strong);
+  --accent-gradient: var(--accent);
 }
 
 body {
@@ -32,27 +36,27 @@ body.light {
   --toggle-fill-moon: #000000;
   --span-background: rgba(0, 0, 0, 0.05);
 
-  --button-bg: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  --button-bg: var(--accent);
   --button-text: #ffffff;
-  --button-box-shadow: rgba(74, 108, 247, 0.35);
-  --button-active-shadow: rgba(74, 108, 247, 0.5);
+  --button-box-shadow: rgba(0, 0, 0, 0.12);
+  --button-active-shadow: rgba(0, 0, 0, 0.2);
 
   --hero-heading: #111111;
   --hero-paragraph: #333333;
 
-  --card-bg: #f8fbfd;
-  --card-border: #d1d5db;
+  --card-bg: #f8f7f5;
+  --card-border: #d8d4cd;
   --card-text: #111111;
-  --card-link: #3b82f6;
-  --card-shadow: rgba(59, 130, 246, 0.15);
+  --card-link: var(--accent-strong);
+  --card-shadow: rgba(0, 0, 0, 0.08);
 
   --contact-heading: #111111;
   --contact-text: #333333;
-  --contact-button-bg: royalblue;
+  --contact-button-bg: var(--accent);
   --contact-button-text: #ffffff;
-  --contact-button-hover-bg: #4169e1;
+  --contact-button-hover-bg: var(--accent-strong);
   --contact-input-border: #ccc;
-  --contact-input-focus: royalblue;
+  --contact-input-focus: var(--accent);
 }
 
 body.dark {
@@ -65,27 +69,27 @@ body.dark {
   --toggle-fill-moon: #000000;
   --span-background: rgba(255, 255, 255, 0.05);
 
-  --button-bg: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+  --button-bg: var(--accent);
   --button-text: #ffffff;
-  --button-box-shadow: rgba(124, 58, 237, 0.4);
-  --button-active-shadow: rgba(124, 58, 237, 0.6);
+  --button-box-shadow: rgba(0, 0, 0, 0.4);
+  --button-active-shadow: rgba(0, 0, 0, 0.55);
 
   --hero-heading: #f1f5f9;
   --hero-paragraph: #cbd5e1;
 
-  --card-bg: #1e293b;
-  --card-border: #334155;
+  --card-bg: #1c1a17;
+  --card-border: #35312b;
   --card-text: #f1f5f9;
-  --card-link: #3b82f6;
-  --card-shadow: rgba(59, 130, 246, 0.25);
+  --card-link: var(--accent);
+  --card-shadow: rgba(0, 0, 0, 0.4);
 
   --contact-heading: #f1f5f9;
   --contact-text: #cbd5e1;
-  --contact-button-bg: #4a6cf7;
+  --contact-button-bg: var(--accent);
   --contact-button-text: #ffffff;
-  --contact-button-hover-bg: #3b82f6;
-  --contact-input-border: #334155;
-  --contact-input-focus: #4a6cf7;
+  --contact-button-hover-bg: var(--accent-strong);
+  --contact-input-border: #35312b;
+  --contact-input-focus: var(--accent);
 }
 
 .app-container:not(.hero-page) {
@@ -108,32 +112,11 @@ h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
   font-weight: 600;
-  position: relative;
-}
-
-h2::after {
-  content: "";
-  width: 80px;
-  height: 3px;
-  background: var(--accent-gradient);
-  position: absolute;
-  left: 0;
-  bottom: -8px;
-  border-radius: 5px;
-  transition:
-    width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 0.35s ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  h2:hover::after {
-    width: 130px;
-    box-shadow: 0 0 18px rgba(124, 58, 237, 0.55);
-  }
+  letter-spacing: -0.01em;
 }
 
 .is-scrambled {
-  color: var(--accent-2);
+  color: var(--accent);
 }
 
 .reveal {

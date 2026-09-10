@@ -162,9 +162,6 @@ export default function TikTokShowcase() {
       className={`tiktok-showcase ${inView ? "in-view" : ""}`}
       ref={sectionRef}
     >
-      <span className="tiktok-showcase-kicker">
-        {t.tiktokShowcase.kicker}
-      </span>
       <ScrambledText
         as="h2"
         className="tiktok-showcase-title"

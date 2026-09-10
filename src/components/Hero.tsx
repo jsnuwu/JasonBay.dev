@@ -29,16 +29,8 @@ export default function Hero() {
       <WelcomeHeroAnimation />
 
       <section className="hero">
-        <div className="hero-bg-decor" aria-hidden="true">
-          <div className="hero-blob blob-1" />
-          <div className="hero-blob blob-2" />
-          <div className="hero-grid" />
-        </div>
-
         <div className="hero-content">
           <div className="hero-text">
-            <span className="hero-kicker">{t.hero.kicker}</span>
-
             <h1 className="hero-title">
               <ScrambledText text={t.hero.titlePrefix} />{" "}
               <span className="hero-title-highlight">

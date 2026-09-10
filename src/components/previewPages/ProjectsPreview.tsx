@@ -123,9 +123,6 @@ export default function ProjectsPreview() {
       className="projects-preview reveal"
       ref={sectionRef}
     >
-      <span className="projects-preview-kicker">
-        {t.projectsPreview.kicker}
-      </span>
       <ScrambledText
         as="h2"
         className="projects-preview-title"

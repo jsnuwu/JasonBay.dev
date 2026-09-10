@@ -28,9 +28,6 @@ export default function About() {
       </section>
 
       <section className="video-spotlight reveal" ref={spotlightRef}>
-        <span className="video-spotlight-kicker">
-          {t.about.spotlight.kicker}
-        </span>
         <h3>
           <ScrambledText text={headingBefore} />
           <a

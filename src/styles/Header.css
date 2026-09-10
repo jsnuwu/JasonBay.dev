@@ -166,7 +166,7 @@
 }
 
 .darkThemeBtn input:checked + label {
-  background: #4a6cf7;
+  background: var(--toggle-bg);
 }
 
 .darkThemeBtn input:checked + label svg.sun {

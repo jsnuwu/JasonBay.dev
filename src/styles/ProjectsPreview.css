@@ -7,40 +7,11 @@
   text-align: center;
 }
 
-.projects-preview-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--card-border);
-  background: var(--span-background);
-  color: var(--text-color);
-  opacity: 0.85;
-  margin-bottom: 1.25rem;
-}
-
-.projects-preview-kicker::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent-gradient);
-}
-
 .projects-preview-title {
   font-size: clamp(2rem, 4vw, 3rem);
   margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
   color: var(--text-color);
-}
-
-.projects-preview-title::after {
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .projects-preview-subtitle {
