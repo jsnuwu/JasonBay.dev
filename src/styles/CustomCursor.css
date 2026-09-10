@@ -2,40 +2,20 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 44px;
-  height: 44px;
-  margin-left: -22px;
-  margin-top: -22px;
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
   will-change: transform;
   mix-blend-mode: difference;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.15s ease;
 }
 
 .custom-cursor.is-visible {
   opacity: 1;
-}
-
-.custom-cursor::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  opacity: 0;
-  transform: scale(0.6);
-  transition:
-    opacity 0.3s ease,
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 0.3s ease;
-}
-
-.custom-cursor.is-interactive::before {
-  opacity: 1;
-  transform: scale(1.7);
-  border-color: rgba(124, 58, 237, 0.55);
 }
 
 .custom-cursor-dot {
@@ -44,18 +24,16 @@
   height: 100%;
   border-radius: 50%;
   background: #ffffff;
-  transform: scale(0.4545);
-  transition:
-    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-    border-radius 0.25s ease;
+  transform: scale(0.4);
+  transition: transform 0.18s ease;
 }
 
 .custom-cursor.is-interactive .custom-cursor-dot {
-  transform: scale(1);
+  transform: scale(0.9);
 }
 
 .custom-cursor.is-pressed .custom-cursor-dot {
-  transform: scale(0.32);
+  transform: scale(0.3);
 }
 
 body.custom-cursor-active,

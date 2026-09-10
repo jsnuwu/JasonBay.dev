@@ -1,7 +1,6 @@
 import "../styles/TechStack.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
-import ScrambledText from "./ScrambledText";
 import {
   FaReact,
   FaAngular,
@@ -50,16 +49,14 @@ export default function TechStack() {
 
   return (
     <section className="techstack-section reveal" ref={ref}>
-      <ScrambledText as="h2" text={t.techStack.heading} />
+      <h2>{t.techStack.heading}</h2>
 
       <div className="marquee">
         <div className="marquee-content">
           {[...techStack, ...techStack].map((tech, index) => (
             <div key={index} className="skill-item">
               {tech.icon}
-              <span>
-                <ScrambledText text={tech.name} />
-              </span>
+              <span>{tech.name}</span>
             </div>
           ))}
         </div>

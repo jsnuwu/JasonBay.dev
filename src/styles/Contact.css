@@ -1,93 +1,54 @@
 .contact-section {
   text-align: center;
   padding: 3rem 2.5rem;
-  max-width: 560px;
+  max-width: 540px;
   margin: 2.5rem auto;
-  background: var(--card-bg);
   border: 1px solid var(--card-border);
-  border-radius: 24px;
-  box-shadow: 0 20px 60px var(--card-shadow);
 }
 
 .contact-section h2 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
   color: var(--contact-heading);
-  transition: color 0.3s ease;
-}
-
-.contact-section h2::after {
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 .contact-section p {
-  margin-top: 1.6rem;
-  font-size: 1.1rem;
+  margin-top: 1.4rem;
+  font-size: 1rem;
   margin-bottom: 2rem;
   color: var(--contact-text);
-  transition: color 0.3s ease;
 }
 
 .send-email-button {
   font-family: inherit;
-  font-size: 20px;
-  background: var(--contact-button-bg);
-  color: var(--contact-button-text);
-  padding: 0.7em 1em;
-  padding-left: 0.9em;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: transparent;
+  color: var(--text-color);
+  padding: 10px 18px;
   display: inline-flex;
   align-items: center;
-  border: none;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.2s;
+  gap: 8px;
+  border: 1px solid var(--text-color);
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
   cursor: pointer;
   text-decoration: none;
   margin-bottom: 2rem;
 }
 
-.send-email-button .send-email-label {
-  display: block;
-  margin-left: 0.3em;
-  transition: all 0.3s ease-in-out;
-}
-
 .send-email-button svg {
   display: block;
-  transform-origin: center center;
-  transition: transform 0.3s ease-in-out;
-  fill: var(--contact-button-text);
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
-.send-email-button .svg-wrapper {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-.send-email-button:hover .svg-wrapper {
-  animation: fly-1 0.6s ease-in-out infinite alternate;
-}
-
-.send-email-button:hover svg {
-  transform: translateX(1.2em) rotate(45deg) scale(1.1);
-}
-
-.send-email-button:hover .send-email-label {
-  transform: translateX(5em);
-}
-
-.send-email-button:active {
-  transform: scale(0.95);
-}
-
-@keyframes fly-1 {
-  from {
-    transform: translateY(0.1em);
-  }
-  to {
-    transform: translateY(-0.1em);
-  }
+.send-email-button:hover {
+  background: var(--text-color);
+  color: var(--bg-color);
 }
 
 .contact-form {
@@ -99,52 +60,42 @@
 
 .contact-form input,
 .contact-form textarea {
-  padding: 0.8rem 1rem;
-  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
   border: 1px solid var(--contact-input-border);
-  background: var(--bg-color);
+  background: transparent;
   color: var(--text-color);
   font-family: inherit;
-  font-size: 1rem;
+  font-size: 0.95rem;
   width: 100%;
   box-sizing: border-box;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+  transition: border-color 0.2s ease;
   resize: vertical;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: var(--contact-input-focus);
-  box-shadow: 0 0 0 3px var(--card-shadow);
+  border-color: var(--accent);
 }
 
 .contact-form button {
-  padding: 0.8rem;
-  font-size: 1rem;
+  padding: 0.75rem;
+  font-size: 0.95rem;
   font-family: inherit;
-  font-weight: 600;
-  border: none;
-  border-radius: 16px;
-  background: var(--contact-button-bg);
-  color: var(--contact-button-text);
+  font-weight: 500;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--button-text);
   cursor: pointer;
-  transition:
-    background 0.2s,
-    transform 0.1s;
+  transition: background 0.2s ease;
   display: block;
   width: 50%;
   margin: 0 auto;
 }
 
 .contact-form button:hover {
-  background: var(--contact-button-hover-bg);
-}
-
-.contact-form button:active {
-  transform: scale(0.95);
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
 }
 
 @media (max-width: 768px) {
@@ -160,7 +111,7 @@
 
 @media (max-width: 480px) {
   .contact-section h2 {
-    font-size: 2rem;
+    font-size: 1.9rem;
   }
 
   .contact-form button {

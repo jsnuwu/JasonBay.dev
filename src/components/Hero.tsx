@@ -9,7 +9,6 @@ import ProjectsPreview from "./previewPages/ProjectsPreview";
 import { useScrollHijackGuard } from "../hooks/useScrollHijackGuard";
 import { useLanguage } from "../i18n/useLanguage";
 import WelcomeHeroAnimation from "./WelcomeHeroAnimation";
-import ScrambledText from "./ScrambledText";
 import TikTokShowcase from "./TikTokShowcase";
 
 export default function Hero() {
@@ -29,23 +28,11 @@ export default function Hero() {
       <WelcomeHeroAnimation />
 
       <section className="hero">
-        <div className="hero-bg-decor" aria-hidden="true">
-          <div className="hero-blob blob-1" />
-          <div className="hero-blob blob-2" />
-          <div className="hero-grid" />
-        </div>
-
         <div className="hero-content">
           <div className="hero-text">
-            <span className="hero-kicker">
-              <ScrambledText text={t.hero.kicker} />
-            </span>
-
             <h1 className="hero-title">
-              <ScrambledText text={t.hero.titlePrefix} />{" "}
-              <span className="hero-title-highlight">
-                <ScrambledText text="Jason" />
-              </span>
+              {t.hero.titlePrefix}{" "}
+              <span className="hero-title-highlight">Jason</span>
             </h1>
 
             <div className="hero-tags">
@@ -61,14 +48,12 @@ export default function Hero() {
                       ?.scrollIntoView({ behavior: "smooth" });
                   }}
                 >
-                  <ScrambledText text={tag.label} />
+                  {tag.label}
                 </a>
               ))}
             </div>
 
-            <p className="hero-subtitle">
-              <ScrambledText text={t.hero.subtitle} />
-            </p>
+            <p className="hero-subtitle">{t.hero.subtitle}</p>
 
             <div className="hero-actions">
               <Link to="/about" className="hero-btn primary">
@@ -92,9 +77,7 @@ export default function Hero() {
           }
         >
           <div className="mouse" />
-          <span>
-            <ScrambledText text={t.hero.scroll} />
-          </span>
+          <span>{t.hero.scroll}</span>
         </div>
       </section>
 

@@ -1,7 +1,6 @@
 import "../styles/Skills.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
-import ScrambledText from "./ScrambledText";
 import {
   FaFilm,
   FaCut,
@@ -31,16 +30,14 @@ export default function Skills() {
 
   return (
     <section className="skills-section reveal" ref={ref}>
-      <ScrambledText as="h2" text={t.skills.heading} />
+      <h2>{t.skills.heading}</h2>
 
       <div className="skills-grid">
         {t.skills.groups.map((group, index) => (
           <div className="skill-group" key={group.title}>
             <div className="skill-group-icon">{groupIcons[index]}</div>
-            <ScrambledText as="h3" text={group.title} />
-            <p>
-              <ScrambledText text={group.items} />
-            </p>
+            <h3>{group.title}</h3>
+            <p>{group.items}</p>
           </div>
         ))}
       </div>
@@ -49,10 +46,7 @@ export default function Skills() {
         <FaLanguage className="skills-languages-icon" />
         {t.skills.languages.map((lang) => (
           <span key={lang.name}>
-            <strong>
-              <ScrambledText text={lang.name} />
-            </strong>{" "}
-            · <ScrambledText text={lang.level} />
+            <strong>{lang.name}</strong> · {lang.level}
           </span>
         ))}
       </div>

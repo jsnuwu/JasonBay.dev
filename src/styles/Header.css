@@ -1,4 +1,4 @@
-.site-header {
+﻿.site-header {
   position: fixed;
   top: 0;
   left: 0;
@@ -55,7 +55,7 @@
   width: 100%;
   height: 2px;
   border-radius: 2px;
-  background: var(--accent-gradient);
+  background: var(--accent);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease;
@@ -109,7 +109,7 @@
 }
 
 .lang-toggle button.active {
-  background: var(--accent-gradient);
+  background: var(--accent);
   color: #ffffff;
   opacity: 1;
 }
@@ -166,7 +166,7 @@
 }
 
 .darkThemeBtn input:checked + label {
-  background: #4a6cf7;
+  background: var(--toggle-bg);
 }
 
 .darkThemeBtn input:checked + label svg.sun {

@@ -3,7 +3,6 @@ import "../styles/Projects.css";
 import { projects } from "../data/projects";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
-import ScrambledText from "./ScrambledText";
 
 export default function Projects() {
   const ref = useReveal<HTMLElement>();
@@ -11,7 +10,7 @@ export default function Projects() {
 
   return (
     <section className="projects-section reveal" ref={ref}>
-      <ScrambledText as="h2" text={t.projects.heading} />
+      <h2>{t.projects.heading}</h2>
 
       <div className="projects-grid">
         {projects.map((project) => (

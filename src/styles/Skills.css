@@ -10,17 +10,13 @@
 
 .skill-group {
   padding: 1.4rem 1.5rem;
-  border-radius: 18px;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease;
+  transition: border-color 0.25s ease;
 }
 
 .skill-group:hover {
-  transform: translateY(-4px);
-  border-color: var(--card-link);
+  border-color: var(--accent);
 }
 
 .skill-group-icon {
@@ -29,7 +25,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 12px;
   background: var(--span-background);
   color: var(--card-link);
   font-size: 1.1rem;
@@ -57,7 +52,6 @@
   gap: 1.5rem;
   margin-top: 1.75rem;
   padding: 1rem 1.5rem;
-  border-radius: 14px;
   background: var(--span-background);
   border: 1px solid var(--card-border);
   color: var(--text-color);

@@ -1,7 +1,6 @@
 import "../styles/Contact.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
-import ScrambledText from "./ScrambledText";
 
 export default function Contact() {
   const ref = useReveal<HTMLElement>();
@@ -9,10 +8,8 @@ export default function Contact() {
 
   return (
     <section className="contact-section reveal" ref={ref}>
-      <ScrambledText as="h2" text={t.contact.heading} />
-      <p>
-        <ScrambledText text={t.contact.intro} />
-      </p>
+      <h2>{t.contact.heading}</h2>
+      <p>{t.contact.intro}</p>
 
       <a href="mailto:Jasonbay05@gmail.com" className="send-email-button">
         <div className="svg-wrapper-1">

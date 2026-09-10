@@ -1,7 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import "../styles/Header.css";
 import { useLanguage } from "../i18n/useLanguage";
-import ScrambledText from "./ScrambledText";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -14,18 +13,18 @@ export default function Header({ darkMode, setDarkMode }: HeaderProps) {
   return (
     <header className="site-header">
       <Link to="/" className="header-logo">
-        <ScrambledText text="Jason" />
+        Jason
       </Link>
 
       <nav className="site-nav">
         <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
-          <ScrambledText text={t.header.home} />
+          {t.header.home}
         </NavLink>
         <NavLink to="/about" className={({ isActive }) => (isActive ? "active" : "")}>
-          <ScrambledText text={t.header.about} />
+          {t.header.about}
         </NavLink>
         <NavLink to="/contact" className={({ isActive }) => (isActive ? "active" : "")}>
-          <ScrambledText text={t.header.contact} />
+          {t.header.contact}
         </NavLink>
       </nav>
 
