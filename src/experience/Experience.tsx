@@ -4,12 +4,7 @@ import { useLanguage } from "../i18n/useLanguage";
 import ConstellationCanvas, { type Anchor, type SceneId } from "./ConstellationCanvas";
 import Reticle from "./Reticle";
 import SectionPage from "./SectionPage";
-import {
-  EMAIL,
-  getIdentity,
-  getRadialKeywords,
-  getSectionNodes,
-} from "./content";
+import { getIdentity, getRadialKeywords, getSectionNodes } from "./content";
 import "../styles/Constellation.css";
 
 const ORDER: SceneId[] = ["main", "about"];
@@ -19,11 +14,16 @@ export default function Experience() {
   const [scene, setScene] = useState<SceneId>("main");
   const [page, setPage] = useState<string | null>(null);
   const [sound, setSound] = useState(false);
+  const [warping, setWarping] = useState(false);
 
   const pointerRef = useRef({ x: 0, y: 0 });
   const dragRef = useRef({ x: 0, y: 0 });
+  const orbitBase = useRef({ x: 0, y: 0 });
+  const zoomRef = useRef(1);
+  const hoverRef = useRef<string | null>(null);
   const labelEls = useRef<Map<string, HTMLElement | null>>(new Map());
   const wheelLock = useRef(0);
+  const warpTimer = useRef(0);
 
   const keywords = useMemo(() => getRadialKeywords(lang), [lang]);
   const sections = useMemo(() => getSectionNodes(lang), [lang]);
@@ -36,7 +36,7 @@ export default function Experience() {
         strong: k.strong,
         position: [
           Math.cos(k.angle) * k.radius,
-          Math.sin(k.angle) * k.radius * 0.7,
+          Math.sin(k.angle) * k.radius * 0.78,
           k.depth,
         ] as [number, number, number],
       }));
@@ -47,18 +47,44 @@ export default function Experience() {
     return [];
   }, [scene, keywords, sections]);
 
-  const goScene = useCallback((next: SceneId) => {
-    setScene(next);
-    setPage(null);
+  const triggerWarp = useCallback(() => {
+    setWarping(true);
+    window.clearTimeout(warpTimer.current);
+    warpTimer.current = window.setTimeout(() => setWarping(false), 460);
   }, []);
 
-  const step = useCallback((dir: 1 | -1) => {
-    setScene((cur) => {
-      const idx = ORDER.indexOf(cur);
-      const next = Math.min(ORDER.length - 1, Math.max(0, idx + dir));
-      return ORDER[next];
-    });
-  }, []);
+  const goScene = useCallback(
+    (next: SceneId) => {
+      setScene((cur) => {
+        if (cur !== next) triggerWarp();
+        return next;
+      });
+      setPage(null);
+    },
+    [triggerWarp],
+  );
+
+  const step = useCallback(
+    (dir: 1 | -1) => {
+      setScene((cur) => {
+        const idx = ORDER.indexOf(cur);
+        const next = ORDER[Math.min(ORDER.length - 1, Math.max(0, idx + dir))];
+        if (next !== cur) triggerWarp();
+        return next;
+      });
+    },
+    [triggerWarp],
+  );
+
+  useEffect(() => {
+    if (scene !== "about") {
+      dragRef.current = { x: 0, y: 0 };
+      orbitBase.current = { x: 0, y: 0 };
+      zoomRef.current = 1;
+    }
+  }, [scene]);
+
+  useEffect(() => () => window.clearTimeout(warpTimer.current), []);
 
   const playBlip = useCallback(() => {
     if (!sound) return;
@@ -105,6 +131,23 @@ export default function Experience() {
   useEffect(() => {
     const onWheel = (e: WheelEvent) => {
       if (page) return;
+
+      if (scene === "about") {
+        const dir = e.deltaY > 0 ? 1 : -1;
+        const next = zoomRef.current + dir * 0.09;
+        if (next > 1.8) {
+          const now = performance.now();
+          if (now - wheelLock.current > 800) {
+            wheelLock.current = now;
+            zoomRef.current = 1;
+            step(-1);
+          }
+          return;
+        }
+        zoomRef.current = clamp(next, 0.5, 1.8);
+        return;
+      }
+
       const now = performance.now();
       if (now - wheelLock.current < 900) return;
       if (Math.abs(e.deltaY) < 24) return;
@@ -113,7 +156,7 @@ export default function Experience() {
     };
     window.addEventListener("wheel", onWheel, { passive: true });
     return () => window.removeEventListener("wheel", onWheel);
-  }, [page, step]);
+  }, [page, scene, step]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -123,36 +166,42 @@ export default function Experience() {
     return () => window.removeEventListener("keydown", onKey);
   }, [page]);
 
-  const bindDrag = useDrag(({ movement: [mx, my], down, last }) => {
-    if (page) return;
-    if (down) {
-      dragRef.current = {
-        x: clamp(mx * 0.0016, -0.7, 0.7),
-        y: clamp(-my * 0.0016, -0.5, 0.5),
-      };
-    }
-    if (last) dragRef.current = { x: 0, y: 0 };
-  });
+  const bindDrag = useDrag(
+    ({ movement: [mx, my], first, last }) => {
+      if (page) return;
+      if (first) orbitBase.current = { ...dragRef.current };
+
+      const freeOrbit = scene === "about";
+      let x = orbitBase.current.x + mx * (freeOrbit ? 0.008 : 0.005);
+      const y = clamp(orbitBase.current.y - my * 0.004, -0.85, 0.85);
+      if (!freeOrbit) x = clamp(x, -0.7, 0.7);
+      dragRef.current = { x, y };
+
+      if (last && !freeOrbit) dragRef.current = { x: 0, y: 0 };
+    },
+    { filterTaps: true },
+  );
 
   const de = lang === "de";
-  const roleLine = de
-    ? "Frontend Developer — Vaihingen an der Enz"
-    : "Frontend Developer — Vaihingen an der Enz";
+  const surface = page || scene === "main" ? "light" : "dark";
+  const roleLine = "Frontend Developer · Vaihingen an der Enz";
   const hint =
     scene === "main"
       ? de
         ? "SCROLLEN ZU ÜBER MICH ↓"
         : "SCROLL TO ABOUT ↓"
       : de
-        ? "SCROLLEN ODER ZIEHEN — KNOTEN ANKLICKEN"
-        : "SCROLL OR DRAG — CLICK A NODE";
+        ? "SCROLLEN ODER ZIEHEN · KNOTEN ANKLICKEN"
+        : "SCROLL OR DRAG · CLICK A NODE";
 
   return (
-    <div className="experience-root">
+    <div className="experience-root" data-scene={scene} data-surface={surface}>
       <Reticle />
 
       <div
-        className={`experience ${page ? "is-dived" : ""}`}
+        className={`experience scene-${scene} ${page ? "is-dived" : ""} ${
+          warping ? "is-warping" : ""
+        }`}
         {...bindDrag()}
       >
         <ConstellationCanvas
@@ -160,6 +209,8 @@ export default function Experience() {
           anchors={anchors}
           pointerRef={pointerRef}
           dragRef={dragRef}
+          zoomRef={zoomRef}
+          hoverRef={hoverRef}
           labelEls={labelEls}
         />
 
@@ -175,7 +226,6 @@ export default function Experience() {
           >
             <span className="identity-name">{identity.name}</span>
             <span className="identity-node" aria-hidden="true" />
-            <span className="identity-tag">{identity.tagline}</span>
           </button>
         )}
 
@@ -188,8 +238,14 @@ export default function Experience() {
                   labelEls.current.set(`kw-${i}`, el);
                 }}
                 className={`kw-label ${k.strong ? "strong" : "faint"}`}
+                onMouseEnter={() => {
+                  hoverRef.current = `kw-${i}`;
+                }}
+                onMouseLeave={() => {
+                  hoverRef.current = null;
+                }}
               >
-                {k.label}
+                <span className="glow-text">{k.label}</span>
               </span>
             ))}
 
@@ -203,48 +259,39 @@ export default function Experience() {
                 className="section-label"
                 style={{ fontSize: `${0.72 + s.scale * 0.5}rem` }}
                 onClick={() => openPage(s.id)}
+                onMouseEnter={() => {
+                  hoverRef.current = s.id;
+                }}
+                onMouseLeave={() => {
+                  hoverRef.current = null;
+                }}
               >
-                {s.label}
+                <span className="glow-text">{s.label}</span>
               </button>
             ))}
         </div>
 
         <header className="chrome-top">
           <button className="wordmark" onClick={() => goScene("main")}>
-            JASON BAY
+            <span className="glow-text">JASON BAY</span>
           </button>
           <nav className="chrome-nav">
             <button
-              className={scene === "about" ? "active" : ""}
+              className={scene === "about" && !page ? "active" : ""}
               onClick={() => {
                 playBlip();
                 goScene("about");
               }}
             >
-              {de ? "ÜBER MICH" : "ABOUT ME"}
+              <span className="glow-text">{de ? "ÜBER MICH" : "ABOUT ME"}</span>
             </button>
             <button
               className={page === "work" ? "active" : ""}
               onClick={() => openPage("work")}
             >
-              PORTFOLIO
+              <span className="glow-text">PORTFOLIO</span>
             </button>
           </nav>
-          <div className="chrome-meta">
-            <a href={`mailto:${EMAIL}`}>{de ? "KONTAKT" : "CONTACT"}</a>
-            <span className="lang-switch">
-              <button className={de ? "active" : ""} onClick={() => setLang("de")}>
-                DE
-              </button>
-              <span>—</span>
-              <button className={!de ? "active" : ""} onClick={() => setLang("en")}>
-                EN
-              </button>
-            </span>
-            <button className="sound-toggle" onClick={() => setSound((s) => !s)}>
-              SOUND — {sound ? "ON" : "OFF"}
-            </button>
-          </div>
         </header>
 
         <div className="chrome-bottom">
@@ -254,7 +301,27 @@ export default function Experience() {
             {String(ORDER.indexOf(scene) + 1).padStart(2, "0")} / 0{ORDER.length}
           </span>
         </div>
+      </div>
 
+      <div className="global-meta">
+        <button
+          className={page === "contact" ? "active" : ""}
+          onClick={() => openPage("contact")}
+        >
+          <span className="glow-text">{de ? "KONTAKT" : "CONTACT"}</span>
+        </button>
+        <span className="lang-switch">
+          <button className={de ? "active" : ""} onClick={() => setLang("de")}>
+            DE
+          </button>
+          <span>/</span>
+          <button className={!de ? "active" : ""} onClick={() => setLang("en")}>
+            EN
+          </button>
+        </span>
+        <button className="sound-toggle" onClick={() => setSound((s) => !s)}>
+          SOUND {sound ? "ON" : "OFF"}
+        </button>
       </div>
 
       {page && <SectionPage id={page} onBack={() => setPage(null)} />}

@@ -1,4 +1,4 @@
-export type Lang = "de" | "en";
+﻿export type Lang = "de" | "en";
 
 export interface Translations {
   header: {
@@ -125,7 +125,7 @@ export const translations: Record<Lang, Translations> = {
         { label: "Video Editing", target: "tiktok-showcase" },
       ],
       subtitle:
-        "Junior Software Engineer mit Fokus auf Frontend-Entwicklung – React, Angular, Vue.js und moderne Webtechnologien. Nebenbei: Video-Editing & Grafikdesign seit 2020.",
+        "Junior Software Engineer mit Fokus auf Frontend-Entwicklung: React, Angular, Vue.js und moderne Webtechnologien. Nebenbei: Video-Editing & Grafikdesign seit 2020.",
       ctaPrimary: "Was ich mache",
       ctaSecondary: "Kontakt",
       scroll: "Scroll",
@@ -157,7 +157,7 @@ export const translations: Record<Lang, Translations> = {
       kicker: "Live Vorschau",
       title: "Meine Projekte",
       subtitle:
-        "Ein paar Einblicke in Dinge, die ich gebaut habe – klick dich durch oder öffne sie live.",
+        "Ein paar Einblicke in Dinge, die ich gebaut habe · klick dich durch oder öffne sie live.",
       previousProject: "Vorheriges Projekt",
       nextProject: "Nächstes Projekt",
       openLive: "Live öffnen",
@@ -170,10 +170,10 @@ export const translations: Record<Lang, Translations> = {
     about: {
       heading: "Über mich",
       lead: "Junior Software Engineer mit Fokus auf Frontend-Entwicklung.",
-      body: "Ich bin Junior Software Engineer mit Fokus auf moderne Webentwicklung und Frontend-Technologien wie React, Angular und Vue.js – von durchdachten Oberflächen bis zur Backend-Anbindung. Daneben schneide ich seit 2020 Videos für Social Media und gestalte Grafiken; mein eigener TikTok-Kanal hat über 20.000 Follower und 3,5 Mio. Likes. Was ich mitbringe: sauberer Code, ein Auge für Timing und Komposition, und die Bereitschaft, mich kontinuierlich in neue Technologien einzuarbeiten.",
+      body: "Ich bin Junior Software Engineer mit Fokus auf moderne Webentwicklung und Frontend-Technologien wie React, Angular und Vue.js · von durchdachten Oberflächen bis zur Backend-Anbindung. Daneben schneide ich seit 2020 Videos für Social Media und gestalte Grafiken; mein eigener TikTok-Kanal hat über 20.000 Follower und 3,5 Mio. Likes. Was ich mitbringe: sauberer Code, ein Auge für Timing und Komposition, und die Bereitschaft, mich kontinuierlich in neue Technologien einzuarbeiten.",
       spotlight: {
         kicker: "Nebenbei: Video & Grafikdesign",
-        heading: "TikTok @jsnuwu – eigener Kanal seit 2020",
+        heading: "TikTok @jsnuwu · eigener Kanal seit 2020",
         subtitle: "Konzeption, Schnitt und Gestaltung in Eigenregie",
         statFollowerValue: "20.800",
         statFollowerLabel: "Follower",
@@ -193,7 +193,7 @@ export const translations: Record<Lang, Translations> = {
         {
           org: "Telution",
           role: "Junior Software Engineer",
-          period: "06/2026 – heute",
+          period: "06/2026 · heute",
           bullets: [
             "Frontend-Komponenten mit Angular und TypeScript, angebunden an bestehende PHP-Backends",
             "Kundenwebsites mit WordPress und Elementor, erweitert um eigenen PHP- und CSS-Code",
@@ -203,18 +203,18 @@ export const translations: Record<Lang, Translations> = {
         {
           org: "adesso SE · Ausbildung",
           role: "Fachinformatiker für Anwendungsentwicklung",
-          period: "09/2023 – 01/2026",
+          period: "09/2023 · 01/2026",
           bullets: [
             "Frontend mit Angular und TypeScript, Backend mit Java, Spring Boot und PostgreSQL",
-            "Profiler (internes Produkt, 05/2025 – 12/2025): Frontend-Komponenten und UI-Bugfixes",
+            "Profiler (internes Produkt, 05/2025 · 12/2025): Frontend-Komponenten und UI-Bugfixes",
             "Scrum-Team: Git, Code Reviews, JIRA, Confluence",
             "IT-Support",
           ],
         },
         {
           org: "Lebenshilfe Vaihingen-Mühlacker",
-          role: "FSJ – Freiwilliges Soziales Jahr, Wohlfahrtswerk für Baden-Württemberg",
-          period: "09/2022 – 08/2023",
+          role: "FSJ · Freiwilliges Soziales Jahr, Wohlfahrtswerk für Baden-Württemberg",
+          period: "09/2022 · 08/2023",
           bullets: [
             "Begleitung und Unterstützung von Menschen mit Behinderungen im Alltag, inklusive Freizeitaktivitäten und Ausflügen",
             "Mitwirkung bei der Alltagsgestaltung: Kochen, Haushaltsaktivitäten und Förderung der Selbstständigkeit",
@@ -301,7 +301,7 @@ export const translations: Record<Lang, Translations> = {
         { label: "Video Editing", target: "tiktok-showcase" },
       ],
       subtitle:
-        "Junior Software Engineer focused on frontend development – React, Angular, Vue.js and modern web technologies. On the side: video editing & graphic design since 2020.",
+        "Junior Software Engineer focused on frontend development: React, Angular, Vue.js and modern web technologies. On the side: video editing & graphic design since 2020.",
       ctaPrimary: "What I do",
       ctaSecondary: "Contact",
       scroll: "Scroll",
@@ -332,7 +332,7 @@ export const translations: Record<Lang, Translations> = {
       kicker: "Live Preview",
       title: "My Projects",
       subtitle:
-        "A few glimpses of things I've built – click through or open them live.",
+        "A few glimpses of things I've built · click through or open them live.",
       previousProject: "Previous project",
       nextProject: "Next project",
       openLive: "Open live",
@@ -345,10 +345,10 @@ export const translations: Record<Lang, Translations> = {
     about: {
       heading: "About me",
       lead: "Junior Software Engineer focused on frontend development.",
-      body: "I'm a Junior Software Engineer focused on modern web development and frontend technologies like React, Angular and Vue.js – from thoughtful interfaces to backend integration. Alongside that, I've been editing videos for social media and designing graphics since 2020; my own TikTok channel has over 20,000 followers and 3.5M likes. What I bring: clean code, an eye for timing and composition, and a drive to keep learning new technologies.",
+      body: "I'm a Junior Software Engineer focused on modern web development and frontend technologies like React, Angular and Vue.js · from thoughtful interfaces to backend integration. Alongside that, I've been editing videos for social media and designing graphics since 2020; my own TikTok channel has over 20,000 followers and 3.5M likes. What I bring: clean code, an eye for timing and composition, and a drive to keep learning new technologies.",
       spotlight: {
         kicker: "On the side: Video & Graphic Design",
-        heading: "TikTok @jsnuwu – my own channel since 2020",
+        heading: "TikTok @jsnuwu · my own channel since 2020",
         subtitle: "Concept, editing and design, all done myself",
         statFollowerValue: "20.8K",
         statFollowerLabel: "Followers",
@@ -368,7 +368,7 @@ export const translations: Record<Lang, Translations> = {
         {
           org: "Telution",
           role: "Junior Software Engineer",
-          period: "06/2026 – present",
+          period: "06/2026 · present",
           bullets: [
             "Frontend components with Angular and TypeScript, wired into existing PHP backends",
             "Client websites with WordPress and Elementor, extended with custom PHP and CSS",
@@ -378,10 +378,10 @@ export const translations: Record<Lang, Translations> = {
         {
           org: "adesso SE · Apprenticeship",
           role: "IT Specialist for Application Development",
-          period: "09/2023 – 01/2026",
+          period: "09/2023 · 01/2026",
           bullets: [
             "Frontend with Angular and TypeScript, backend with Java, Spring Boot and PostgreSQL",
-            "Profiler (internal product, 05/2025 – 12/2025): frontend components and UI bug fixes",
+            "Profiler (internal product, 05/2025 · 12/2025): frontend components and UI bug fixes",
             "Scrum team: Git, code reviews, JIRA, Confluence",
             "IT support",
           ],
@@ -389,7 +389,7 @@ export const translations: Record<Lang, Translations> = {
         {
           org: "Lebenshilfe Vaihingen-Mühlacker",
           role: "Voluntary Social Year (FSJ), Wohlfahrtswerk für Baden-Württemberg",
-          period: "09/2022 – 08/2023",
+          period: "09/2022 · 08/2023",
           bullets: [
             "Supporting and assisting people with disabilities in daily life, including leisure activities and outings",
             "Helping shape everyday life: cooking, household activities, and fostering independence",

@@ -28,9 +28,9 @@ export const projects: Project[] = [
   {
     name: "Placeholder",
     description:
-      "Ein React Three Fiber Experiment: eine kleine 3D-Szene mit Himmel, Haus und zufällig platzierten Bäumen, durch die man sich per WASD und Sprung frei bewegen kann – mit Pointer-Lock-Kamera wie in einem Ego-Shooter. Reines Spiel- und Lernprojekt ohne festen Zweck.",
+      "Ein React Three Fiber Experiment: eine kleine 3D-Szene mit Himmel, Haus und zufällig platzierten Bäumen, durch die man sich per WASD und Sprung frei bewegen kann · mit Pointer-Lock-Kamera wie in einem Ego-Shooter. Reines Spiel- und Lernprojekt ohne festen Zweck.",
     descriptionEn:
-      "A React Three Fiber experiment: a small 3D scene with a sky, a house, and randomly placed trees you can walk through freely with WASD and jump – pointer-lock camera, like a first-person game. A pure playground / learning project with no fixed purpose.",
+      "A React Three Fiber experiment: a small 3D scene with a sky, a house, and randomly placed trees you can walk through freely with WASD and jump · pointer-lock camera, like a first-person game. A pure playground / learning project with no fixed purpose.",
     tech: "React, Three.js, React Three Fiber, TypeScript",
     link: "https://jsnuwu.github.io/PLACEHOLDER/",
   },
@@ -64,9 +64,9 @@ export const projects: Project[] = [
   {
     name: "About Me Page (old)",
     description:
-      "Dieses Repository enthält eine kurze „About Me“-Präsentation, die ich im Rahmen einer internen Vorstellung vor meinen Führungskräften gehalten habe. Ziel war es, einen Überblick über meine Person, meine Arbeitsweise und meine Schwerpunkte zu geben – kompakt und auf den Punkt. Das Projekt dient ausschließlich Dokumentations- und Referenzzwecken.",
+      "Dieses Repository enthält eine kurze „About Me“-Präsentation, die ich im Rahmen einer internen Vorstellung vor meinen Führungskräften gehalten habe. Ziel war es, einen Überblick über meine Person, meine Arbeitsweise und meine Schwerpunkte zu geben · kompakt und auf den Punkt. Das Projekt dient ausschließlich Dokumentations- und Referenzzwecken.",
     descriptionEn:
-      "This repository contains a short 'About Me' presentation I gave as part of an internal introduction to my managers. The goal was to give an overview of who I am, how I work and my focus areas – compact and to the point. The project serves purely documentation and reference purposes.",
+      "This repository contains a short 'About Me' presentation I gave as part of an internal introduction to my managers. The goal was to give an overview of who I am, how I work and my focus areas · compact and to the point. The project serves purely documentation and reference purposes.",
     tech: "Angular, TypeScript, HTML/CSS",
     link: "https://jsnuwu.github.io/AboutMe/",
   },

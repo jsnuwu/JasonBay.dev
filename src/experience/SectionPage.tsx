@@ -3,9 +3,8 @@ import { useLanguage } from "../i18n/useLanguage";
 import { EMAIL, getSocials } from "./content";
 import GallerySection from "./sections/GallerySection";
 import TikTokSection from "./sections/TikTokSection";
+import OldPortfolio from "../components/OldPortfolio";
 import portrait from "../assets/avatar/BayJason.jpg";
-
-const PORTFOLIO_URL = "https://jsnuwu.github.io/JasonBay.dev/";
 
 interface Props {
   id: string;
@@ -18,7 +17,7 @@ const TITLES: Record<string, { de: string; en: string }> = {
   skills: { de: "Skills", en: "Skills" },
   experience: { de: "Werdegang", en: "Experience" },
   gallery: { de: "Galerie", en: "Gallery" },
-  tiktok: { de: "TikTok", en: "TikTok" },
+  social: { de: "Social Media", en: "Social Media" },
   languages: { de: "Sprachen", en: "Languages" },
   contact: { de: "Kontakt", en: "Contact" },
 };
@@ -29,8 +28,8 @@ const INTRO: Record<string, { de: string; en: string }> = {
     en: "Who I am and how I work.",
   },
   work: {
-    de: "Mein erstes Portfolio — live und in voller Länge.",
-    en: "My first portfolio — live and in full.",
+    de: "Meine erste Portfolio-Seite.",
+    en: "My first portfolio site.",
   },
   skills: {
     de: "Werkzeuge und Methoden, mit denen ich täglich arbeite.",
@@ -41,17 +40,17 @@ const INTRO: Record<string, { de: string; en: string }> = {
     en: "Stations from apprenticeship to today.",
   },
   gallery: {
-    de: "Fotografie abseits vom Code — Wandern, Motorrad, Tiere.",
-    en: "Photography beyond the code — hiking, motorcycles, pets.",
+    de: "Fotografie abseits vom Code · Wandern, Motorrad, Tiere.",
+    en: "Photography beyond the code · hiking, motorcycles, pets.",
   },
-  tiktok: {
-    de: "Eigener Kanal seit 2020 — Konzeption, Schnitt und Gestaltung.",
-    en: "My own channel since 2020 — concept, editing and design.",
+  social: {
+    de: "Instagram, TikTok und YouTube · Konzeption, Schnitt und Gestaltung seit 2020.",
+    en: "Instagram, TikTok and YouTube · concept, editing and design since 2020.",
   },
   languages: { de: "", en: "" },
   contact: {
-    de: "Schreib mir — ich melde mich zurück.",
-    en: "Drop me a line — I'll get back to you.",
+    de: "Schreib mir, ich melde mich zurück.",
+    en: "Drop me a line, I'll get back to you.",
   },
 };
 
@@ -150,7 +149,9 @@ export default function SectionPage({ id, onBack }: Props) {
 
       <div className="sp-topbar">
         <button className="sp-back" onClick={onBack}>
-          {de ? "↑ ZURÜCK ZUM RAUM" : "↑ BACK TO SPACE"}
+          <span className="glow-text">
+            {de ? "↑ ZURÜCK ZUM RAUM" : "↑ BACK TO SPACE"}
+          </span>
         </button>
         <span className="sp-num">{num}</span>
       </div>
@@ -160,41 +161,32 @@ export default function SectionPage({ id, onBack }: Props) {
         {intro && <p className="sp-intro">{intro}</p>}
       </header>
 
-      <div className="sp-body">
+      <div className={`sp-body ${id === "work" ? "sp-body-wide" : ""}`}>
         {id === "gallery" && <GallerySection />}
-        {id === "tiktok" && <TikTokSection />}
-        {id === "work" && (
-          <div className="sp-portfolio">
-            <a
-              className="sp-portfolio-frame"
-              href={PORTFOLIO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={de ? "Portfolio live öffnen" : "Open portfolio live"}
-            >
-              <span className="sp-portfolio-bar">
-                <span className="showcase-dot" />
-                <span className="showcase-dot" />
-                <span className="showcase-dot" />
-                <span className="showcase-url">
-                  jsnuwu.github.io/JasonBay.dev
-                </span>
-              </span>
-              <span className="sp-portfolio-view">
-                <iframe
-                  src={PORTFOLIO_URL}
-                  title="JasonBay.dev"
-                  loading="lazy"
-                  tabIndex={-1}
-                />
-                <span className="sp-portfolio-veil" />
-              </span>
-              <span className="sp-portfolio-hint">
-                {de ? "LIVE ÖFFNEN ↗" : "OPEN LIVE ↗"}
-              </span>
-            </a>
+        {id === "social" && (
+          <div className="sp-social">
+            <TikTokSection />
+            <ul className="sp-plain sp-social-links">
+              {getSocials()
+                .filter((s) =>
+                  ["Instagram", "TikTok", "YouTube"].includes(s.label),
+                )
+                .map((s) => (
+                  <li key={s.label}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span>{s.label}</span>
+                      <span>{s.handle} ↗</span>
+                    </a>
+                  </li>
+                ))}
+            </ul>
           </div>
         )}
+        {id === "work" && <OldPortfolio />}
         {id === "experience" && (
           <ul className="sp-timeline">
             {t.experience.entries.map((e) => (
@@ -268,7 +260,7 @@ export default function SectionPage({ id, onBack }: Props) {
             </div>
             <figure className="sp-portrait">
               <img src={portrait} alt="Jason Bay" />
-              <figcaption>Jason Bay — Vaihingen an der Enz</figcaption>
+              <figcaption>Jason Bay · Vaihingen an der Enz</figcaption>
             </figure>
           </div>
         )}
@@ -283,9 +275,9 @@ export default function SectionPage({ id, onBack }: Props) {
                 {getSocials().map((s) => (
                   <li key={s.label}>
                     <a href={s.href} target="_blank" rel="noopener noreferrer">
-                      {s.label}
+                      <span>{s.label}</span>
+                      <span>{s.handle} ↗</span>
                     </a>
-                    <span>{s.handle} ↗</span>
                   </li>
                 ))}
               </ul>

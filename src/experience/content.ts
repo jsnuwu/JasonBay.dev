@@ -22,33 +22,36 @@ export interface SocialLink {
   href: string;
 }
 
-// primary focus (from CV)
 const STRONG_KEYWORDS = [
-  "ANGULAR",
-  "TYPESCRIPT",
-  "HTML5",
-  "CSS3",
-  "JAVASCRIPT",
-  "TAILWIND",
-  "WORDPRESS",
+  "FRONTEND",
+  "BACKEND",
+  "DESIGN",
+  "CONTENT CREATION",
+  "SOCIAL MEDIA",
   "VIDEO EDITING",
+  "UI / UX",
+  "BRANDING",
 ];
 
-// secondary skills / tools (from CV)
-const FAINT_KEYWORDS = ["REACT", "VUE.JS", "FIGMA", "GIT", "DOCKER", "PHP"];
+const FAINT_KEYWORDS = [
+  "PHOTOGRAPHY",
+  "MOTION",
+  "LAYOUT",
+  "TYPOGRAPHY",
+  "PROTOTYPING",
+  "WEB",
+];
 
 export interface Identity {
   name: string;
   tagline: string;
 }
 
-export function getIdentity(lang: Lang): Identity {
+export function getIdentity(_lang: Lang): Identity {
+  void _lang;
   return {
     name: "JASON BAY",
-    tagline:
-      lang === "de"
-        ? "Frontend Developer — Web & UI"
-        : "Frontend Developer — Web & UI",
+    tagline: "Frontend Developer",
   };
 }
 
@@ -56,43 +59,57 @@ export function getRadialKeywords(_lang: Lang): RadialKeyword[] {
   void _lang;
   const faint = FAINT_KEYWORDS;
 
-  const strong = STRONG_KEYWORDS.map((label, i) => {
-    const angle = (i / STRONG_KEYWORDS.length) * Math.PI * 2 + 0.5;
-    return {
-      label,
-      strong: true,
-      angle,
-      radius: 3.6 + (i % 3) * 0.5,
-      depth: (i % 2 === 0 ? 1 : -1) * (0.4 + (i % 3) * 0.3),
-    };
-  });
+  const strongStep = (Math.PI * 2) / STRONG_KEYWORDS.length;
+  const strong = STRONG_KEYWORDS.map((label, i) => ({
+    label,
+    strong: true,
+    angle: i * strongStep - Math.PI / 2 + 0.12,
+    radius: 4.6 + (i % 2) * 0.35,
+    depth: Math.sin(i * 1.3) * 0.9,
+  }));
 
-  const weak = faint.map((label, i) => {
-    const angle = (i / faint.length) * Math.PI * 2 + 1.7;
-    return {
-      label,
-      strong: false,
-      angle,
-      radius: 4.3 + (i % 3) * 0.45,
-      depth: (i % 2 === 0 ? -1 : 1) * (1.6 + (i % 2) * 0.8),
-    };
-  });
+  const faintStep = (Math.PI * 2) / faint.length;
+  const weak = faint.map((label, i) => ({
+    label,
+    strong: false,
+    angle: i * faintStep - Math.PI / 2 + faintStep / 2,
+    radius: 6.6 + (i % 2) * 0.5,
+    depth: (i % 2 === 0 ? -1 : 1) * (1.9 + (i % 3) * 0.5),
+  }));
 
   return [...strong, ...weak];
 }
 
 export function getSectionNodes(lang: Lang): SectionNode[] {
   const de = lang === "de";
-  return [
-    { id: "about", label: de ? "ÜBER MICH" : "ABOUT", position: [-4.2, -1.6, 1.2], scale: 1 },
-    { id: "work", label: "PORTFOLIO", position: [-3.6, 2.8, -2.4], scale: 1.35 },
-    { id: "skills", label: "SKILLS", position: [0.4, 2.4, 0.2], scale: 0.8 },
-    { id: "experience", label: de ? "WERDEGANG" : "EXPERIENCE", position: [-5.4, 0.6, -1.1], scale: 1.5 },
-    { id: "gallery", label: de ? "GALERIE" : "GALLERY", position: [3.4, 1.1, -3.2], scale: 0.9 },
-    { id: "tiktok", label: "TIKTOK", position: [2.9, -0.2, 0.6], scale: 0.85 },
-    { id: "languages", label: de ? "SPRACHEN" : "LANGUAGES", position: [1.6, -2.6, -1.4], scale: 0.75 },
-    { id: "contact", label: de ? "KONTAKT" : "CONTACT", position: [5.4, 0.6, -4.4], scale: 1.15 },
+  const defs: { id: string; label: string; scale: number }[] = [
+    { id: "about", label: de ? "ÜBER MICH" : "ABOUT", scale: 1.15 },
+    { id: "work", label: "PORTFOLIO", scale: 1.35 },
+    { id: "skills", label: "SKILLS", scale: 0.9 },
+    { id: "experience", label: de ? "WERDEGANG" : "EXPERIENCE", scale: 1.3 },
+    { id: "gallery", label: de ? "GALERIE" : "GALLERY", scale: 0.95 },
+    { id: "social", label: "SOCIAL MEDIA", scale: 1 },
+    { id: "languages", label: de ? "SPRACHEN" : "LANGUAGES", scale: 0.8 },
+    { id: "contact", label: de ? "KONTAKT" : "CONTACT", scale: 1.05 },
   ];
+
+  const R = 5.4;
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  const n = defs.length;
+
+  return defs.map((d, i) => {
+    const y = 1 - (i / (n - 1)) * 2;
+    const ring = Math.sqrt(Math.max(0, 1 - y * y));
+    const theta = golden * i;
+    return {
+      ...d,
+      position: [
+        Math.cos(theta) * ring * R,
+        y * R * 0.72,
+        Math.sin(theta) * ring * R,
+      ] as [number, number, number],
+    };
+  });
 }
 
 export function getSocials(): SocialLink[] {
@@ -109,14 +126,14 @@ export function getSocials(): SocialLink[] {
       href: "https://www.instagram.com/jsnuwu/",
     },
     {
-      label: "LinkedIn",
-      handle: "Jason Bay",
-      href: "https://www.linkedin.com/in/jason-bay-275499398/",
-    },
-    {
       label: "YouTube",
       handle: "@jsnuwu",
       href: "https://www.youtube.com/@jsnuwu",
+    },
+    {
+      label: "LinkedIn",
+      handle: "Jason Bay",
+      href: "https://www.linkedin.com/in/jason-bay-275499398/",
     },
   ];
 }

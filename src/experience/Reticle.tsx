@@ -11,26 +11,24 @@ export default function Reticle() {
 
     document.body.classList.add("reticle-active");
     let visible = false;
-    let x = window.innerWidth / 2;
-    let y = window.innerHeight / 2;
-
-    const apply = () => {
-      el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-    };
+    let lastTarget: EventTarget | null = null;
 
     const move = (e: MouseEvent) => {
-      x = e.clientX;
-      y = e.clientY;
-      apply();
+      el.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+
       if (!visible) {
         visible = true;
         el.classList.add("is-visible");
       }
-      const target = e.target as HTMLElement | null;
-      const interactive = !!target?.closest(
-        'a, button, [role="button"], input, textarea, [data-hover]',
-      );
-      el.classList.toggle("is-active", interactive);
+
+      if (e.target !== lastTarget) {
+        lastTarget = e.target;
+        const target = e.target as HTMLElement | null;
+        const interactive = !!target?.closest(
+          'a, button, [role="button"], input, textarea, [data-hover]',
+        );
+        el.classList.toggle("is-active", interactive);
+      }
     };
     const leave = () => {
       visible = false;
@@ -46,7 +44,7 @@ export default function Reticle() {
       window.setTimeout(() => el.classList.remove("did-click"), 420);
     };
 
-    window.addEventListener("mousemove", move);
+    window.addEventListener("mousemove", move, { passive: true });
     window.addEventListener("mousedown", down);
     window.addEventListener("mouseup", up);
     document.addEventListener("mouseleave", leave);
@@ -61,11 +59,13 @@ export default function Reticle() {
 
   return (
     <div className="reticle" ref={ref} aria-hidden="true">
+      <span className="reticle-box">
+        <span className="reticle-corner tl" />
+        <span className="reticle-corner tr" />
+        <span className="reticle-corner bl" />
+        <span className="reticle-corner br" />
+      </span>
       <span className="reticle-ring" />
-      <span className="reticle-corner tl" />
-      <span className="reticle-corner tr" />
-      <span className="reticle-corner bl" />
-      <span className="reticle-corner br" />
       <span className="reticle-dot" />
     </div>
   );

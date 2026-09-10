@@ -14,6 +14,8 @@ interface Props {
   anchors: Anchor[];
   pointerRef: React.MutableRefObject<{ x: number; y: number }>;
   dragRef: React.MutableRefObject<{ x: number; y: number }>;
+  zoomRef: React.MutableRefObject<number>;
+  hoverRef: React.MutableRefObject<string | null>;
   labelEls: React.MutableRefObject<Map<string, HTMLElement | null>>;
 }
 
@@ -38,6 +40,8 @@ export default function ConstellationCanvas({
   anchors,
   pointerRef,
   dragRef,
+  zoomRef,
+  hoverRef,
   labelEls,
 }: Props) {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -56,7 +60,7 @@ export default function ConstellationCanvas({
     if (!mount) return;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(mount.clientWidth, mount.clientHeight);
     mount.appendChild(renderer.domElement);
 
@@ -76,7 +80,6 @@ export default function ConstellationCanvas({
     const world = new THREE.Group();
     scene3.add(world);
 
-    // ---- starfield ----
     const STAR_COUNT = 1600;
     const starPos = new Float32Array(STAR_COUNT * 3);
     for (let i = 0; i < STAR_COUNT; i++) {
@@ -100,7 +103,6 @@ export default function ConstellationCanvas({
     const stars = new THREE.Points(starGeo, starMat);
     world.add(stars);
 
-    // ---- network lines (about scene) ----
     const NET_COUNT = 200;
     const netPoints: THREE.Vector3[] = [];
     for (let i = 0; i < NET_COUNT; i++) {
@@ -157,32 +159,8 @@ export default function ConstellationCanvas({
     const netNodes = new THREE.Points(netNodeGeo, netNodeMat);
     world.add(netNodes);
 
-    // ---- radial spokes (main scene) ----
     const radialGroup = new THREE.Group();
     world.add(radialGroup);
-
-    const coreGeo = new THREE.BoxGeometry(0.12, 0.12, 0.12);
-    const coreMat = new THREE.MeshBasicMaterial({
-      color: 0x000000,
-      transparent: true,
-      depthTest: false,
-    });
-    const core = new THREE.Mesh(coreGeo, coreMat);
-    core.renderOrder = 10;
-    radialGroup.add(core);
-
-    const coreRingGeo = new THREE.RingGeometry(0.42, 0.46, 4);
-    const coreRingMat = new THREE.MeshBasicMaterial({
-      color: 0x000000,
-      transparent: true,
-      opacity: 0.5,
-      side: THREE.DoubleSide,
-      depthTest: false,
-    });
-    const coreRing = new THREE.Mesh(coreRingGeo, coreRingMat);
-    coreRing.renderOrder = 9;
-    coreRing.rotation.z = Math.PI / 4;
-    radialGroup.add(coreRing);
 
     const spokeMat = new THREE.LineBasicMaterial({
       color: 0x1a1a1a,
@@ -193,10 +171,8 @@ export default function ConstellationCanvas({
     const rebuildSpokes = () => {
       for (let i = radialGroup.children.length - 1; i >= 0; i--) {
         const c = radialGroup.children[i];
-        if (c !== core && c !== coreRing) {
-          radialGroup.remove(c);
-          if (c instanceof THREE.Line) c.geometry.dispose();
-        }
+        radialGroup.remove(c);
+        if (c instanceof THREE.Line) c.geometry.dispose();
       }
       const pts: number[] = [];
       anchorsRef.current.forEach((a) => {
@@ -210,7 +186,59 @@ export default function ConstellationCanvas({
     rebuildSpokes();
     let lastAnchorRef = anchorsRef.current;
 
-    // ---- interaction / animation ----
+    const HOVER_SEGS = 4;
+    const hoverWebArr = new Float32Array(HOVER_SEGS * 2 * 3);
+    const hoverWebGeo = new THREE.BufferGeometry();
+    hoverWebGeo.setAttribute(
+      "position",
+      new THREE.BufferAttribute(hoverWebArr, 3),
+    );
+    const hoverWebMat = new THREE.LineBasicMaterial({
+      color: new THREE.Color("#ffffff"),
+      transparent: true,
+      opacity: 0,
+      depthWrite: false,
+    });
+    const hoverWeb = new THREE.LineSegments(hoverWebGeo, hoverWebMat);
+    hoverWeb.frustumCulled = false;
+    hoverWeb.renderOrder = 8;
+    world.add(hoverWeb);
+    let hoverWebId: string | null = null;
+
+    const buildHoverWeb = (id: string | null) => {
+      const list = anchorsRef.current;
+      const target = id ? list.find((a) => a.id === id) : undefined;
+      if (!target) return;
+      const [tx, ty, tz] = target.position;
+      const sibs = list
+        .filter((a) => a.id !== id)
+        .map((a) => {
+          const dx = a.position[0] - tx;
+          const dy = a.position[1] - ty;
+          const dz = a.position[2] - tz;
+          return { a, d: dx * dx + dy * dy + dz * dz };
+        })
+        .sort((p, q) => p.d - q.d)
+        .slice(0, HOVER_SEGS - 1)
+        .map((p) => p.a);
+
+      hoverWebArr.fill(0);
+      hoverWebArr[3] = tx;
+      hoverWebArr[4] = ty;
+      hoverWebArr[5] = tz;
+      sibs.forEach((s, i) => {
+        const o = (i + 1) * 6;
+        hoverWebArr[o] = tx;
+        hoverWebArr[o + 1] = ty;
+        hoverWebArr[o + 2] = tz;
+        hoverWebArr[o + 3] = s.position[0];
+        hoverWebArr[o + 4] = s.position[1];
+        hoverWebArr[o + 5] = s.position[2];
+      });
+      hoverWebGeo.attributes.position.needsUpdate = true;
+      hoverWebGeo.setDrawRange(0, (sibs.length + 1) * 2);
+    };
+
     const clock = new THREE.Clock();
     let frame = 0;
     const dragCurrent = { x: 0, y: 0 };
@@ -218,6 +246,7 @@ export default function ConstellationCanvas({
 
     const targetColor = new THREE.Color();
     let blendZ = CAM_Z.main;
+    let zoomCur = 1;
 
     const render = () => {
       frame = requestAnimationFrame(render);
@@ -229,7 +258,6 @@ export default function ConstellationCanvas({
         lastAnchorRef = anchorsRef.current;
       }
 
-      // background + camera ease
       targetColor.set(BG[id]);
       bgColor.lerp(targetColor, 0.04);
       if (scene3.fog instanceof THREE.FogExp2) {
@@ -242,7 +270,6 @@ export default function ConstellationCanvas({
       }
       blendZ = lerp(blendZ, CAM_Z[id], 0.04);
 
-      // opacities per scene
       const starTarget = id === "main" ? 0.0 : 0.9;
       starMat.opacity = lerp(starMat.opacity, starTarget, 0.045);
       netNodeMat.opacity = lerp(netNodeMat.opacity, starTarget * 0.7, 0.045);
@@ -252,22 +279,30 @@ export default function ConstellationCanvas({
         0.045,
       );
       spokeMat.opacity = lerp(spokeMat.opacity, id === "main" ? 0.35 : 0, 0.06);
-      const coreVis = id === "main" ? 1 : 0;
-      coreMat.opacity = lerp(coreMat.opacity, coreVis, 0.06);
-      coreRingMat.opacity = lerp(coreRingMat.opacity, coreVis * 0.5, 0.06);
-      radialGroup.visible = coreMat.opacity > 0.02;
 
-      // pointer + drag rotation
+      const hov = hoverRef.current;
+      if (hov !== hoverWebId) {
+        hoverWebId = hov;
+        if (hov) buildHoverWeb(hov);
+      }
+      hoverWebMat.color.set(id === "main" ? "#141414" : "#ffffff");
+      hoverWebMat.opacity = lerp(hoverWebMat.opacity, hov ? 0.9 : 0, 0.16);
+      hoverWeb.visible = hoverWebMat.opacity > 0.02;
+      radialGroup.visible = spokeMat.opacity > 0.02;
+
       const p = pointerRef.current;
       const d = dragRef.current;
-      dragCurrent.x = lerp(dragCurrent.x, d.x, 0.08);
-      dragCurrent.y = lerp(dragCurrent.y, d.y, 0.08);
-      const targetRotY = p.x * 0.25 + dragCurrent.x;
-      const targetRotX = -p.y * 0.18 + dragCurrent.y;
-      world.rotation.y = lerp(world.rotation.y, targetRotY, 0.06);
-      world.rotation.x = lerp(world.rotation.x, targetRotX, 0.06);
+      const pYaw = id === "about" ? 0.05 : 0.25;
+      const pPitch = id === "about" ? 0.04 : 0.18;
+      dragCurrent.x = lerp(dragCurrent.x, d.x, 0.09);
+      dragCurrent.y = lerp(dragCurrent.y, d.y, 0.09);
+      const targetRotY = p.x * pYaw + dragCurrent.x;
+      const targetRotX = -p.y * pPitch + dragCurrent.y;
+      world.rotation.y = lerp(world.rotation.y, targetRotY, 0.08);
+      world.rotation.x = lerp(world.rotation.x, targetRotX, 0.08);
 
-      camera.position.z = blendZ;
+      zoomCur = lerp(zoomCur, zoomRef.current, 0.1);
+      camera.position.z = blendZ * zoomCur;
       camera.position.x = lerp(camera.position.x, p.x * 0.6, 0.05);
       camera.position.y = lerp(camera.position.y, -p.y * 0.4, 0.05);
       camera.lookAt(0, 0, 0);
@@ -275,10 +310,7 @@ export default function ConstellationCanvas({
       stars.rotation.y = t * 0.01;
       network.rotation.y = t * 0.014;
       netNodes.rotation.y = t * 0.014;
-      core.rotation.y = t * 0.4;
-      core.rotation.x = t * 0.25;
 
-      // project label anchors to screen
       const w = renderer.domElement.clientWidth;
       const h = renderer.domElement.clientHeight;
       anchorsRef.current.forEach((a) => {
@@ -320,16 +352,14 @@ export default function ConstellationCanvas({
       netMat.dispose();
       netNodeGeo.dispose();
       netNodeMat.dispose();
-      coreGeo.dispose();
-      coreMat.dispose();
-      coreRingGeo.dispose();
-      coreRingMat.dispose();
+      hoverWebGeo.dispose();
+      hoverWebMat.dispose();
       spokeMat.dispose();
       if (renderer.domElement.parentNode === mount) {
         mount.removeChild(renderer.domElement);
       }
     };
-  }, [pointerRef, dragRef, labelEls]);
+  }, [pointerRef, dragRef, zoomRef, hoverRef, labelEls]);
 
   return <div className="constellation-canvas" ref={mountRef} aria-hidden="true" />;
 }
