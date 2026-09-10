@@ -11,6 +11,58 @@ interface Props {
   onBack: () => void;
 }
 
+const SKILL_ICONS: [RegExp, string][] = [
+  [/html/i, "devicon-html5-plain colored"],
+  [/css/i, "devicon-css3-plain colored"],
+  [/typescript/i, "devicon-typescript-plain colored"],
+  [/javascript/i, "devicon-javascript-plain colored"],
+  [/angular/i, "devicon-angularjs-plain colored"],
+  [/tailwind/i, "devicon-tailwindcss-plain colored"],
+  [/react/i, "devicon-react-original colored"],
+  [/vue/i, "devicon-vuejs-plain colored"],
+  [/figma/i, "devicon-figma-plain colored"],
+  [/wordpress/i, "devicon-wordpress-plain colored"],
+  [/spring/i, "devicon-spring-plain colored"],
+  [/php/i, "devicon-php-plain colored"],
+  [/java\b/i, "devicon-java-plain colored"],
+  [/postgres/i, "devicon-postgresql-plain colored"],
+  [/mysql/i, "devicon-mysql-plain colored"],
+  [/mongo/i, "devicon-mongodb-plain colored"],
+  [/docker/i, "devicon-docker-plain colored"],
+  [/\bgit\b/i, "devicon-git-plain colored"],
+  [/jira/i, "devicon-jira-plain colored"],
+  [/confluence/i, "devicon-confluence-plain colored"],
+];
+
+function skillIcon(name: string) {
+  for (const [re, cls] of SKILL_ICONS) if (re.test(name)) return cls;
+  return null;
+}
+
+const LEVEL_PCT: Record<string, number> = {
+  muttersprache: 100,
+  native: 100,
+  "c2": 94,
+  "c1": 82,
+  "b2": 66,
+  "b1": 50,
+  "a2": 34,
+  "a1": 20,
+};
+
+function levelPct(level: string) {
+  return LEVEL_PCT[level.trim().toLowerCase()] ?? 60;
+}
+
+function flagFor(name: string) {
+  const n = name.toLowerCase();
+  if (n.startsWith("deutsch") || n.startsWith("german")) return "🇩🇪";
+  if (n.startsWith("englisch") || n.startsWith("english")) return "🇬🇧";
+  if (n.startsWith("franz") || n.startsWith("french")) return "🇫🇷";
+  if (n.startsWith("spanisch") || n.startsWith("spanish")) return "🇪🇸";
+  return "🌐";
+}
+
 const TITLES: Record<string, { de: string; en: string }> = {
   about: { de: "Über mich", en: "About" },
   work: { de: "Portfolio", en: "Portfolio" },
@@ -188,11 +240,14 @@ export default function SectionPage({ id, onBack }: Props) {
         )}
         {id === "work" && <OldPortfolio />}
         {id === "experience" && (
-          <ul className="sp-timeline">
+          <ol className="sp-timeline">
             {t.experience.entries.map((e) => (
               <li key={e.org}>
-                <span className="spt-period">{e.period}</span>
-                <div>
+                <span className="spt-badge" aria-hidden="true">
+                  {e.org.replace(/[^A-Za-zÄÖÜ]/g, "").slice(0, 2).toUpperCase()}
+                </span>
+                <div className="spt-body">
+                  <span className="spt-period">{e.period}</span>
                   <span className="spt-org">{e.org}</span>
                   <span className="spt-role">{e.role}</span>
                   <ul>
@@ -203,7 +258,7 @@ export default function SectionPage({ id, onBack }: Props) {
                 </div>
               </li>
             ))}
-          </ul>
+          </ol>
         )}
         {id === "skills" && (
           <div className="sp-skills">
@@ -214,35 +269,39 @@ export default function SectionPage({ id, onBack }: Props) {
                 </span>
                 <h3 className="skrow-title">{g.title}</h3>
                 <ul className="skrow-tags">
-                  {g.items.split(",").map((it) => (
-                    <li key={it.trim()}>{it.trim()}</li>
-                  ))}
+                  {g.items.split(",").map((raw) => {
+                    const it = raw.trim();
+                    const icon = skillIcon(it);
+                    return (
+                      <li key={it}>
+                        {icon ? (
+                          <i className={icon} aria-hidden="true" />
+                        ) : (
+                          <span className="skrow-mono" aria-hidden="true">
+                            {it.slice(0, 1)}
+                          </span>
+                        )}
+                        {it}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             ))}
-            <div className="skrow skrow-langs">
-              <span className="skrow-num">
-                {String(t.skills.groups.length + 1).padStart(2, "0")}
-              </span>
-              <h3 className="skrow-title">
-                {de ? "Sprachen" : "Languages"}
-              </h3>
-              <ul className="skrow-tags">
-                {t.skills.languages.map((l) => (
-                  <li key={l.name}>
-                    {l.name} · {l.level}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
         )}
         {id === "languages" && (
-          <ul className="sp-plain">
+          <ul className="sp-langs">
             {t.skills.languages.map((l) => (
               <li key={l.name}>
-                <span>{l.name}</span>
-                <span>{l.level}</span>
+                <span className="sp-lang-flag" aria-hidden="true">
+                  {flagFor(l.name)}
+                </span>
+                <span className="sp-lang-name">{l.name}</span>
+                <span className="sp-lang-level">{l.level}</span>
+                <span className="sp-lang-bar">
+                  <span style={{ width: `${levelPct(l.level)}%` }} />
+                </span>
               </li>
             ))}
           </ul>

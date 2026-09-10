@@ -168,6 +168,8 @@ export default function ConstellationCanvas({
       opacity: 0.35,
     });
 
+    let spokeSeg: THREE.LineSegments | null = null;
+
     const rebuildSpokes = () => {
       for (let i = radialGroup.children.length - 1; i >= 0; i--) {
         const c = radialGroup.children[i];
@@ -180,11 +182,22 @@ export default function ConstellationCanvas({
       });
       const g = new THREE.BufferGeometry();
       g.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
-      const seg = new THREE.LineSegments(g, spokeMat);
-      radialGroup.add(seg);
+      spokeSeg = new THREE.LineSegments(g, spokeMat);
+      radialGroup.add(spokeSeg);
     };
     rebuildSpokes();
     let lastAnchorRef = anchorsRef.current;
+
+    const raycaster = new THREE.Raycaster();
+    raycaster.params.Line = { threshold: 0.4 };
+    const ndc = new THREE.Vector2();
+    let lineHoverId: string | null = null;
+    let pointerSeen = false;
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const markPointer = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") pointerSeen = true;
+    };
+    window.addEventListener("pointermove", markPointer, { passive: true });
 
     const HOVER_SEGS = 4;
     const hoverWebArr = new Float32Array(HOVER_SEGS * 2 * 3);
@@ -280,17 +293,29 @@ export default function ConstellationCanvas({
       );
       spokeMat.opacity = lerp(spokeMat.opacity, id === "main" ? 0.35 : 0, 0.06);
 
-      const hov = hoverRef.current;
-      if (hov !== hoverWebId) {
-        hoverWebId = hov;
-        if (hov) buildHoverWeb(hov);
+      const p = pointerRef.current;
+
+      lineHoverId = null;
+      if (id === "main" && spokeSeg && pointerSeen && finePointer && !hoverRef.current) {
+        ndc.set(p.x, -p.y);
+        raycaster.setFromCamera(ndc, camera);
+        const hits = raycaster.intersectObject(spokeSeg, false);
+        if (hits.length && hits[0].index != null) {
+          const seg = Math.floor(hits[0].index / 2);
+          lineHoverId = anchorsRef.current[seg]?.id ?? null;
+        }
+      }
+      const active = hoverRef.current ?? lineHoverId;
+
+      if (active !== hoverWebId) {
+        hoverWebId = active;
+        if (active) buildHoverWeb(active);
       }
       hoverWebMat.color.set(id === "main" ? "#141414" : "#ffffff");
-      hoverWebMat.opacity = lerp(hoverWebMat.opacity, hov ? 0.9 : 0, 0.16);
+      hoverWebMat.opacity = lerp(hoverWebMat.opacity, active ? 0.9 : 0, 0.16);
       hoverWeb.visible = hoverWebMat.opacity > 0.02;
       radialGroup.visible = spokeMat.opacity > 0.02;
 
-      const p = pointerRef.current;
       const d = dragRef.current;
       const pYaw = id === "about" ? 0.05 : 0.25;
       const pPitch = id === "about" ? 0.04 : 0.18;
@@ -302,8 +327,16 @@ export default function ConstellationCanvas({
       world.rotation.x = lerp(world.rotation.x, targetRotX, 0.08);
 
       zoomCur = lerp(zoomCur, zoomRef.current, 0.1);
-      camera.position.z = blendZ * zoomCur;
+      const fit = THREE.MathUtils.clamp(1.05 / camera.aspect, 1, 1.35);
+      camera.position.z = blendZ * zoomCur * fit;
       camera.position.x = lerp(camera.position.x, p.x * 0.6, 0.05);
+
+      const targetWorldScale = THREE.MathUtils.clamp(
+        0.4 + camera.aspect * 0.42,
+        0.56,
+        1,
+      );
+      world.scale.setScalar(lerp(world.scale.x, targetWorldScale, 0.1));
       camera.position.y = lerp(camera.position.y, -p.y * 0.4, 0.05);
       camera.lookAt(0, 0, 0);
 
@@ -321,12 +354,16 @@ export default function ConstellationCanvas({
         const dist = camera.position.distanceTo(tmp);
         tmp.project(camera);
         const behind = tmp.z > 1;
-        const x = (tmp.x * 0.5 + 0.5) * w;
-        const y = (-tmp.y * 0.5 + 0.5) * h;
-        el.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`;
+        const rawX = (tmp.x * 0.5 + 0.5) * w;
+        const rawY = (-tmp.y * 0.5 + 0.5) * h;
+        const x = THREE.MathUtils.clamp(rawX, 12, w - 12);
+        const y = THREE.MathUtils.clamp(rawY, 56, h - 56);
+        const ax = x < w * 0.36 ? "0%" : x > w * 0.64 ? "-100%" : "-50%";
+        el.style.transform = `translate(${ax}, -50%) translate(${x}px, ${y}px)`;
         const fade = THREE.MathUtils.clamp(1 - (dist - 6) / 22, 0.12, 1);
         el.style.opacity = behind ? "0" : String(fade);
         el.style.pointerEvents = behind || fade < 0.3 ? "none" : "auto";
+        el.classList.toggle("is-lit", !behind && a.id === active);
       });
 
       renderer.render(scene3, camera);
@@ -345,6 +382,7 @@ export default function ConstellationCanvas({
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("pointermove", markPointer);
       renderer.dispose();
       starGeo.dispose();
       starMat.dispose();

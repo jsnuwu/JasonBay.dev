@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useDrag } from "@use-gesture/react";
+import { useGesture } from "@use-gesture/react";
 import { useLanguage } from "../i18n/useLanguage";
 import ConstellationCanvas, { type Anchor, type SceneId } from "./ConstellationCanvas";
 import Reticle from "./Reticle";
@@ -166,20 +166,26 @@ export default function Experience() {
     return () => window.removeEventListener("keydown", onKey);
   }, [page]);
 
-  const bindDrag = useDrag(
-    ({ movement: [mx, my], first, last }) => {
-      if (page) return;
-      if (first) orbitBase.current = { ...dragRef.current };
+  const bindGesture = useGesture(
+    {
+      onDrag: ({ movement: [mx, my], first, last, pinching }) => {
+        if (page || pinching) return;
+        if (first) orbitBase.current = { ...dragRef.current };
 
-      const freeOrbit = scene === "about";
-      let x = orbitBase.current.x + mx * (freeOrbit ? 0.008 : 0.005);
-      const y = clamp(orbitBase.current.y - my * 0.004, -0.85, 0.85);
-      if (!freeOrbit) x = clamp(x, -0.7, 0.7);
-      dragRef.current = { x, y };
+        const freeOrbit = scene === "about";
+        let x = orbitBase.current.x + mx * (freeOrbit ? 0.008 : 0.005);
+        const y = clamp(orbitBase.current.y - my * 0.004, -0.85, 0.85);
+        if (!freeOrbit) x = clamp(x, -0.7, 0.7);
+        dragRef.current = { x, y };
 
-      if (last && !freeOrbit) dragRef.current = { x: 0, y: 0 };
+        if (last && !freeOrbit) dragRef.current = { x: 0, y: 0 };
+      },
+      onPinch: ({ offset: [s] }) => {
+        if (page || scene !== "about") return;
+        zoomRef.current = clamp(1 / s, 0.5, 1.8);
+      },
     },
-    { filterTaps: true },
+    { drag: { filterTaps: true }, pinch: { scaleBounds: { min: 0.55, max: 2 } } },
   );
 
   const de = lang === "de";
@@ -202,7 +208,7 @@ export default function Experience() {
         className={`experience scene-${scene} ${page ? "is-dived" : ""} ${
           warping ? "is-warping" : ""
         }`}
-        {...bindDrag()}
+        {...bindGesture()}
       >
         <ConstellationCanvas
           scene={scene}

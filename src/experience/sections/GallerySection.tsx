@@ -247,7 +247,7 @@ export default function GallerySection() {
           >
             <img src={s.img} alt="" draggable={false} loading="lazy" />
             <figcaption>
-              {String(i + 1).padStart(2, "0")} — {s.cat.toUpperCase()}
+              {String(i + 1).padStart(2, "0")} · {s.cat.toUpperCase()}
             </figcaption>
           </figure>
         ))}
@@ -255,8 +255,8 @@ export default function GallerySection() {
 
       <p className="gsec-hint">
         {de
-          ? "ZIEHEN ODER SCROLLEN — KLICK ZUM VERGRÖSSERN, ← → ZUM BLÄTTERN"
-          : "DRAG OR SCROLL — CLICK TO ENLARGE, ← → TO BROWSE"}
+          ? "ZIEHEN ODER SCROLLEN · KLICK ZUM VERGRÖSSERN"
+          : "DRAG OR SCROLL · CLICK TO ENLARGE"}
       </p>
 
       {lightbox !== null &&
@@ -266,11 +266,33 @@ export default function GallerySection() {
               {String(lightbox + 1).padStart(2, "0")} /{" "}
               {String(shots.length).padStart(2, "0")}
             </span>
+            <button
+              className="gsec-lb-nav prev"
+              aria-label={de ? "Vorheriges Bild" : "Previous image"}
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightbox(
+                  (v) => (v === null ? v : (v - 1 + shots.length) % shots.length),
+                );
+              }}
+            >
+              ‹
+            </button>
             <img
               src={shots[lightbox].img}
               alt=""
               onClick={(e) => e.stopPropagation()}
             />
+            <button
+              className="gsec-lb-nav next"
+              aria-label={de ? "Nächstes Bild" : "Next image"}
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightbox((v) => (v === null ? v : (v + 1) % shots.length));
+              }}
+            >
+              ›
+            </button>
           </div>,
           document.body,
         )}
