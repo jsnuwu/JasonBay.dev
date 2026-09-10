@@ -21,6 +21,42 @@ const TITLES: Record<string, { de: string; en: string }> = {
   background: { de: "Hintergrund", en: "Background" },
 };
 
+const INTRO: Record<string, { de: string; en: string }> = {
+  about: {
+    de: "Wer ich bin und wie ich arbeite.",
+    en: "Who I am and how I work.",
+  },
+  work: {
+    de: "Ausgewählte Projekte — anklicken öffnet die Live-Version.",
+    en: "Selected projects — click to open the live version.",
+  },
+  skills: {
+    de: "Werkzeuge und Methoden, mit denen ich täglich arbeite.",
+    en: "Tools and methods I work with day to day.",
+  },
+  experience: {
+    de: "Stationen von der Ausbildung bis heute.",
+    en: "Stations from apprenticeship to today.",
+  },
+  gallery: {
+    de: "Fotografie abseits vom Code — Wandern, Motorrad, Tiere.",
+    en: "Photography beyond the code — hiking, motorcycles, pets.",
+  },
+  tiktok: {
+    de: "Eigener Kanal seit 2020 — Konzeption, Schnitt und Gestaltung.",
+    en: "My own channel since 2020 — concept, editing and design.",
+  },
+  languages: { de: "", en: "" },
+  contact: {
+    de: "Schreib mir — ich melde mich zurück.",
+    en: "Drop me a line — I'll get back to you.",
+  },
+  background: {
+    de: "Der längere Weg hierher.",
+    en: "The longer road to here.",
+  },
+};
+
 export default function SectionPage({ id, onBack }: Props) {
   const { t, lang } = useLanguage();
   const de = lang === "de";
@@ -31,6 +67,7 @@ export default function SectionPage({ id, onBack }: Props) {
   }, [id]);
 
   const title = TITLES[id] ? (de ? TITLES[id].de : TITLES[id].en) : id;
+  const intro = INTRO[id] ? (de ? INTRO[id].de : INTRO[id].en) : "";
   const num =
     String(Object.keys(TITLES).indexOf(id) + 1).padStart(2, "0") + " / 09";
 
@@ -45,6 +82,7 @@ export default function SectionPage({ id, onBack }: Props) {
 
       <header className="sp-header">
         <h1>{title}</h1>
+        {intro && <p className="sp-intro">{intro}</p>}
       </header>
 
       <div className="sp-body">
@@ -134,6 +172,16 @@ function WorkBody({ de }: { de: boolean }) {
       {projects.map((p) => (
         <li key={p.name}>
           <a href={p.link} target="_blank" rel="noopener noreferrer">
+            <span className="spw-preview" aria-hidden="true">
+              <iframe
+                src={p.link}
+                title={p.name}
+                loading="lazy"
+                tabIndex={-1}
+                scrolling="no"
+              />
+              <span className="spw-preview-veil" />
+            </span>
             <span className="spw-index">{p.index}</span>
             <span className="spw-name">{p.name}</span>
             <span className="spw-desc">
