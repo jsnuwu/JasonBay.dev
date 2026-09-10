@@ -1,6 +1,7 @@
 import "../styles/SocialStats.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
+import ScrambledText from "./ScrambledText";
 import InstagramIcon from "../assets/images/Instagram.png";
 import TikTokIcon from "../assets/images/TikTok.png";
 import GitHubIcon from "../assets/images/GitHub.png";
@@ -32,7 +33,7 @@ export default function SocialStats() {
         { label: "Repos", value: "12" },
         { label: "Contributions", value: "143" },
       ],
-      accent: "#8957e5",
+      accent: "linear-gradient(45deg, #8250df, #a371f7)",
     },
     {
       name: "TikTok",
@@ -43,8 +44,8 @@ export default function SocialStats() {
         { label: "Follower", value: "20.8K" },
         { label: "Likes", value: "3.5M" },
       ],
-      bio: "Random edits by some guy",
-      accent: "#ee1d52",
+      bio: "Random edits by some guy 🫡",
+      accent: "linear-gradient(45deg, #0D9488, #EE1D52)",
       latestPost: { caption: t.socialStats.tiktokPreviewCaption },
     },
     {
@@ -53,7 +54,8 @@ export default function SocialStats() {
       href: "https://www.instagram.com/jsnuwu/",
       icon: InstagramIcon,
       stats: [{ label: "Follower", value: "196" }],
-      accent: "#d62976",
+      accent:
+        "linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5)",
       latestPost: { caption: t.socialStats.instagramPreviewCaption },
     },
     {
@@ -63,14 +65,23 @@ export default function SocialStats() {
       icon: LinkedInIcon,
       stats: [],
       cta: t.socialStats.linkedinCta,
-      accent: "#0072b1",
+      accent: "linear-gradient(45deg, #0072b1, #00a0dc)",
     },
   ];
 
   return (
     <section className="social-stats reveal" ref={sectionRef}>
-      <h2 className="social-stats-title">{t.socialStats.title}</h2>
-      <p className="social-stats-subtitle">{t.socialStats.subtitle}</p>
+      <span className="social-stats-kicker">
+        <ScrambledText text={t.socialStats.kicker} />
+      </span>
+      <ScrambledText
+        as="h2"
+        className="social-stats-title"
+        text={t.socialStats.title}
+      />
+      <p className="social-stats-subtitle">
+        <ScrambledText text={t.socialStats.subtitle} />
+      </p>
 
       <div className="social-stats-grid">
         {socials.map((social) => (
@@ -78,7 +89,7 @@ export default function SocialStats() {
             {social.latestPost && (
               <div className="social-stat-preview">
                 <span className="social-stat-preview-label">
-                  {t.socialStats.latestPost}
+                  <ScrambledText text={t.socialStats.latestPost} />
                 </span>
                 {social.latestPost.image ? (
                   <img src={social.latestPost.image} alt="" />
@@ -92,7 +103,7 @@ export default function SocialStats() {
                   </div>
                 )}
                 <span className="social-stat-preview-caption">
-                  {social.latestPost.caption}
+                  <ScrambledText text={social.latestPost.caption} />
                 </span>
                 <span className="social-stat-preview-tail" />
               </div>
@@ -110,27 +121,37 @@ export default function SocialStats() {
               <div className="social-stat-header">
                 <img src={social.icon} alt="" className="social-stat-icon" />
                 <div>
-                  <h3>{social.name}</h3>
-                  <span className="social-stat-handle">{social.handle}</span>
+                  <ScrambledText as="h3" text={social.name} />
+                  <span className="social-stat-handle">
+                    <ScrambledText text={social.handle} />
+                  </span>
                 </div>
               </div>
 
               {social.bio && (
-                <p className="social-stat-bio">{social.bio}</p>
+                <p className="social-stat-bio">
+                  <ScrambledText text={social.bio} />
+                </p>
               )}
 
               {social.stats.length > 0 ? (
                 <div className="social-stat-numbers">
                   {social.stats.map((stat) => (
                     <div key={stat.label} className="social-stat-number">
-                      <strong>{stat.value}</strong>
-                      <span>{stat.label}</span>
+                      <strong>
+                        <ScrambledText text={stat.value} />
+                      </strong>
+                      <span>
+                        <ScrambledText text={stat.label} />
+                      </span>
                     </div>
                   ))}
                 </div>
               ) : (
                 social.cta && (
-                  <span className="social-stat-cta">{social.cta}</span>
+                  <span className="social-stat-cta">
+                    <ScrambledText text={social.cta} />
+                  </span>
                 )
               )}
             </a>

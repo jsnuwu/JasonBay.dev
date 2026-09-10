@@ -1,6 +1,8 @@
 :root {
-  --accent: #e0603a;
-  --accent-strong: #c94c28;
+  --accent-1: #4a6cf7;
+  --accent-2: #7c3aed;
+  --accent-3: #a78bfa;
+  --accent-gradient: linear-gradient(90deg, var(--accent-1), var(--accent-2));
 }
 
 body {
@@ -21,69 +23,69 @@ body {
 }
 
 body.light {
-  --bg-color: #f6f5f3;
-  --text-color: #17150f;
+  --bg-color: #ffffff;
+  --text-color: #111111;
 
-  --header-bg: rgba(246, 245, 243, 0.85);
+  --header-bg: rgba(255, 255, 255, 0.8);
   --toggle-bg: rgba(0, 0, 0, 0.05);
-  --toggle-fill-sun: #17150f;
-  --toggle-fill-moon: #17150f;
-  --span-background: rgba(0, 0, 0, 0.04);
+  --toggle-fill-sun: #ffdd00;
+  --toggle-fill-moon: #000000;
+  --span-background: rgba(0, 0, 0, 0.05);
 
-  --button-bg: var(--accent);
-  --button-text: #f6f5f3;
-  --button-box-shadow: rgba(0, 0, 0, 0.12);
-  --button-active-shadow: rgba(0, 0, 0, 0.2);
+  --button-bg: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  --button-text: #ffffff;
+  --button-box-shadow: rgba(74, 108, 247, 0.35);
+  --button-active-shadow: rgba(74, 108, 247, 0.5);
 
-  --hero-heading: #17150f;
-  --hero-paragraph: #4a463c;
+  --hero-heading: #111111;
+  --hero-paragraph: #333333;
 
-  --card-bg: #ffffff;
-  --card-border: #ddd9d1;
-  --card-text: #17150f;
-  --card-link: var(--accent-strong);
-  --card-shadow: rgba(0, 0, 0, 0.08);
+  --card-bg: #f8fbfd;
+  --card-border: #d1d5db;
+  --card-text: #111111;
+  --card-link: #3b82f6;
+  --card-shadow: rgba(59, 130, 246, 0.15);
 
-  --contact-heading: #17150f;
-  --contact-text: #4a463c;
-  --contact-button-bg: var(--accent);
-  --contact-button-text: #f6f5f3;
-  --contact-button-hover-bg: var(--accent-strong);
-  --contact-input-border: #ddd9d1;
-  --contact-input-focus: var(--accent);
+  --contact-heading: #111111;
+  --contact-text: #333333;
+  --contact-button-bg: royalblue;
+  --contact-button-text: #ffffff;
+  --contact-button-hover-bg: #4169e1;
+  --contact-input-border: #ccc;
+  --contact-input-focus: royalblue;
 }
 
 body.dark {
-  --bg-color: #14130f;
-  --text-color: #ece9e1;
+  --bg-color: #111111;
+  --text-color: #ffffff;
 
-  --header-bg: rgba(20, 19, 15, 0.85);
-  --toggle-bg: rgba(255, 255, 255, 0.12);
-  --toggle-fill-sun: #ece9e1;
-  --toggle-fill-moon: #ece9e1;
+  --header-bg: rgba(19, 19, 19, 0.8);
+  --toggle-bg: rgba(255, 255, 255, 0.2);
+  --toggle-fill-sun: #ffffff;
+  --toggle-fill-moon: #000000;
   --span-background: rgba(255, 255, 255, 0.05);
 
-  --button-bg: var(--accent);
-  --button-text: #fdf6f2;
-  --button-box-shadow: rgba(0, 0, 0, 0.4);
-  --button-active-shadow: rgba(0, 0, 0, 0.55);
+  --button-bg: linear-gradient(135deg, var(--accent-2), var(--accent-1));
+  --button-text: #ffffff;
+  --button-box-shadow: rgba(124, 58, 237, 0.4);
+  --button-active-shadow: rgba(124, 58, 237, 0.6);
 
-  --hero-heading: #f4f2ec;
-  --hero-paragraph: #b0aca0;
+  --hero-heading: #f1f5f9;
+  --hero-paragraph: #cbd5e1;
 
-  --card-bg: #1c1a15;
-  --card-border: #322f27;
-  --card-text: #f4f2ec;
-  --card-link: var(--accent);
-  --card-shadow: rgba(0, 0, 0, 0.4);
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --card-text: #f1f5f9;
+  --card-link: #3b82f6;
+  --card-shadow: rgba(59, 130, 246, 0.25);
 
-  --contact-heading: #f4f2ec;
-  --contact-text: #b0aca0;
-  --contact-button-bg: var(--accent);
-  --contact-button-text: #14130f;
-  --contact-button-hover-bg: var(--accent-strong);
-  --contact-input-border: #322f27;
-  --contact-input-focus: var(--accent);
+  --contact-heading: #f1f5f9;
+  --contact-text: #cbd5e1;
+  --contact-button-bg: #4a6cf7;
+  --contact-button-text: #ffffff;
+  --contact-button-hover-bg: #3b82f6;
+  --contact-input-border: #334155;
+  --contact-input-focus: #4a6cf7;
 }
 
 .app-container:not(.hero-page) {
@@ -106,15 +108,40 @@ h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: var(--accent-gradient);
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  border-radius: 5px;
+  transition:
+    width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  h2:hover::after {
+    width: 130px;
+    box-shadow: 0 0 18px rgba(124, 58, 237, 0.55);
+  }
+}
+
+.is-scrambled {
+  color: var(--accent-2);
 }
 
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(28px);
   transition:
-    opacity 0.6s ease,
-    transform 0.6s ease;
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal.in-view {

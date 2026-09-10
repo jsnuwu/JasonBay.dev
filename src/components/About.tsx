@@ -5,6 +5,7 @@ import TechStack from "./TechStack";
 import Experience from "./Experience";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
+import ScrambledText from "./ScrambledText";
 
 export default function About() {
   const ref = useReveal<HTMLElement>();
@@ -17,47 +18,67 @@ export default function About() {
   return (
     <>
       <section className="about-section reveal" ref={ref}>
-        <h2>{t.about.heading}</h2>
-        <p className="about-lead">{t.about.lead}</p>
-        <p>{t.about.body}</p>
+        <ScrambledText as="h2" text={t.about.heading} />
+        <p className="about-lead">
+          <ScrambledText text={t.about.lead} />
+        </p>
+        <p>
+          <ScrambledText text={t.about.body} />
+        </p>
       </section>
 
       <section className="video-spotlight reveal" ref={spotlightRef}>
         <span className="video-spotlight-kicker">
-          {t.about.spotlight.kicker}
+          <ScrambledText text={t.about.spotlight.kicker} />
         </span>
         <h3>
-          {headingBefore}
+          <ScrambledText text={headingBefore} />
           <a
             href="https://www.tiktok.com/@jsnuwu"
             target="_blank"
             rel="noopener noreferrer"
             className="video-spotlight-handle"
           >
-            @jsnuwu
+            <ScrambledText text="@jsnuwu" />
           </a>
-          {headingAfter}
+          <ScrambledText text={headingAfter} />
         </h3>
-        <p className="video-spotlight-sub">{t.about.spotlight.subtitle}</p>
+        <p className="video-spotlight-sub">
+          <ScrambledText text={t.about.spotlight.subtitle} />
+        </p>
 
         <div className="video-spotlight-stats">
           <div className="video-spotlight-stat">
-            <strong>{t.about.spotlight.statFollowerValue}</strong>
-            <span>{t.about.spotlight.statFollowerLabel}</span>
+            <strong>
+              <ScrambledText text={t.about.spotlight.statFollowerValue} />
+            </strong>
+            <span>
+              <ScrambledText text={t.about.spotlight.statFollowerLabel} />
+            </span>
           </div>
           <div className="video-spotlight-stat">
-            <strong>{t.about.spotlight.statLikesValue}</strong>
-            <span>{t.about.spotlight.statLikesLabel}</span>
+            <strong>
+              <ScrambledText text={t.about.spotlight.statLikesValue} />
+            </strong>
+            <span>
+              <ScrambledText text={t.about.spotlight.statLikesLabel} />
+            </span>
           </div>
           <div className="video-spotlight-stat">
-            <strong>{t.about.spotlight.statExperienceValue}</strong>
-            <span>{t.about.spotlight.statExperienceLabel}</span>
+            <strong>
+              <ScrambledText text={t.about.spotlight.statExperienceValue} />
+            </strong>
+            <span>
+              <ScrambledText text={t.about.spotlight.statExperienceLabel} />
+            </span>
           </div>
         </div>
 
         <ul className="video-spotlight-list">
           {t.about.spotlight.list.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <ScrambledText text={item} />
+            </li>
           ))}
         </ul>
       </section>

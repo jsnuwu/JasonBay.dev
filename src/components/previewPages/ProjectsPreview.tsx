@@ -4,6 +4,7 @@ import { projects } from "../../data/projects";
 import { useReveal } from "../../hooks/useReveal";
 import { useLanguage } from "../../i18n/useLanguage";
 import LiveButton from "../LiveButton";
+import ScrambledText from "../ScrambledText";
 
 function formatUrl(url: string) {
   try {
@@ -122,9 +123,16 @@ export default function ProjectsPreview() {
       className="projects-preview reveal"
       ref={sectionRef}
     >
-      <h2 className="projects-preview-title">{t.projectsPreview.title}</h2>
+      <span className="projects-preview-kicker">
+        <ScrambledText text={t.projectsPreview.kicker} />
+      </span>
+      <ScrambledText
+        as="h2"
+        className="projects-preview-title"
+        text={t.projectsPreview.title}
+      />
       <p className="projects-preview-subtitle">
-        {t.projectsPreview.subtitle}
+        <ScrambledText text={t.projectsPreview.subtitle} />
       </p>
 
       <div className="preview-carousel-wrapper">
@@ -144,7 +152,9 @@ export default function ProjectsPreview() {
                 <span className="browser-dot red" />
                 <span className="browser-dot yellow" />
                 <span className="browser-dot green" />
-                <span className="preview-url">{formatUrl(project.link)}</span>
+                <span className="preview-url">
+                  <ScrambledText text={formatUrl(project.link)} />
+                </span>
               </div>
 
               <a
@@ -163,18 +173,24 @@ export default function ProjectsPreview() {
                   />
                 )}
                 <span className="preview-frame-hint">
-                  {t.projectsPreview.openLive}
+                  <ScrambledText text={t.projectsPreview.openLive} />
                 </span>
               </a>
 
               <div className="preview-card-body">
-                <h3>{project.name}</h3>
+                <ScrambledText as="h3" text={project.name} />
                 <p>
-                  {lang === "en"
-                    ? project.descriptionEn
-                    : project.description}
+                  <ScrambledText
+                    text={
+                      lang === "en"
+                        ? project.descriptionEn
+                        : project.description
+                    }
+                  />
                 </p>
-                <small className="preview-tech">{project.tech}</small>
+                <small className="preview-tech">
+                  <ScrambledText text={project.tech} />
+                </small>
 
                 <LiveButton href={project.link} />
               </div>

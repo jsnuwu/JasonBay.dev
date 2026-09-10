@@ -1,51 +1,439 @@
 .welcome-animation {
   position: fixed;
   inset: 0;
+
+  width: 100%;
+  height: 100dvh;
+
   z-index: 999999;
+
+  overflow: hidden;
+  pointer-events: none;
+
+  background: #05060d;
+  color: #fff;
+
+  opacity: 1;
+  visibility: visible;
+
+  --mx: 50%;
+  --my: 40%;
+
+  transition:
+    opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1),
+    filter 0.8s cubic-bezier(0.65, 0, 0.35, 1),
+    visibility 0.8s;
+}
+
+.welcome-animation.intro-done {
+  opacity: 0;
+  filter: blur(18px);
+  visibility: hidden;
+  transform: scale(1.04);
+}
+
+.welcome-animation .intro {
+  position: absolute;
+  inset: 0;
+
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: #05060d;
+}
+
+.welcome-animation .intro-glow {
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    480px circle at var(--mx) var(--my),
+    rgba(124, 58, 237, 0.22),
+    transparent 70%
+  );
+
+  transition: background-position 0.2s ease-out;
+}
+
+.welcome-animation .intro-blobs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.welcome-animation .intro-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(110px);
+  opacity: 0.45;
+  animation: welcomeBlobFloat 9s ease-in-out infinite;
+}
+
+.welcome-animation .blob-a {
+  width: 480px;
+  height: 480px;
+  top: -160px;
+  left: -120px;
+  background: radial-gradient(circle, var(--accent-1, #4a6cf7), transparent 70%);
+}
+
+.welcome-animation .blob-b {
+  width: 420px;
+  height: 420px;
+  bottom: -180px;
+  right: -100px;
+  background: radial-gradient(circle, var(--accent-2, #7c3aed), transparent 70%);
+  animation-delay: -4.5s;
+  animation-direction: reverse;
+}
+
+@keyframes welcomeBlobFloat {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, 20px) scale(1.08);
+  }
+}
+
+.welcome-animation .intro-grid {
+  position: absolute;
+  inset: 0;
+
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+
+  -webkit-mask-image: radial-gradient(
+    ellipse 65% 55% at 50% 45%,
+    #000 30%,
+    transparent 85%
+  );
+  mask-image: radial-gradient(
+    ellipse 65% 55% at 50% 45%,
+    #000 30%,
+    transparent 85%
+  );
+
+  opacity: 0;
+  animation: welcomeFadeIn 1.4s ease forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes welcomeFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.welcome-animation .light-line {
+  position: absolute;
+
+  width: 0;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-3, #a78bfa),
+    transparent
+  );
+
+  box-shadow:
+    0 0 10px rgba(124, 58, 237, 0.7),
+    0 0 30px rgba(74, 108, 247, 0.5),
+    0 0 80px rgba(74, 108, 247, 0.3);
+
+  animation: welcomeLineReveal 1.4s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+}
+
+.welcome-animation .welcome-title {
+  position: relative;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  background: var(--bg-color, #14130f);
+  font-size: clamp(2.6rem, 8vw, 6.5rem);
+  font-weight: 700;
+
+  line-height: 1;
+
+  letter-spacing: 0.04em;
+
+  perspective: 1000px;
+
+  z-index: 5;
+}
+
+.welcome-animation .welcome-title span {
+  display: inline-block;
+
+  opacity: 0;
+
+  color: #f5f7ff;
+  text-shadow:
+    0 0 18px rgba(124, 58, 237, 0.55),
+    0 0 40px rgba(74, 108, 247, 0.35);
+
+  transform: translateY(36px) rotateX(55deg) scale(0.85);
+  filter: blur(8px);
+
+  animation: welcomeLetterReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(0.65s + var(--letter-index) * 0.045s);
+}
+
+.welcome-animation .welcome-progress {
+  position: absolute;
+  left: 28px;
+  bottom: 28px;
+  z-index: 6;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-family: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+
+  opacity: 0;
+  animation:
+    welcomeFadeIn 0.6s ease 0.3s forwards,
+    welcomeProgressOut 0.4s ease 1.9s forwards;
+}
+
+.welcome-animation .welcome-progress-label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.welcome-animation .welcome-progress-track {
+  position: relative;
+
+  width: 90px;
+  height: 2px;
+
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 2px;
+
+  overflow: hidden;
+}
+
+.welcome-animation .welcome-progress-fill {
+  position: absolute;
+  inset: 0;
+
+  width: 0%;
+
+  background: linear-gradient(
+    90deg,
+    var(--accent-1, #4a6cf7),
+    var(--accent-3, #a78bfa)
+  );
+
+  transition: width 0.1s linear;
+}
+
+.welcome-animation .welcome-progress-value {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  min-width: 2.4em;
+}
+
+@keyframes welcomeProgressOut {
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.welcome-animation .particles {
+  position: absolute;
+  inset: 0;
+
   pointer-events: none;
 
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity 0.5s ease,
-    visibility 0.5s ease;
+  z-index: 2;
 }
 
-.welcome-animation.intro-done {
-  opacity: 0;
-  visibility: hidden;
-}
+.welcome-animation .particles span {
+  position: absolute;
 
-.welcome-name {
-  font-size: clamp(1.6rem, 5vw, 3rem);
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  color: var(--text-color, #ece9e1);
+  width: 2px;
+  height: 2px;
+
+  border-radius: 50%;
+
+  background: #dfe6ff;
 
   opacity: 0;
-  animation: welcomeNameIn 0.6s ease 0.15s forwards;
+
+  box-shadow: 0 0 6px rgba(124, 58, 237, 0.85);
+
+  animation-name: welcomeParticleFloat;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
 }
 
-@keyframes welcomeNameIn {
-  from {
+.welcome-animation .reveal-light {
+  position: absolute;
+
+  top: 0;
+  left: -20%;
+
+  width: 5px;
+  height: 100%;
+
+  z-index: 20;
+
+  background: #fff;
+
+  box-shadow:
+    0 0 15px #fff,
+    0 0 50px var(--accent-3, #a78bfa),
+    0 0 120px var(--accent-2, #7c3aed),
+    0 0 200px rgba(74, 108, 247, 0.5);
+
+  transform: skewX(-8deg);
+
+  opacity: 0;
+
+  animation: welcomeLightSweep 1.3s cubic-bezier(0.77, 0, 0.18, 1) 2.1s forwards;
+}
+
+.welcome-animation .reveal-light::after {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  width: 180px;
+  height: 100%;
+
+  transform: translateX(-50%);
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(124, 58, 237, 0.15),
+    rgba(255, 255, 255, 0.2),
+    rgba(74, 108, 247, 0.15),
+    transparent
+  );
+
+  filter: blur(20px);
+}
+
+@keyframes welcomeLineReveal {
+  0% {
+    width: 0;
     opacity: 0;
-    transform: translateY(8px);
   }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    width: min(280px, 55vw);
+    opacity: 1;
+  }
+}
+
+@keyframes welcomeLetterReveal {
+  to {
+    opacity: 1;
+
+    transform: translateY(0) rotateX(0) scale(1);
+
+    filter: blur(0);
+  }
+}
+
+@keyframes welcomeTaglineReveal {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+@keyframes welcomeParticleFloat {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.5);
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-30px) scale(1);
+  }
+}
+
+@keyframes welcomeLightSweep {
+  0% {
+    left: -20%;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 120%;
+    opacity: 1;
+  }
+}
+
+@media (max-width: 700px) {
+  .welcome-animation .welcome-title {
+    font-size: 12vw;
+    letter-spacing: 0.02em;
+  }
+
+  .welcome-animation .welcome-progress {
+    left: 18px;
+    bottom: 18px;
+  }
+
+  .welcome-animation .welcome-progress-track {
+    width: 60px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .welcome-name {
+  .welcome-animation {
+    transition: opacity 0.4s ease;
+  }
+
+  .welcome-animation.intro-done {
+    filter: none;
+    transform: none;
+  }
+
+  .welcome-animation .intro-blob,
+  .welcome-animation .intro-grid,
+  .welcome-animation .light-line,
+  .welcome-animation .welcome-title span,
+  .welcome-animation .welcome-progress,
+  .welcome-animation .particles span,
+  .welcome-animation .reveal-light {
     animation: none;
     opacity: 1;
+    filter: none;
+    transform: none;
   }
 }

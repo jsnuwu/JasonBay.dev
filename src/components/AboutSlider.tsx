@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import "../styles/AboutSlider.css";
 import { useReveal } from "../hooks/useReveal";
 import { useLanguage } from "../i18n/useLanguage";
+import ScrambledText from "./ScrambledText";
 
 import pet1 from "../assets/HeroImages/pets/pet1.jpeg";
 import pet2 from "../assets/HeroImages/pets/pet2.jpeg";
@@ -295,7 +296,7 @@ export default function AboutSlider() {
 
   return (
     <section id="gallery" className="about-preview reveal" ref={sectionRef}>
-      <h2 className="about-title">{t.aboutSlider.title}</h2>
+      <ScrambledText as="h2" className="about-title" text={t.aboutSlider.title} />
 
       <div className="slider-categories">
         {t.aboutSlider.categories.map((cat) => (

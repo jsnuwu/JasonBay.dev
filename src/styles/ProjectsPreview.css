@@ -1,4 +1,4 @@
-﻿.projects-preview {
+.projects-preview {
   width: 100%;
   padding: 3.5rem 1rem 4rem;
   display: flex;
@@ -7,18 +7,47 @@
   text-align: center;
 }
 
-.projects-preview-title {
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.01em;
+.projects-preview-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--card-border);
+  background: var(--span-background);
   color: var(--text-color);
+  opacity: 0.85;
+  margin-bottom: 1.25rem;
+}
+
+.projects-preview-kicker::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-gradient);
+}
+
+.projects-preview-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 0.75rem;
+  color: var(--text-color);
+}
+
+.projects-preview-title::after {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .projects-preview-subtitle {
   max-width: 560px;
   margin: 0 auto 2.5rem;
-  opacity: 0.7;
-  font-size: 1rem;
+  opacity: 0.75;
+  font-size: 1.05rem;
   line-height: 1.6;
   color: var(--text-color);
 }
@@ -35,25 +64,25 @@
 
 .preview-arrow {
   flex-shrink: 0;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   border: 1px solid var(--card-border);
-  background: transparent;
+  background: var(--card-bg);
   color: var(--text-color);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    color 0.2s ease;
+  box-shadow: 0 8px 20px var(--card-shadow);
+  transition: all 0.25s ease;
 }
 
 .preview-arrow:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  transform: translateY(-2px);
+  border-color: var(--card-link);
 }
 
 .preview-track {
@@ -62,6 +91,7 @@
   display: flex;
   overflow-x: auto;
   overflow-anchor: none;
+  border-radius: 22px;
   scrollbar-width: none;
 }
 
@@ -80,7 +110,9 @@
   text-align: left;
   background: var(--card-bg);
   border: 1px solid var(--card-border);
+  border-radius: 22px;
   overflow: hidden;
+  box-shadow: 0 25px 60px var(--card-shadow);
 }
 
 .preview-browserbar {
@@ -154,16 +186,16 @@
   position: absolute;
   right: 14px;
   bottom: 14px;
-  padding: 7px 13px;
-  background: rgba(15, 15, 20, 0.82);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(15, 15, 20, 0.75);
   color: #ffffff;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.78rem;
+  font-weight: 600;
   opacity: 0;
   transform: translateY(6px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(6px);
   pointer-events: none;
 }
 
@@ -227,7 +259,7 @@
 .preview-dot.active {
   width: 26px;
   border-radius: 5px;
-  background: var(--accent);
+  background: var(--accent-gradient);
 }
 
 @media (max-width: 860px) {

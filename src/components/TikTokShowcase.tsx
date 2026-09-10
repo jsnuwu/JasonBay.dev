@@ -9,6 +9,7 @@ import {
 import "../styles/TikTokShowcase.css";
 import { useToggleReveal } from "../hooks/useToggleReveal";
 import { useLanguage } from "../i18n/useLanguage";
+import ScrambledText from "./ScrambledText";
 
 import video1 from "../assets/TikTokPreview/1.mp4";
 import video2 from "../assets/TikTokPreview/2.mp4";
@@ -161,14 +162,21 @@ export default function TikTokShowcase() {
       className={`tiktok-showcase ${inView ? "in-view" : ""}`}
       ref={sectionRef}
     >
-      <h2 className="tiktok-showcase-title">{t.tiktokShowcase.title}</h2>
+      <span className="tiktok-showcase-kicker">
+        <ScrambledText text={t.tiktokShowcase.kicker} />
+      </span>
+      <ScrambledText
+        as="h2"
+        className="tiktok-showcase-title"
+        text={t.tiktokShowcase.title}
+      />
       <a
         className="tiktok-showcase-subtitle"
         href="https://www.tiktok.com/@jsnuwu"
         target="_blank"
         rel="noopener noreferrer"
       >
-        {t.tiktokShowcase.subtitle}
+        <ScrambledText text={t.tiktokShowcase.subtitle} />
       </a>
 
       <div className="phone-dock">
@@ -223,28 +231,7 @@ export default function TikTokShowcase() {
                   isSilent ? t.tiktokShowcase.unmute : t.tiktokShowcase.mute
                 }
               >
-                <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true">
-                  <path
-                    d="M4 9v6h4l5 4V5L8 9H4z"
-                    fill="currentColor"
-                  />
-                  {isSilent ? (
-                    <path
-                      d="M16 8l5 5M21 8l-5 5"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  ) : (
-                    <path
-                      d="M16.5 8.5a5 5 0 0 1 0 7"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      fill="none"
-                    />
-                  )}
-                </svg>
+                {isSilent ? "🔇" : "🔊"}
               </button>
               <div className="phone-volume-track">
                 <input
