@@ -25,7 +25,7 @@ interface Point {
 export default function ScrambledText({
   text,
   radius = 52,
-  speed = 110,
+  speed = 190,
   scrambleChars = DEFAULT_SCRAMBLE_CHARS,
   className = "",
   as: Tag = "span",

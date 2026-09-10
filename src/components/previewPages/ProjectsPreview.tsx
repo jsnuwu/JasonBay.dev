@@ -124,7 +124,7 @@ export default function ProjectsPreview() {
       ref={sectionRef}
     >
       <span className="projects-preview-kicker">
-        <ScrambledText text={t.projectsPreview.kicker} />
+        {t.projectsPreview.kicker}
       </span>
       <ScrambledText
         as="h2"
@@ -152,9 +152,7 @@ export default function ProjectsPreview() {
                 <span className="browser-dot red" />
                 <span className="browser-dot yellow" />
                 <span className="browser-dot green" />
-                <span className="preview-url">
-                  <ScrambledText text={formatUrl(project.link)} />
-                </span>
+                <span className="preview-url">{formatUrl(project.link)}</span>
               </div>
 
               <a
@@ -173,7 +171,7 @@ export default function ProjectsPreview() {
                   />
                 )}
                 <span className="preview-frame-hint">
-                  <ScrambledText text={t.projectsPreview.openLive} />
+                  {t.projectsPreview.openLive}
                 </span>
               </a>
 
@@ -188,9 +186,7 @@ export default function ProjectsPreview() {
                     }
                   />
                 </p>
-                <small className="preview-tech">
-                  <ScrambledText text={project.tech} />
-                </small>
+                <small className="preview-tech">{project.tech}</small>
 
                 <LiveButton href={project.link} />
               </div>

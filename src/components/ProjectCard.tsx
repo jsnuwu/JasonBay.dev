@@ -37,10 +37,8 @@ export default function ProjectCard({
       <p>
         <ScrambledText text={lang === "en" ? descriptionEn : description} />
       </p>
-      <ScrambledText text={t.projects.skillsLabel} />
-      <small>
-        <ScrambledText text={tech} />
-      </small>
+      {t.projects.skillsLabel}
+      <small>{tech}</small>
       <br />
       <LiveButton href={link} onClick={handleClick} />
     </div>

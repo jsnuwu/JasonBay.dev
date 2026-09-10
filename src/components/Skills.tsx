@@ -49,10 +49,7 @@ export default function Skills() {
         <FaLanguage className="skills-languages-icon" />
         {t.skills.languages.map((lang) => (
           <span key={lang.name}>
-            <strong>
-              <ScrambledText text={lang.name} />
-            </strong>{" "}
-            · <ScrambledText text={lang.level} />
+            <strong>{lang.name}</strong> · {lang.level}
           </span>
         ))}
       </div>

@@ -71,9 +71,7 @@ export default function SocialStats() {
 
   return (
     <section className="social-stats reveal" ref={sectionRef}>
-      <span className="social-stats-kicker">
-        <ScrambledText text={t.socialStats.kicker} />
-      </span>
+      <span className="social-stats-kicker">{t.socialStats.kicker}</span>
       <ScrambledText
         as="h2"
         className="social-stats-title"
@@ -89,7 +87,7 @@ export default function SocialStats() {
             {social.latestPost && (
               <div className="social-stat-preview">
                 <span className="social-stat-preview-label">
-                  <ScrambledText text={t.socialStats.latestPost} />
+                  {t.socialStats.latestPost}
                 </span>
                 {social.latestPost.image ? (
                   <img src={social.latestPost.image} alt="" />
@@ -103,7 +101,7 @@ export default function SocialStats() {
                   </div>
                 )}
                 <span className="social-stat-preview-caption">
-                  <ScrambledText text={social.latestPost.caption} />
+                  {social.latestPost.caption}
                 </span>
                 <span className="social-stat-preview-tail" />
               </div>
@@ -122,9 +120,7 @@ export default function SocialStats() {
                 <img src={social.icon} alt="" className="social-stat-icon" />
                 <div>
                   <ScrambledText as="h3" text={social.name} />
-                  <span className="social-stat-handle">
-                    <ScrambledText text={social.handle} />
-                  </span>
+                  <span className="social-stat-handle">{social.handle}</span>
                 </div>
               </div>
 
@@ -138,20 +134,14 @@ export default function SocialStats() {
                 <div className="social-stat-numbers">
                   {social.stats.map((stat) => (
                     <div key={stat.label} className="social-stat-number">
-                      <strong>
-                        <ScrambledText text={stat.value} />
-                      </strong>
-                      <span>
-                        <ScrambledText text={stat.label} />
-                      </span>
+                      <strong>{stat.value}</strong>
+                      <span>{stat.label}</span>
                     </div>
                   ))}
                 </div>
               ) : (
                 social.cta && (
-                  <span className="social-stat-cta">
-                    <ScrambledText text={social.cta} />
-                  </span>
+                  <span className="social-stat-cta">{social.cta}</span>
                 )
               )}
             </a>

@@ -29,7 +29,7 @@ export default function About() {
 
       <section className="video-spotlight reveal" ref={spotlightRef}>
         <span className="video-spotlight-kicker">
-          <ScrambledText text={t.about.spotlight.kicker} />
+          {t.about.spotlight.kicker}
         </span>
         <h3>
           <ScrambledText text={headingBefore} />
@@ -49,28 +49,16 @@ export default function About() {
 
         <div className="video-spotlight-stats">
           <div className="video-spotlight-stat">
-            <strong>
-              <ScrambledText text={t.about.spotlight.statFollowerValue} />
-            </strong>
-            <span>
-              <ScrambledText text={t.about.spotlight.statFollowerLabel} />
-            </span>
+            <strong>{t.about.spotlight.statFollowerValue}</strong>
+            <span>{t.about.spotlight.statFollowerLabel}</span>
           </div>
           <div className="video-spotlight-stat">
-            <strong>
-              <ScrambledText text={t.about.spotlight.statLikesValue} />
-            </strong>
-            <span>
-              <ScrambledText text={t.about.spotlight.statLikesLabel} />
-            </span>
+            <strong>{t.about.spotlight.statLikesValue}</strong>
+            <span>{t.about.spotlight.statLikesLabel}</span>
           </div>
           <div className="video-spotlight-stat">
-            <strong>
-              <ScrambledText text={t.about.spotlight.statExperienceValue} />
-            </strong>
-            <span>
-              <ScrambledText text={t.about.spotlight.statExperienceLabel} />
-            </span>
+            <strong>{t.about.spotlight.statExperienceValue}</strong>
+            <span>{t.about.spotlight.statExperienceLabel}</span>
           </div>
         </div>
 

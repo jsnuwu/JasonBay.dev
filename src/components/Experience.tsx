@@ -22,13 +22,9 @@ export default function Experience() {
               <div className="experience-header">
                 <div>
                   <ScrambledText as="h3" text={entry.org} />
-                  <span className="experience-role">
-                    <ScrambledText text={entry.role} />
-                  </span>
+                  <span className="experience-role">{entry.role}</span>
                 </div>
-                <span className="experience-period">
-                  <ScrambledText text={entry.period} />
-                </span>
+                <span className="experience-period">{entry.period}</span>
               </div>
               <ul>
                 {entry.bullets.map((bullet) => (

@@ -57,9 +57,7 @@ export default function TechStack() {
           {[...techStack, ...techStack].map((tech, index) => (
             <div key={index} className="skill-item">
               {tech.icon}
-              <span>
-                <ScrambledText text={tech.name} />
-              </span>
+              <span>{tech.name}</span>
             </div>
           ))}
         </div>

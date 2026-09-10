@@ -163,7 +163,7 @@ export default function TikTokShowcase() {
       ref={sectionRef}
     >
       <span className="tiktok-showcase-kicker">
-        <ScrambledText text={t.tiktokShowcase.kicker} />
+        {t.tiktokShowcase.kicker}
       </span>
       <ScrambledText
         as="h2"

@@ -37,9 +37,7 @@ export default function Hero() {
 
         <div className="hero-content">
           <div className="hero-text">
-            <span className="hero-kicker">
-              <ScrambledText text={t.hero.kicker} />
-            </span>
+            <span className="hero-kicker">{t.hero.kicker}</span>
 
             <h1 className="hero-title">
               <ScrambledText text={t.hero.titlePrefix} />{" "}
@@ -61,7 +59,7 @@ export default function Hero() {
                       ?.scrollIntoView({ behavior: "smooth" });
                   }}
                 >
-                  <ScrambledText text={tag.label} />
+                  {tag.label}
                 </a>
               ))}
             </div>
@@ -92,9 +90,7 @@ export default function Hero() {
           }
         >
           <div className="mouse" />
-          <span>
-            <ScrambledText text={t.hero.scroll} />
-          </span>
+          <span>{t.hero.scroll}</span>
         </div>
       </section>
 
