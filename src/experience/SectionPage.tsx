@@ -3,7 +3,9 @@ import { useLanguage } from "../i18n/useLanguage";
 import { EMAIL, getSocials } from "./content";
 import GallerySection from "./sections/GallerySection";
 import TikTokSection from "./sections/TikTokSection";
-import ProjectShowcase from "./sections/ProjectShowcase";
+import portrait from "../assets/avatar/BayJason.jpg";
+
+const PORTFOLIO_URL = "https://jsnuwu.github.io/JasonBay.dev/";
 
 interface Props {
   id: string;
@@ -19,7 +21,6 @@ const TITLES: Record<string, { de: string; en: string }> = {
   tiktok: { de: "TikTok", en: "TikTok" },
   languages: { de: "Sprachen", en: "Languages" },
   contact: { de: "Kontakt", en: "Contact" },
-  background: { de: "Hintergrund", en: "Background" },
 };
 
 const INTRO: Record<string, { de: string; en: string }> = {
@@ -28,8 +29,8 @@ const INTRO: Record<string, { de: string; en: string }> = {
     en: "Who I am and how I work.",
   },
   work: {
-    de: "Web-Projekte und Video-Arbeiten. Jede Karte öffnet die Live-Version.",
-    en: "Web projects and video work. Each card opens the live version.",
+    de: "Mein erstes Portfolio — live und in voller Länge.",
+    en: "My first portfolio — live and in full.",
   },
   skills: {
     de: "Werkzeuge und Methoden, mit denen ich täglich arbeite.",
@@ -51,10 +52,6 @@ const INTRO: Record<string, { de: string; en: string }> = {
   contact: {
     de: "Schreib mir — ich melde mich zurück.",
     en: "Drop me a line — I'll get back to you.",
-  },
-  background: {
-    de: "Der längere Weg hierher.",
-    en: "The longer road to here.",
   },
 };
 
@@ -131,8 +128,11 @@ export default function SectionPage({ id, onBack }: Props) {
 
   const title = TITLES[id] ? (de ? TITLES[id].de : TITLES[id].en) : id;
   const intro = INTRO[id] ? (de ? INTRO[id].de : INTRO[id].en) : "";
+  const total = Object.keys(TITLES).length;
   const num =
-    String(Object.keys(TITLES).indexOf(id) + 1).padStart(2, "0") + " / 09";
+    String(Object.keys(TITLES).indexOf(id) + 1).padStart(2, "0") +
+    " / " +
+    String(total).padStart(2, "0");
 
   return (
     <div
@@ -163,7 +163,38 @@ export default function SectionPage({ id, onBack }: Props) {
       <div className="sp-body">
         {id === "gallery" && <GallerySection />}
         {id === "tiktok" && <TikTokSection />}
-        {id === "work" && <ProjectShowcase />}
+        {id === "work" && (
+          <div className="sp-portfolio">
+            <a
+              className="sp-portfolio-frame"
+              href={PORTFOLIO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={de ? "Portfolio live öffnen" : "Open portfolio live"}
+            >
+              <span className="sp-portfolio-bar">
+                <span className="showcase-dot" />
+                <span className="showcase-dot" />
+                <span className="showcase-dot" />
+                <span className="showcase-url">
+                  jsnuwu.github.io/JasonBay.dev
+                </span>
+              </span>
+              <span className="sp-portfolio-view">
+                <iframe
+                  src={PORTFOLIO_URL}
+                  title="JasonBay.dev"
+                  loading="lazy"
+                  tabIndex={-1}
+                />
+                <span className="sp-portfolio-veil" />
+              </span>
+              <span className="sp-portfolio-hint">
+                {de ? "LIVE ÖFFNEN ↗" : "OPEN LIVE ↗"}
+              </span>
+            </a>
+          </div>
+        )}
         {id === "experience" && (
           <ul className="sp-timeline">
             {t.experience.entries.map((e) => (
@@ -225,18 +256,20 @@ export default function SectionPage({ id, onBack }: Props) {
           </ul>
         )}
         {id === "about" && (
-          <div className="sp-prose">
-            <p className="sp-lead">{t.about.lead}</p>
-            <p>{t.about.body}</p>
-          </div>
-        )}
-        {id === "background" && (
-          <div className="sp-prose">
-            <p>
-              {de
-                ? "Vor der Ausbildung ein Freiwilliges Soziales Jahr bei der Lebenshilfe Vaihingen-Mühlacker (09/2022 – 08/2023). Danach die Ausbildung zum Fachinformatiker für Anwendungsentwicklung bei der adesso SE, abgeschlossen im Januar 2026 (IHK). Seither Junior Software Engineer bei Telution mit Schwerpunkt Frontend — Angular, TypeScript und WordPress. Parallel dazu seit Jahren eigener Video-Schnitt und Social-Media-Content."
-                : "Before the apprenticeship, a voluntary social year at Lebenshilfe Vaihingen-Mühlacker (09/2022 – 08/2023). Then an apprenticeship as an IT specialist for application development at adesso SE, completed in January 2026 (IHK). Since then a Junior Software Engineer at Telution with a frontend focus — Angular, TypeScript and WordPress. Alongside that, years of self-made video editing and social media content."}
-            </p>
+          <div className="sp-about">
+            <div className="sp-prose">
+              <p className="sp-lead">{t.about.lead}</p>
+              <p>{t.about.body}</p>
+              <p>
+                {de
+                  ? "Vor der Ausbildung ein Freiwilliges Soziales Jahr bei der Lebenshilfe Vaihingen-Mühlacker. Danach die Ausbildung zum Fachinformatiker für Anwendungsentwicklung bei adesso, abgeschlossen im Januar 2026 (IHK). Seither Junior Software Engineer bei Telution."
+                  : "Before the apprenticeship, a voluntary social year at Lebenshilfe Vaihingen-Mühlacker. Then an apprenticeship as an IT specialist for application development at adesso, completed in January 2026 (IHK). Since then a Junior Software Engineer at Telution."}
+              </p>
+            </div>
+            <figure className="sp-portrait">
+              <img src={portrait} alt="Jason Bay" />
+              <figcaption>Jason Bay — Vaihingen an der Enz</figcaption>
+            </figure>
           </div>
         )}
         {id === "contact" && (

@@ -161,7 +161,7 @@ export default function ConstellationCanvas({
     const radialGroup = new THREE.Group();
     world.add(radialGroup);
 
-    const coreGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+    const coreGeo = new THREE.BoxGeometry(0.12, 0.12, 0.12);
     const coreMat = new THREE.MeshBasicMaterial({
       color: 0x000000,
       transparent: true,

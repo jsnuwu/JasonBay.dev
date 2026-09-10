@@ -11,9 +11,17 @@ export default function Reticle() {
 
     document.body.classList.add("reticle-active");
     let visible = false;
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
+
+    const apply = () => {
+      el.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+    };
 
     const move = (e: MouseEvent) => {
-      el.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+      x = e.clientX;
+      y = e.clientY;
+      apply();
       if (!visible) {
         visible = true;
         el.classList.add("is-visible");
@@ -28,11 +36,24 @@ export default function Reticle() {
       visible = false;
       el.classList.remove("is-visible");
     };
+    const down = () => {
+      el.classList.remove("did-click");
+      el.classList.add("is-pressed");
+    };
+    const up = () => {
+      el.classList.remove("is-pressed");
+      el.classList.add("did-click");
+      window.setTimeout(() => el.classList.remove("did-click"), 420);
+    };
 
     window.addEventListener("mousemove", move);
+    window.addEventListener("mousedown", down);
+    window.addEventListener("mouseup", up);
     document.addEventListener("mouseleave", leave);
     return () => {
       window.removeEventListener("mousemove", move);
+      window.removeEventListener("mousedown", down);
+      window.removeEventListener("mouseup", up);
       document.removeEventListener("mouseleave", leave);
       document.body.classList.remove("reticle-active");
     };
@@ -40,10 +61,12 @@ export default function Reticle() {
 
   return (
     <div className="reticle" ref={ref} aria-hidden="true">
+      <span className="reticle-ring" />
       <span className="reticle-corner tl" />
       <span className="reticle-corner tr" />
       <span className="reticle-corner bl" />
       <span className="reticle-corner br" />
+      <span className="reticle-dot" />
     </div>
   );
 }

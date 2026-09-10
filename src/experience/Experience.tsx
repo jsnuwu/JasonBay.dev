@@ -164,11 +164,19 @@ export default function Experience() {
         />
 
         {scene === "main" && (
-          <div className="identity">
+          <button
+            className="identity"
+            data-hover
+            onClick={() => {
+              playBlip();
+              goScene("about");
+            }}
+            aria-label={de ? "Weiter zu Über mich" : "Continue to About"}
+          >
             <span className="identity-name">{identity.name}</span>
-            <span className="identity-rule" />
+            <span className="identity-node" aria-hidden="true" />
             <span className="identity-tag">{identity.tagline}</span>
-          </div>
+          </button>
         )}
 
         <div className="label-layer">

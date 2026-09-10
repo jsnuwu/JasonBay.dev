@@ -91,8 +91,7 @@ export function getSectionNodes(lang: Lang): SectionNode[] {
     { id: "gallery", label: de ? "GALERIE" : "GALLERY", position: [3.4, 1.1, -3.2], scale: 0.9 },
     { id: "tiktok", label: "TIKTOK", position: [2.9, -0.2, 0.6], scale: 0.85 },
     { id: "languages", label: de ? "SPRACHEN" : "LANGUAGES", position: [1.6, -2.6, -1.4], scale: 0.75 },
-    { id: "contact", label: de ? "KONTAKT" : "CONTACT", position: [0.1, 0.05, 0.05], scale: 0.7 },
-    { id: "background", label: de ? "HINTERGRUND" : "BACKGROUND", position: [5.6, 0.4, -4.8], scale: 1.2 },
+    { id: "contact", label: de ? "KONTAKT" : "CONTACT", position: [5.4, 0.6, -4.4], scale: 1.15 },
   ];
 }
 
