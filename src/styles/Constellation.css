@@ -70,6 +70,57 @@
   }
 }
 
+/* ---- centre identity ---- */
+.identity {
+  position: absolute;
+  top: calc(50% - 6px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 34px;
+  pointer-events: none;
+  text-align: center;
+}
+
+.identity-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+  text-transform: uppercase;
+  color: var(--exp-ink);
+  padding: 6px 14px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--exp-paper) 45%,
+    transparent 80%
+  );
+}
+
+.identity-rule {
+  width: 1px;
+  height: 26px;
+  background: var(--exp-ink);
+  opacity: 0.22;
+}
+
+.identity-tag {
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--exp-ink-soft);
+  padding: 5px 14px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--exp-paper) 40%,
+    transparent 82%
+  );
+}
+
 /* ---- labels ---- */
 .label-layer {
   position: absolute;
@@ -205,7 +256,11 @@
   opacity: 0.6;
 }
 
-.role-line { max-width: 40%; }
+.role-line {
+  max-width: 40%;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
 .hint-line {
   position: absolute;
   left: 50%;

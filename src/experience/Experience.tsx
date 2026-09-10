@@ -6,6 +6,7 @@ import Reticle from "./Reticle";
 import SectionPage from "./SectionPage";
 import {
   EMAIL,
+  getIdentity,
   getProjects,
   getRadialKeywords,
   getSectionNodes,
@@ -27,6 +28,7 @@ export default function Experience() {
 
   const keywords = useMemo(() => getRadialKeywords(lang), [lang]);
   const sections = useMemo(() => getSectionNodes(lang), [lang]);
+  const identity = useMemo(() => getIdentity(lang), [lang]);
   const projects = useMemo(() => getProjects(), []);
 
   const anchors: Anchor[] = useMemo(() => {
@@ -36,7 +38,7 @@ export default function Experience() {
         strong: k.strong,
         position: [
           Math.cos(k.angle) * k.radius,
-          Math.sin(k.angle) * k.radius * 0.62,
+          Math.sin(k.angle) * k.radius * 0.7,
           k.depth,
         ] as [number, number, number],
       }));
@@ -136,8 +138,8 @@ export default function Experience() {
 
   const de = lang === "de";
   const roleLine = de
-    ? "Software Engineer — Deutschland"
-    : "Software Engineer — Germany";
+    ? "Software Engineer & Video Editor — Deutschland"
+    : "Software Engineer & Video Editor — Germany";
   const hint =
     scene === "main"
       ? de
@@ -162,6 +164,14 @@ export default function Experience() {
           dragRef={dragRef}
           labelEls={labelEls}
         />
+
+        {scene === "main" && (
+          <div className="identity">
+            <span className="identity-name">{identity.name}</span>
+            <span className="identity-rule" />
+            <span className="identity-tag">{identity.tagline}</span>
+          </div>
+        )}
 
         <div className="label-layer">
           {scene === "main" &&

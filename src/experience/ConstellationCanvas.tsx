@@ -161,21 +161,39 @@ export default function ConstellationCanvas({
     const radialGroup = new THREE.Group();
     world.add(radialGroup);
 
-    const coreGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    const coreMat = new THREE.MeshBasicMaterial({ color: 0x0a0a0a });
+    const coreGeo = new THREE.BoxGeometry(0.3, 0.3, 0.3);
+    const coreMat = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      transparent: true,
+      depthTest: false,
+    });
     const core = new THREE.Mesh(coreGeo, coreMat);
+    core.renderOrder = 10;
     radialGroup.add(core);
 
-    const spokeMat = new THREE.LineBasicMaterial({
-      color: 0x151515,
+    const coreRingGeo = new THREE.RingGeometry(0.42, 0.46, 4);
+    const coreRingMat = new THREE.MeshBasicMaterial({
+      color: 0x000000,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.5,
+      side: THREE.DoubleSide,
+      depthTest: false,
+    });
+    const coreRing = new THREE.Mesh(coreRingGeo, coreRingMat);
+    coreRing.renderOrder = 9;
+    coreRing.rotation.z = Math.PI / 4;
+    radialGroup.add(coreRing);
+
+    const spokeMat = new THREE.LineBasicMaterial({
+      color: 0x1a1a1a,
+      transparent: true,
+      opacity: 0.35,
     });
 
     const rebuildSpokes = () => {
       for (let i = radialGroup.children.length - 1; i >= 0; i--) {
         const c = radialGroup.children[i];
-        if (c !== core) {
+        if (c !== core && c !== coreRing) {
           radialGroup.remove(c);
           if (c instanceof THREE.Line) c.geometry.dispose();
         }
@@ -213,35 +231,31 @@ export default function ConstellationCanvas({
 
       // background + camera ease
       targetColor.set(BG[id]);
-      bgColor.lerp(targetColor, 0.05);
+      bgColor.lerp(targetColor, 0.04);
       if (scene3.fog instanceof THREE.FogExp2) {
         scene3.fog.color.copy(bgColor);
         scene3.fog.density = lerp(
           scene3.fog.density,
           id === "main" ? 0.008 : 0.026,
-          0.05,
+          0.04,
         );
       }
-      blendZ = lerp(blendZ, CAM_Z[id], 0.05);
+      blendZ = lerp(blendZ, CAM_Z[id], 0.04);
 
       // opacities per scene
       const starTarget = id === "main" ? 0.0 : 0.9;
-      starMat.opacity = lerp(starMat.opacity, starTarget, 0.06);
-      netNodeMat.opacity = lerp(netNodeMat.opacity, starTarget * 0.7, 0.06);
+      starMat.opacity = lerp(starMat.opacity, starTarget, 0.045);
+      netNodeMat.opacity = lerp(netNodeMat.opacity, starTarget * 0.7, 0.045);
       netMat.opacity = lerp(
         netMat.opacity,
         id === "about" ? 0.12 : id === "portfolio" ? 0.04 : 0,
-        0.06,
+        0.045,
       );
-      radialGroup.visible = spokeMat.opacity > 0.02;
-      spokeMat.opacity = lerp(
-        spokeMat.opacity,
-        id === "main" ? 0.5 : 0,
-        0.08,
-      );
-      (core.material as THREE.MeshBasicMaterial).opacity = spokeMat.opacity;
-      (core.material as THREE.MeshBasicMaterial).transparent = true;
-      core.visible = radialGroup.visible;
+      spokeMat.opacity = lerp(spokeMat.opacity, id === "main" ? 0.35 : 0, 0.06);
+      const coreVis = id === "main" ? 1 : 0;
+      coreMat.opacity = lerp(coreMat.opacity, coreVis, 0.06);
+      coreRingMat.opacity = lerp(coreRingMat.opacity, coreVis * 0.5, 0.06);
+      radialGroup.visible = coreMat.opacity > 0.02;
 
       // pointer + drag rotation
       const p = pointerRef.current;
@@ -308,6 +322,8 @@ export default function ConstellationCanvas({
       netNodeMat.dispose();
       coreGeo.dispose();
       coreMat.dispose();
+      coreRingGeo.dispose();
+      coreRingMat.dispose();
       spokeMat.dispose();
       if (renderer.domElement.parentNode === mount) {
         mount.removeChild(renderer.domElement);

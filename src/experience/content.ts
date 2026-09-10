@@ -22,56 +22,65 @@ export interface SocialLink {
   href: string;
 }
 
+// primary disciplines
 const STRONG_KEYWORDS = [
   "FRONTEND",
   "REACT",
   "ANGULAR",
   "VUE",
   "TYPESCRIPT",
-  "MOTION",
-  "GRAPHIC DESIGN",
   "VIDEO EDITING",
+  "MOTION DESIGN",
+  "GRAPHIC DESIGN",
 ];
 
-const FAINT_KEYWORDS_DE = [
-  "CTRL+Z",
-  "NACHTAKTIV",
-  "PIXELGENAU",
-  "AUTODIDAKT",
-  "KOFFEIN",
-  "DETAILVERLIEBT",
+// real secondary tools / methods
+const FAINT_KEYWORDS = [
+  "FIGMA",
+  "GIT",
+  "WORDPRESS",
+  "AFTER EFFECTS",
+  "DAVINCI RESOLVE",
+  "PHOTOSHOP",
 ];
 
-const FAINT_KEYWORDS_EN = [
-  "CTRL+Z",
-  "NIGHT OWL",
-  "PIXEL-PERFECT",
-  "SELF-TAUGHT",
-  "CAFFEINE",
-  "RELENTLESS",
-];
+export interface Identity {
+  name: string;
+  tagline: string;
+}
 
-export function getRadialKeywords(lang: Lang): RadialKeyword[] {
-  const faint = lang === "de" ? FAINT_KEYWORDS_DE : FAINT_KEYWORDS_EN;
+export function getIdentity(lang: Lang): Identity {
+  return {
+    name: "JASON BAY",
+    tagline:
+      lang === "de"
+        ? "Software Engineer & Editor — Deutschland"
+        : "Software Engineer & Editor — Germany",
+  };
+}
+
+export function getRadialKeywords(_lang: Lang): RadialKeyword[] {
+  void _lang;
+  const faint = FAINT_KEYWORDS;
 
   const strong = STRONG_KEYWORDS.map((label, i) => {
-    const angle = (i / STRONG_KEYWORDS.length) * Math.PI * 2 + 0.35;
+    const angle = (i / STRONG_KEYWORDS.length) * Math.PI * 2 + 0.5;
     return {
       label,
       strong: true,
       angle,
-      radius: 3.7 + (i % 3) * 0.55,
+      radius: 3.6 + (i % 3) * 0.5,
       depth: (i % 2 === 0 ? 1 : -1) * (0.4 + (i % 3) * 0.3),
     };
   });
 
   const weak = faint.map((label, i) => {
-    const angle = (i / faint.length) * Math.PI * 2 + 0.9;
+    const angle = (i / faint.length) * Math.PI * 2 + 1.7;
     return {
       label,
       strong: false,
       angle,
-      radius: 5.2 + (i % 3) * 0.7,
+      radius: 4.3 + (i % 3) * 0.45,
       depth: (i % 2 === 0 ? -1 : 1) * (1.6 + (i % 2) * 0.8),
     };
   });
