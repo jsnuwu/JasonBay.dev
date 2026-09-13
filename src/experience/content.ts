@@ -84,12 +84,13 @@ export function getSectionNodes(lang: Lang): SectionNode[] {
   const de = lang === "de";
   const defs: { id: string; label: string; scale: number }[] = [
     { id: "about", label: de ? "ÜBER MICH" : "ABOUT", scale: 1.15 },
+    {
+      id: "skills-experience",
+      label: de ? "PROFIL" : "PROFILE",
+      scale: 1.2,
+    },
     { id: "work", label: "PORTFOLIO", scale: 1.35 },
-    { id: "skills", label: "SKILLS", scale: 0.9 },
-    { id: "experience", label: de ? "WERDEGANG" : "EXPERIENCE", scale: 1.3 },
-    { id: "gallery", label: de ? "GALERIE" : "GALLERY", scale: 0.95 },
     { id: "social", label: "SOCIAL MEDIA", scale: 1 },
-    { id: "languages", label: de ? "SPRACHEN" : "LANGUAGES", scale: 0.8 },
     { id: "contact", label: de ? "KONTAKT" : "CONTACT", scale: 1.05 },
   ];
 
@@ -98,7 +99,7 @@ export function getSectionNodes(lang: Lang): SectionNode[] {
   const n = defs.length;
 
   return defs.map((d, i) => {
-    const y = 1 - (i / (n - 1)) * 2;
+    const y = 1 - ((i + 0.5) / n) * 2;
     const ring = Math.sqrt(Math.max(0, 1 - y * y));
     const theta = golden * i;
     return {

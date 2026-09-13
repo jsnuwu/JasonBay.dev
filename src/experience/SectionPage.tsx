@@ -1,9 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { EMAIL, getSocials } from "./content";
-import GallerySection from "./sections/GallerySection";
-import TikTokSection from "./sections/TikTokSection";
-import OldPortfolio from "../components/OldPortfolio";
 import portrait from "../assets/avatar/BayJason.jpg";
 import tiktokLogo from "../assets/images/TikTok.png";
 import youtubeLogo from "../assets/images/Youtube.png";
@@ -11,6 +8,14 @@ import instagramLogo from "../assets/images/Instagram.png";
 import adessoLogo from "../assets/images/adessologo2.png";
 import telutionLogo from "../assets/images/telution-logo.webp";
 import lebenshilfeLogo from "../assets/images/lebenshilfe.de-removebg-preview.png";
+
+const GallerySection = lazy(() => import("./sections/GallerySection"));
+const TikTokSection = lazy(() => import("./sections/TikTokSection"));
+const OldPortfolio = lazy(() => import("../components/OldPortfolio"));
+
+function SectionLoading() {
+  return <div className="sp-loading" aria-hidden="true" />;
+}
 
 const SOCIAL_LOGOS: Record<string, string> = {
   tiktok: tiktokLogo,
@@ -38,6 +43,7 @@ function orgLogo(org: string) {
 interface Props {
   id: string;
   onBack: () => void;
+  onOpen: (id: string) => void;
 }
 
 const SKILL_ICONS: [RegExp, string][] = [
@@ -86,7 +92,7 @@ function levelPct(level: string) {
 function flagFor(name: string) {
   const n = name.toLowerCase();
   if (n.startsWith("deutsch") || n.startsWith("german")) return "🇩🇪";
-  if (n.startsWith("englisch") || n.startsWith("english")) return "🇬🇧";
+  if (n.startsWith("englisch") || n.startsWith("english")) return "EN";
   if (n.startsWith("franz") || n.startsWith("french")) return "🇫🇷";
   if (n.startsWith("spanisch") || n.startsWith("spanish")) return "🇪🇸";
   return "🌐";
@@ -95,11 +101,8 @@ function flagFor(name: string) {
 const TITLES: Record<string, { de: string; en: string }> = {
   about: { de: "Über mich", en: "About" },
   work: { de: "Portfolio", en: "Portfolio" },
-  skills: { de: "Skills", en: "Skills" },
-  experience: { de: "Werdegang", en: "Experience" },
-  gallery: { de: "Galerie", en: "Gallery" },
+  "skills-experience": { de: "Profil", en: "Profile" },
   social: { de: "Social Media", en: "Social Media" },
-  languages: { de: "Sprachen", en: "Languages" },
   contact: { de: "Kontakt", en: "Contact" },
 };
 
@@ -112,30 +115,42 @@ const INTRO: Record<string, { de: string; en: string }> = {
     de: "Meine erste Portfolio-Seite.",
     en: "My first portfolio site.",
   },
-  skills: {
-    de: "Werkzeuge und Methoden, mit denen ich täglich arbeite.",
-    en: "Tools and methods I work with day to day.",
-  },
-  experience: {
-    de: "Stationen von der Ausbildung bis heute.",
-    en: "Stations from apprenticeship to today.",
-  },
-  gallery: {
-    de: "Fotografie abseits vom Code · Wandern, Motorrad, Tiere.",
-    en: "Photography beyond the code · hiking, motorcycles, pets.",
+  "skills-experience": {
+    de: "Was ich kann, und wie ich dahin gekommen bin.",
+    en: "What I can do, and how I got here.",
   },
   social: {
     de: "Instagram, TikTok und YouTube · Konzeption, Schnitt und Gestaltung seit 2020.",
     en: "Instagram, TikTok and YouTube · concept, editing and design since 2020.",
   },
-  languages: { de: "", en: "" },
   contact: {
     de: "Schreib mir, ich melde mich zurück.",
     en: "Drop me a line, I'll get back to you.",
   },
 };
 
-export default function SectionPage({ id, onBack }: Props) {
+const SUB_TITLES: Record<string, { de: string; en: string }> = {
+  skills: { de: "Skills", en: "Skills" },
+  experience: { de: "Werdegang", en: "Experience" },
+  gallery: { de: "Galerie", en: "Gallery" },
+};
+
+const SUB_INTRO: Record<string, { de: string; en: string }> = {
+  skills: {
+    de: "Die Tools, mit denen ich täglich arbeite.",
+    en: "The tools I use day to day.",
+  },
+  experience: {
+    de: "Von der Ausbildung bis heute.",
+    en: "From my apprenticeship to today.",
+  },
+  gallery: {
+    de: "Fotografie abseits vom Code · Wandern, Motorrad, Tiere.",
+    en: "Photography beyond the code · hiking, motorcycles, pets.",
+  },
+};
+
+export default function SectionPage({ id, onBack, onOpen }: Props) {
   const { t, lang } = useLanguage();
   const de = lang === "de";
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -216,7 +231,7 @@ export default function SectionPage({ id, onBack }: Props) {
 
   return (
     <div
-      className="section-page"
+      className={`section-page ${id === "work" ? "section-page-dark" : ""}`}
       ref={scrollRef}
       style={{ transform: pull ? `translateY(${pull * 40}px)` : undefined }}
     >
@@ -237,16 +252,33 @@ export default function SectionPage({ id, onBack }: Props) {
         <span className="sp-num">{num}</span>
       </div>
 
-      <header className="sp-header">
-        <h1>{title}</h1>
-        {intro && <p className="sp-intro">{intro}</p>}
-      </header>
+      {id !== "work" && (
+        <header className="sp-header">
+          <h1>{title}</h1>
+          {intro && <p className="sp-intro">{intro}</p>}
+          {id === "skills-experience" && (
+            <button
+              className="sp-cv-download"
+              onClick={() =>
+                import("./generateCv").then(({ downloadCv }) =>
+                  downloadCv(lang, t),
+                )
+              }
+            >
+              <span className="glow-text">
+                {de ? "↓ Lebenslauf (PDF)" : "↓ Résumé (PDF)"}
+              </span>
+            </button>
+          )}
+        </header>
+      )}
 
       <div className={`sp-body ${id === "work" ? "sp-body-wide" : ""}`}>
-        {id === "gallery" && <GallerySection />}
         {id === "social" && (
           <div className="sp-social">
-            <TikTokSection />
+            <Suspense fallback={<SectionLoading />}>
+              <TikTokSection />
+            </Suspense>
             <ul className="sp-social-links">
               {getSocials()
                 .filter((s) =>
@@ -270,110 +302,180 @@ export default function SectionPage({ id, onBack }: Props) {
             </ul>
           </div>
         )}
-        {id === "work" && <OldPortfolio />}
-        {id === "experience" && (
-          <ol className="sp-timeline">
-            {t.experience.entries.map((e) => {
-              const logo = orgLogo(e.org);
-              return (
-              <li key={e.org}>
-                <span
-                  className={`spt-badge${logo ? " has-logo" : ""}`}
-                  data-org={logo?.slug}
-                  aria-hidden="true"
-                >
-                  {logo ? (
-                    <img src={logo.logo} alt="" loading="lazy" />
-                  ) : (
-                    e.org.replace(/[^A-Za-zÄÖÜ]/g, "").slice(0, 2).toUpperCase()
-                  )}
-                </span>
-                <div className="spt-body">
-                  <span className="spt-period">{e.period}</span>
-                  <span className="spt-org">{e.org}</span>
-                  <span className="spt-role">{e.role}</span>
-                  <ul>
-                    {e.bullets.map((b) => (
-                      <li key={b}>{b}</li>
+        {id === "work" && (
+          <Suspense fallback={<SectionLoading />}>
+            <OldPortfolio />
+          </Suspense>
+        )}
+        {id === "skills-experience" && (
+          <>
+            <section className="sp-subsection">
+              <div className="sp-sub-head">
+                <h2>{de ? SUB_TITLES.experience.de : SUB_TITLES.experience.en}</h2>
+                <p className="sp-sub-intro">
+                  {de ? SUB_INTRO.experience.de : SUB_INTRO.experience.en}
+                </p>
+              </div>
+              <ol className="sp-timeline">
+                {t.experience.entries.map((e) => {
+                  const logo = orgLogo(e.org);
+                  return (
+                    <li key={e.org}>
+                      <span
+                        className={`spt-badge${logo ? " has-logo" : ""}`}
+                        data-org={logo?.slug}
+                        aria-hidden="true"
+                      >
+                        {logo ? (
+                          <img src={logo.logo} alt="" loading="lazy" />
+                        ) : (
+                          e.org
+                            .replace(/[^A-Za-zÄÖÜ]/g, "")
+                            .slice(0, 2)
+                            .toUpperCase()
+                        )}
+                      </span>
+                      <div className="spt-body">
+                        <span className="spt-period">{e.period}</span>
+                        <span className="spt-org">{e.org}</span>
+                        <span className="spt-role">{e.role}</span>
+                        <ul>
+                          {e.bullets.map((b) => (
+                            <li key={b}>{b}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
+
+            <section className="sp-subsection">
+              <div className="sp-sub-head">
+                <h2>{de ? SUB_TITLES.skills.de : SUB_TITLES.skills.en}</h2>
+                <p className="sp-sub-intro">
+                  {de ? SUB_INTRO.skills.de : SUB_INTRO.skills.en}
+                </p>
+              </div>
+              <div className="sp-skills">
+                {t.skills.groups.map((g, gi) => (
+                  <div className="skrow" key={g.title}>
+                    <span className="skrow-num">
+                      {String(gi + 1).padStart(2, "0")}
+                    </span>
+                    <h3 className="skrow-title">{g.title}</h3>
+                    <ul className="skrow-tags">
+                      {g.items.split(",").map((raw) => {
+                        const it = raw.trim();
+                        const logo = SOCIAL_LOGOS[socialKey(it)];
+                        const icon = skillIcon(it);
+                        return (
+                          <li key={it}>
+                            {logo ? (
+                              <img
+                                className="skrow-logo"
+                                src={logo}
+                                alt=""
+                                aria-hidden="true"
+                                loading="lazy"
+                              />
+                            ) : icon ? (
+                              <i className={icon} aria-hidden="true" />
+                            ) : (
+                              <span className="skrow-mono" aria-hidden="true">
+                                {it.slice(0, 1)}
+                              </span>
+                            )}
+                            {it}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
+                <div className="skrow">
+                  <span className="skrow-num">
+                    {String(t.skills.groups.length + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="skrow-title">
+                    {de ? "Sprachen" : "Languages"}
+                  </h3>
+                  <ul className="sp-langs sp-langs-inline">
+                    {t.skills.languages.map((l) => (
+                      <li key={l.name}>
+                        <span className="sp-lang-flag" aria-hidden="true">
+                          {flagFor(l.name)}
+                        </span>
+                        <span className="sp-lang-name">{l.name}</span>
+                        <span className="sp-lang-level">{l.level}</span>
+                        <span className="sp-lang-bar">
+                          <span style={{ width: `${levelPct(l.level)}%` }} />
+                        </span>
+                      </li>
                     ))}
                   </ul>
                 </div>
-              </li>
-              );
-            })}
-          </ol>
-        )}
-        {id === "skills" && (
-          <div className="sp-skills">
-            {t.skills.groups.map((g, gi) => (
-              <div className="skrow" key={g.title}>
-                <span className="skrow-num">
-                  {String(gi + 1).padStart(2, "0")}
-                </span>
-                <h3 className="skrow-title">{g.title}</h3>
-                <ul className="skrow-tags">
-                  {g.items.split(",").map((raw) => {
-                    const it = raw.trim();
-                    const logo = SOCIAL_LOGOS[socialKey(it)];
-                    const icon = skillIcon(it);
-                    return (
-                      <li key={it}>
-                        {logo ? (
-                          <img
-                            className="skrow-logo"
-                            src={logo}
-                            alt=""
-                            aria-hidden="true"
-                            loading="lazy"
-                          />
-                        ) : icon ? (
-                          <i className={icon} aria-hidden="true" />
-                        ) : (
-                          <span className="skrow-mono" aria-hidden="true">
-                            {it.slice(0, 1)}
-                          </span>
-                        )}
-                        {it}
-                      </li>
-                    );
-                  })}
-                </ul>
               </div>
-            ))}
-          </div>
-        )}
-        {id === "languages" && (
-          <ul className="sp-langs">
-            {t.skills.languages.map((l) => (
-              <li key={l.name}>
-                <span className="sp-lang-flag" aria-hidden="true">
-                  {flagFor(l.name)}
-                </span>
-                <span className="sp-lang-name">{l.name}</span>
-                <span className="sp-lang-level">{l.level}</span>
-                <span className="sp-lang-bar">
-                  <span style={{ width: `${levelPct(l.level)}%` }} />
-                </span>
-              </li>
-            ))}
-          </ul>
+            </section>
+          </>
         )}
         {id === "about" && (
-          <div className="sp-about">
-            <div className="sp-prose">
-              <p className="sp-lead">{t.about.lead}</p>
-              <p>{t.about.body}</p>
-              <p>
-                {de
-                  ? "Vor der Ausbildung ein Freiwilliges Soziales Jahr bei der Lebenshilfe Vaihingen-Mühlacker. Danach die Ausbildung zum Fachinformatiker für Anwendungsentwicklung bei adesso, abgeschlossen im Januar 2026 (IHK). Seither Junior Software Engineer bei Telution."
-                  : "Before the apprenticeship, a voluntary social year at Lebenshilfe Vaihingen-Mühlacker. Then an apprenticeship as an IT specialist for application development at adesso, completed in January 2026 (IHK). Since then a Junior Software Engineer at Telution."}
-              </p>
+          <>
+            <div className="sp-about">
+              <div className="sp-prose">
+                <p className="sp-lead">{t.about.lead}</p>
+                <ul className="sp-facts">
+                  <li>
+                    <span aria-hidden="true">🎂</span>
+                    {de ? "Jahrgang 2005" : "Born 2005"}
+                  </li>
+                  <li>
+                    <span aria-hidden="true">📍</span>
+                    Vaihingen an der Enz
+                  </li>
+                  <li>
+                    <span aria-hidden="true">🚗</span>
+                    {de
+                      ? "Führerschein Klasse B & A2"
+                      : "Driver's license class B & A2"}
+                  </li>
+                  <li>
+                    <span aria-hidden="true">🗣️</span>
+                    {de ? "Deutsch (Muttersprache)" : "German (native)"}
+                  </li>
+                  <li>
+                    <span aria-hidden="true">🏍️</span>
+                    {de
+                      ? "Hobbys: Motorrad, Wandern, Tiere"
+                      : "Hobbies: motorcycles, hiking, animals"}
+                  </li>
+                </ul>
+                <p>{t.about.body}</p>
+                <p>
+                  {de
+                    ? "Vor der Ausbildung habe ich ein Freiwilliges Soziales Jahr bei der Lebenshilfe Vaihingen-Mühlacker gemacht. Danach kam die Ausbildung zum Fachinformatiker für Anwendungsentwicklung bei adesso, die ich im Januar 2026 (IHK) abgeschlossen habe. Seitdem arbeite ich als Junior Software Engineer bei Telution."
+                    : "Before the apprenticeship I did a voluntary social year at Lebenshilfe Vaihingen-Mühlacker. Then came the apprenticeship as an IT specialist for application development at adesso, which I completed in January 2026 (IHK). Since then I've been working as a Junior Software Engineer at Telution."}
+                </p>
+              </div>
+              <figure className="sp-portrait">
+                <img src={portrait} alt="Jason Bay" />
+                <figcaption>Jason Bay · Vaihingen an der Enz</figcaption>
+              </figure>
             </div>
-            <figure className="sp-portrait">
-              <img src={portrait} alt="Jason Bay" />
-              <figcaption>Jason Bay · Vaihingen an der Enz</figcaption>
-            </figure>
-          </div>
+
+            <section className="sp-subsection">
+              <div className="sp-sub-head">
+                <h2>{de ? SUB_TITLES.gallery.de : SUB_TITLES.gallery.en}</h2>
+                <p className="sp-sub-intro">
+                  {de ? SUB_INTRO.gallery.de : SUB_INTRO.gallery.en}
+                </p>
+              </div>
+              <Suspense fallback={<SectionLoading />}>
+                <GallerySection />
+              </Suspense>
+            </section>
+          </>
         )}
         {id === "contact" && (
           <div className="sp-contact">
@@ -429,6 +531,28 @@ export default function SectionPage({ id, onBack }: Props) {
               <button type="submit">{t.contact.submit}</button>
             </form>
           </div>
+        )}
+
+        {id !== "contact" && id !== "work" && (
+          <section className="sp-subsection sp-cta">
+            <div className="sp-cta-inner">
+              <h2>{de ? "Sag Hallo." : "Say hi."}</h2>
+              <p>
+                {de
+                  ? "Ob Projekt, Frage oder einfach nur so, ich antworte gern."
+                  : "Whether it's a project, a question, or just to say hi, I'll write back."}
+              </p>
+              <button
+                type="button"
+                className="sp-cta-btn"
+                onClick={() => onOpen("contact")}
+              >
+                <span className="glow-text">
+                  {de ? "Kontakt aufnehmen ↗" : "Get in touch ↗"}
+                </span>
+              </button>
+            </div>
+          </section>
         )}
       </div>
     </div>

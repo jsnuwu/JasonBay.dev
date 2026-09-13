@@ -15,6 +15,7 @@ export default function Experience() {
   const [page, setPage] = useState<string | null>(null);
   const [sound, setSound] = useState(false);
   const [warping, setWarping] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
 
   const pointerRef = useRef({ x: 0, y: 0 });
   const dragRef = useRef({ x: 0, y: 0 });
@@ -113,6 +114,7 @@ export default function Experience() {
     (id: string) => {
       playBlip();
       setPage(id);
+      setMobileMenu(false);
     },
     [playBlip],
   );
@@ -302,11 +304,45 @@ export default function Experience() {
 
         <div className="chrome-bottom">
           <span className="role-line">{roleLine}</span>
-          <span className="hint-line">{hint}</span>
+          {scene === "main" ? (
+            <button
+              className="hint-line hint-line-action"
+              onClick={() => {
+                playBlip();
+                goScene("about");
+              }}
+            >
+              {hint}
+            </button>
+          ) : (
+            <span className="hint-line">{hint}</span>
+          )}
           <span className="scene-index">
             {String(ORDER.indexOf(scene) + 1).padStart(2, "0")} / 0{ORDER.length}
           </span>
         </div>
+
+        {scene === "about" && !page && (
+          <button
+            className="mobile-nav-toggle"
+            aria-expanded={mobileMenu}
+            onClick={() => setMobileMenu((v) => !v)}
+          >
+            <span className="glow-text">
+              {mobileMenu ? "✕" : de ? "MENÜ" : "MENU"}
+            </span>
+          </button>
+        )}
+
+        {scene === "about" && !page && mobileMenu && (
+          <nav className="mobile-nav-list">
+            {sections.map((s) => (
+              <button key={s.id} onClick={() => openPage(s.id)}>
+                <span className="glow-text">{s.label}</span>
+              </button>
+            ))}
+          </nav>
+        )}
       </div>
 
       <div className="global-meta">
@@ -330,7 +366,9 @@ export default function Experience() {
         </button>
       </div>
 
-      {page && <SectionPage id={page} onBack={() => setPage(null)} />}
+      {page && (
+        <SectionPage id={page} onBack={() => setPage(null)} onOpen={openPage} />
+      )}
     </div>
   );
 }

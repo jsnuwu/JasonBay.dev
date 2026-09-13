@@ -2,7 +2,7 @@
   "name": "myownwebsite",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://USERNAME.github.io/myownwebsite",
+  "homepage": "https://jsnuwu.github.io/JasonBay.dev",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@use-gesture/react": "^10.3.1",
+    "jspdf": "^4.2.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",

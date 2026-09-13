@@ -170,7 +170,7 @@ export const translations: Record<Lang, Translations> = {
     about: {
       heading: "Über mich",
       lead: "Junior Software Engineer mit Fokus auf Frontend-Entwicklung.",
-      body: "Ich bin Junior Software Engineer mit Fokus auf moderne Webentwicklung und Frontend-Technologien wie React, Angular und Vue.js · von durchdachten Oberflächen bis zur Backend-Anbindung. Daneben schneide ich seit 2020 Videos für Social Media und gestalte Grafiken; mein eigener TikTok-Kanal hat über 20.000 Follower und 3,5 Mio. Likes. Was ich mitbringe: sauberer Code, ein Auge für Timing und Komposition, und die Bereitschaft, mich kontinuierlich in neue Technologien einzuarbeiten.",
+      body: "Ich bin Junior Software Engineer und baue meistens Frontends: React, Angular oder Vue, je nachdem was der Job gerade braucht. Ans Backend fasse ich auch gern mit ran. Nebenbei schneide ich seit 2020 Videos für Social Media und designe Grafiken; mein TikTok-Kanal hat inzwischen über 20.000 Follower und 3,5 Mio. Likes gesammelt.",
       spotlight: {
         kicker: "Nebenbei: Video & Grafikdesign",
         heading: "TikTok @jsnuwu · eigener Kanal seit 2020",
@@ -345,7 +345,7 @@ export const translations: Record<Lang, Translations> = {
     about: {
       heading: "About me",
       lead: "Junior Software Engineer focused on frontend development.",
-      body: "I'm a Junior Software Engineer focused on modern web development and frontend technologies like React, Angular and Vue.js · from thoughtful interfaces to backend integration. Alongside that, I've been editing videos for social media and designing graphics since 2020; my own TikTok channel has over 20,000 followers and 3.5M likes. What I bring: clean code, an eye for timing and composition, and a drive to keep learning new technologies.",
+      body: "I'm a Junior Software Engineer and I mostly build frontends: React, Angular or Vue, depending on what the job needs. I'm happy to dig into the backend too. Since 2020 I've also been editing videos for social media and designing graphics on the side; my TikTok channel has grown to over 20,000 followers and 3.5M likes.",
       spotlight: {
         kicker: "On the side: Video & Graphic Design",
         heading: "TikTok @jsnuwu · my own channel since 2020",

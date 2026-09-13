@@ -2,7 +2,7 @@
   --accent: #e0603a;
   --accent-strong: #c94c28;
 
-  /* legacy aliases kept so existing rules resolve to the single solid accent */
+  
   --accent-1: var(--accent);
   --accent-2: var(--accent);
   --accent-3: var(--accent-strong);
