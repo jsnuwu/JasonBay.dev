@@ -6,6 +6,7 @@ import Reticle from "./Reticle";
 import SectionPage from "./SectionPage";
 import { getIdentity, getRadialKeywords, getSectionNodes } from "./content";
 import "../styles/Constellation.css";
+import "../styles/Motion.css";
 
 const ORDER: SceneId[] = ["main", "about"];
 
@@ -16,6 +17,7 @@ export default function Experience() {
   const [sound, setSound] = useState(false);
   const [warping, setWarping] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [origin, setOrigin] = useState({ x: 0.5, y: 0.5 });
 
   const pointerRef = useRef({ x: 0, y: 0 });
   const dragRef = useRef({ x: 0, y: 0 });
@@ -24,6 +26,7 @@ export default function Experience() {
   const hoverRef = useRef<string | null>(null);
   const labelEls = useRef<Map<string, HTMLElement | null>>(new Map());
   const wheelLock = useRef(0);
+  const lastPress = useRef({ x: 0.5, y: 0.5, at: 0 });
   const warpTimer = useRef(0);
 
   const keywords = useMemo(() => getRadialKeywords(lang), [lang]);
@@ -113,6 +116,12 @@ export default function Experience() {
   const openPage = useCallback(
     (id: string) => {
       playBlip();
+      const press = lastPress.current;
+      setOrigin(
+        performance.now() - press.at < 1200
+          ? { x: press.x, y: press.y }
+          : { x: 0.5, y: 0.5 },
+      );
       setPage(id);
       setMobileMenu(false);
     },
@@ -126,8 +135,19 @@ export default function Experience() {
         y: (e.clientY / window.innerHeight) * 2 - 1,
       };
     };
+    const onPress = (e: PointerEvent) => {
+      lastPress.current = {
+        x: e.clientX / window.innerWidth,
+        y: e.clientY / window.innerHeight,
+        at: performance.now(),
+      };
+    };
     window.addEventListener("pointermove", onPointer);
-    return () => window.removeEventListener("pointermove", onPointer);
+    window.addEventListener("pointerdown", onPress, true);
+    return () => {
+      window.removeEventListener("pointermove", onPointer);
+      window.removeEventListener("pointerdown", onPress, true);
+    };
   }, []);
 
   useEffect(() => {
@@ -162,11 +182,19 @@ export default function Experience() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && page) setPage(null);
+      if (e.key === "Escape" && page) {
+        setPage(null);
+        return;
+      }
+      if (page) return;
+      const tag = (e.target as HTMLElement | null)?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+      if (e.key === "ArrowDown" || e.key === "PageDown") step(1);
+      if (e.key === "ArrowUp" || e.key === "PageUp") step(-1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [page]);
+  }, [page, step]);
 
   const bindGesture = useGesture(
     {
@@ -195,7 +223,12 @@ export default function Experience() {
   );
 
   const de = lang === "de";
-  const surface = page || scene === "main" ? "light" : "dark";
+  const surface =
+    page === "work"
+      ? "dark"
+      : page || scene === "main"
+        ? "light"
+        : "dark";
   const roleLine = "Frontend Developer · Vaihingen an der Enz";
   const hint =
     scene === "main"
@@ -207,7 +240,12 @@ export default function Experience() {
         : "SCROLL OR DRAG · CLICK A NODE";
 
   return (
-    <div className="experience-root" data-scene={scene} data-surface={surface}>
+    <div
+      className="experience-root"
+      data-scene={scene}
+      data-surface={surface}
+      data-page={page ? "open" : "closed"}
+    >
       <Reticle />
 
       <div
@@ -371,7 +409,13 @@ export default function Experience() {
       </div>
 
       {page && (
-        <SectionPage id={page} onBack={() => setPage(null)} onOpen={openPage} />
+        <SectionPage
+          key={page}
+          id={page}
+          origin={origin}
+          onBack={() => setPage(null)}
+          onOpen={openPage}
+        />
       )}
     </div>
   );

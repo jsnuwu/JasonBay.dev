@@ -35,6 +35,25 @@ function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
 
+function easeOut(x: number) {
+  const c = Math.min(1, Math.max(0, x));
+  return 1 - Math.pow(1 - c, 4);
+}
+
+function easeInOut(x: number) {
+  return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+}
+
+interface Pulse {
+  lane: number;
+  t: number;
+  dur: number;
+  wait: number;
+  dir: 1 | -1;
+}
+
+type Segment = [number, number, number, number, number, number];
+
 export default function ConstellationCanvas({
   scene,
   anchors,
@@ -169,6 +188,8 @@ export default function ConstellationCanvas({
     });
 
     let spokeSeg: THREE.LineSegments | null = null;
+    let spokeEnds: number[] = [];
+    let spokesGrown = false;
 
     const rebuildSpokes = () => {
       for (let i = radialGroup.children.length - 1; i >= 0; i--) {
@@ -177,9 +198,12 @@ export default function ConstellationCanvas({
         if (c instanceof THREE.Line) c.geometry.dispose();
       }
       const pts: number[] = [];
+      spokeEnds = [];
       anchorsRef.current.forEach((a) => {
         pts.push(0, 0, 0, a.position[0], a.position[1], a.position[2]);
+        spokeEnds.push(a.position[0], a.position[1], a.position[2]);
       });
+      spokesGrown = false;
       const g = new THREE.BufferGeometry();
       g.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
       spokeSeg = new THREE.LineSegments(g, spokeMat);
@@ -252,6 +276,91 @@ export default function ConstellationCanvas({
       hoverWebGeo.setDrawRange(0, (sibs.length + 1) * 2);
     };
 
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    const makePulseLayer = (count: number, size: number) => {
+      const arr = new Float32Array(count * 3);
+      const col = new Float32Array(count * 3);
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(arr, 3));
+      geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+      const mat = new THREE.PointsMaterial({
+        size,
+        sizeAttenuation: true,
+        vertexColors: true,
+        depthWrite: false,
+      });
+      const pts = new THREE.Points(geo, mat);
+      pts.frustumCulled = false;
+      pts.renderOrder = 6;
+      const pulses: Pulse[] = Array.from({ length: count }, () => ({
+        lane: 0,
+        t: 0,
+        dur: 1,
+        wait: Math.random() * 3,
+        dir: 1,
+      }));
+      return { arr, col, geo, mat, pts, pulses };
+    };
+    type PulseLayer = ReturnType<typeof makePulseLayer>;
+
+    const spokePulse = makePulseLayer(12, 0.15);
+    world.add(spokePulse.pts);
+    const netPulse = makePulseLayer(40, 0.13);
+    world.add(netPulse.pts);
+    const edgeCount = linePositions.length / 6;
+
+    const pulseInk = new THREE.Color("#141414");
+    const pulseLight = new THREE.Color("#ffffff");
+    const pulseTmp = new THREE.Color();
+
+    const stepPulses = (
+      layer: PulseLayer,
+      dt: number,
+      lanes: number,
+      ink: THREE.Color,
+      strength: number,
+      endpoints: (lane: number) => Segment,
+      durRange: [number, number],
+    ) => {
+      layer.pulses.forEach((pl, i) => {
+        const o = i * 3;
+        pulseTmp.copy(bgColor);
+        if (pl.wait > 0) {
+          pl.wait -= dt;
+          if (pl.wait <= 0) {
+            pl.lane = Math.floor(Math.random() * lanes);
+            pl.t = 0;
+            pl.dur = durRange[0] + Math.random() * (durRange[1] - durRange[0]);
+            pl.dir = Math.random() < 0.5 ? 1 : -1;
+          }
+        } else {
+          pl.t += dt / pl.dur;
+          if (pl.t >= 1 || pl.lane >= lanes) {
+            pl.wait = 0.4 + Math.random() * 2.6;
+          } else {
+            const [ax, ay, az, bx, by, bz] = endpoints(pl.lane);
+            const k = easeInOut(pl.dir === 1 ? pl.t : 1 - pl.t);
+            layer.arr[o] = ax + (bx - ax) * k;
+            layer.arr[o + 1] = ay + (by - ay) * k;
+            layer.arr[o + 2] = az + (bz - az) * k;
+            pulseTmp.lerp(ink, Math.sin(Math.PI * pl.t) * strength);
+          }
+        }
+        layer.col[o] = pulseTmp.r;
+        layer.col[o + 1] = pulseTmp.g;
+        layer.col[o + 2] = pulseTmp.b;
+      });
+      layer.geo.attributes.position.needsUpdate = true;
+      layer.geo.attributes.color.needsUpdate = true;
+    };
+
+    let sceneStart = 0;
+    let lastScene: SceneId | null = null;
+    let lastT = 0;
+
     const clock = new THREE.Clock();
     let frame = 0;
     const dragCurrent = { x: 0, y: 0 };
@@ -264,11 +373,44 @@ export default function ConstellationCanvas({
     const render = () => {
       frame = requestAnimationFrame(render);
       const t = clock.getElapsedTime();
+      const dt = Math.min(0.05, t - lastT);
+      lastT = t;
       const id = sceneIdRef.current;
 
       if (anchorsRef.current !== lastAnchorRef) {
         rebuildSpokes();
         lastAnchorRef = anchorsRef.current;
+      }
+
+      if (id !== lastScene) {
+        lastScene = id;
+        sceneStart = t;
+        spokesGrown = false;
+      }
+      const since = reduceMotion ? 99 : t - sceneStart;
+      const reveal = (i: number) =>
+        id === "main"
+          ? easeOut((since - 0.2 - i * 0.05) / 1.1)
+          : easeOut((since - 0.35 - i * 0.09) / 0.8);
+
+      if (spokeSeg && !spokesGrown) {
+        const attr = spokeSeg.geometry.attributes
+          .position as THREE.BufferAttribute;
+        const n = spokeEnds.length / 3;
+        let done = true;
+        for (let i = 0; i < n; i++) {
+          const g = id === "main" ? reveal(i) : 1;
+          if (g < 1) done = false;
+          attr.setXYZ(
+            i * 2 + 1,
+            spokeEnds[i * 3] * g,
+            spokeEnds[i * 3 + 1] * g,
+            spokeEnds[i * 3 + 2] * g,
+          );
+        }
+        attr.needsUpdate = true;
+        spokeSeg.geometry.boundingSphere = null;
+        spokesGrown = done;
       }
 
       targetColor.set(BG[id]);
@@ -343,10 +485,54 @@ export default function ConstellationCanvas({
       stars.rotation.y = t * 0.01;
       network.rotation.y = t * 0.014;
       netNodes.rotation.y = t * 0.014;
+      netPulse.pts.rotation.y = t * 0.014;
+
+      spokePulse.pts.visible = !reduceMotion && spokeMat.opacity > 0.02;
+      if (spokePulse.pts.visible) {
+        stepPulses(
+          spokePulse,
+          dt,
+          spokeEnds.length / 3,
+          pulseInk,
+          spokesGrown ? Math.min(1, spokeMat.opacity / 0.35) : 0,
+          (lane) => [
+            0,
+            0,
+            0,
+            spokeEnds[lane * 3],
+            spokeEnds[lane * 3 + 1],
+            spokeEnds[lane * 3 + 2],
+          ],
+          [1.6, 2.8],
+        );
+      }
+      netPulse.pts.visible =
+        !reduceMotion && edgeCount > 0 && netMat.opacity > 0.01;
+      if (netPulse.pts.visible) {
+        stepPulses(
+          netPulse,
+          dt,
+          edgeCount,
+          pulseLight,
+          Math.min(1, netMat.opacity / 0.12) * 0.95,
+          (lane) => {
+            const o = lane * 6;
+            return [
+              linePositions[o],
+              linePositions[o + 1],
+              linePositions[o + 2],
+              linePositions[o + 3],
+              linePositions[o + 4],
+              linePositions[o + 5],
+            ];
+          },
+          [1.2, 2.4],
+        );
+      }
 
       const w = renderer.domElement.clientWidth;
       const h = renderer.domElement.clientHeight;
-      anchorsRef.current.forEach((a) => {
+      anchorsRef.current.forEach((a, ai) => {
         const el = labelEls.current.get(a.id);
         if (!el) return;
         tmp.set(a.position[0], a.position[1], a.position[2]);
@@ -361,8 +547,11 @@ export default function ConstellationCanvas({
         el.style.transform = `translate(${ax}, -50%) translate(${Math.round(x)}px, ${Math.round(y)}px)`;
         const off = x < -40 || x > w + 40 || y < -40 || y > h + 40;
         const fade = THREE.MathUtils.clamp(1 - (dist - 6) / 22, 0.12, 1);
-        el.style.opacity = behind || off ? "0" : String(fade);
-        el.style.pointerEvents = behind || off || fade < 0.3 ? "none" : "auto";
+        const shown =
+          id === "main" ? easeOut((reveal(ai) - 0.88) / 0.12) : reveal(ai);
+        el.style.opacity = behind || off ? "0" : String(fade * shown);
+        el.style.pointerEvents =
+          behind || off || fade < 0.3 || shown < 0.5 ? "none" : "auto";
         el.classList.toggle("is-lit", !behind && !off && a.id === active);
       });
 
@@ -392,6 +581,10 @@ export default function ConstellationCanvas({
       netNodeMat.dispose();
       hoverWebGeo.dispose();
       hoverWebMat.dispose();
+      spokePulse.geo.dispose();
+      spokePulse.mat.dispose();
+      netPulse.geo.dispose();
+      netPulse.mat.dispose();
       spokeMat.dispose();
       if (renderer.domElement.parentNode === mount) {
         mount.removeChild(renderer.domElement);

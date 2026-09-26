@@ -6,6 +6,7 @@ import {
   type ChangeEvent,
 } from "react";
 import { useLanguage } from "../../i18n/useLanguage";
+import CountUp from "../CountUp";
 
 import video1 from "../../assets/TikTokPreview/1.mp4";
 import video2 from "../../assets/TikTokPreview/2.mp4";
@@ -17,7 +18,7 @@ import video66 from "../../assets/TikTokPreview/66.mp4";
 const VIDEOS = [video1, video2, video3, video4, video6, video66];
 
 export default function TikTokSection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const tk = t.tiktokShowcase;
 
   const [index, setIndex] = useState(0);
@@ -163,15 +164,21 @@ export default function TikTokSection() {
       <div className="tsec-side">
         <div className="tsec-stats">
           <div>
-            <strong>{t.about.spotlight.statFollowerValue}</strong>
+            <strong>
+              <CountUp value={t.about.spotlight.statFollowerValue} locale={lang} />
+            </strong>
             <span>{t.about.spotlight.statFollowerLabel}</span>
           </div>
           <div>
-            <strong>{t.about.spotlight.statLikesValue}</strong>
+            <strong>
+              <CountUp value={t.about.spotlight.statLikesValue} locale={lang} />
+            </strong>
             <span>{t.about.spotlight.statLikesLabel}</span>
           </div>
           <div>
-            <strong>{t.about.spotlight.statExperienceValue}</strong>
+            <strong>
+              <CountUp value={t.about.spotlight.statExperienceValue} locale={lang} />
+            </strong>
             <span>{t.about.spotlight.statExperienceLabel}</span>
           </div>
         </div>

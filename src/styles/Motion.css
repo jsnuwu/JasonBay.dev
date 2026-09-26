@@ -1,0 +1,614 @@
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes mFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@keyframes mFadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes mChipIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.94);
+  }
+}
+
+
+.identity-name {
+  animation: mIdentityIn 1.6s var(--ease-out) 0.15s backwards;
+}
+@keyframes mIdentityIn {
+  from {
+    opacity: 0;
+    letter-spacing: 1.1em;
+    filter: blur(8px);
+  }
+}
+
+.identity-node {
+  animation: mNodeIn 0.9s var(--ease-back) backwards;
+}
+@keyframes mNodeIn {
+  from {
+    transform: scale(0) rotate(-90deg);
+  }
+}
+
+.identity-node::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  border: 1px solid var(--exp-ink);
+  opacity: 0;
+  animation: mRingPulse 2.8s var(--ease-out) 1.4s infinite;
+  pointer-events: none;
+}
+@keyframes mRingPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+.identity:hover .identity-node::after {
+  animation-duration: 1.4s;
+}
+
+.chrome-top,
+.chrome-bottom,
+.global-meta {
+  animation: mFadeIn 1.2s ease 0.7s backwards;
+}
+
+.hint-line-action {
+  animation: mHintBreath 3.2s ease-in-out 2s infinite;
+}
+@keyframes mHintBreath {
+  50% {
+    opacity: 0.35;
+  }
+}
+.hint-line-action:hover {
+  animation: none;
+}
+
+.section-label::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  transform: translate(-100%, -50%) scale(0) rotate(45deg);
+  transition: transform 0.35s var(--ease-back);
+}
+.section-label:hover::before,
+.section-label.is-lit::before {
+  transform: translate(-100%, -50%) scale(1) rotate(45deg);
+}
+
+
+.section-page {
+  animation: mPageOpen 0.95s var(--ease-in-out) backwards;
+}
+@keyframes mPageOpen {
+  from {
+    clip-path: circle(0% at var(--ox, 50%) var(--oy, 50%));
+  }
+  to {
+    clip-path: circle(150% at var(--ox, 50%) var(--oy, 50%));
+  }
+}
+
+.section-page.is-leaving {
+  animation: mPageClose 0.5s var(--ease-in-out) forwards;
+  transition: none;
+  transform: none !important;
+  opacity: 1;
+  filter: none;
+}
+@keyframes mPageClose {
+  from {
+    clip-path: circle(150% at var(--ox, 50%) var(--oy, 50%));
+  }
+  to {
+    clip-path: circle(0% at var(--ox, 50%) var(--oy, 50%));
+  }
+}
+
+
+.sp-topbar {
+  background: transparent;
+  transition:
+    background-color 0.35s ease,
+    box-shadow 0.35s ease,
+    backdrop-filter 0.35s ease;
+}
+.sp-topbar.is-scrolled {
+  background: color-mix(in srgb, var(--exp-paper) 76%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--exp-ink) 10%, transparent);
+}
+
+.sp-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.sp-progress > span {
+  display: block;
+  height: 100%;
+  background: var(--exp-ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+
+.experience-root[data-page="open"] .global-meta {
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  top: 20px;
+}
+
+.sp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+}
+.sp-back-arrow {
+  display: inline-block;
+  transition: transform 0.4s var(--ease-out);
+}
+.sp-back:hover .sp-back-arrow {
+  transform: translateY(-4px);
+}
+
+
+.sp-header {
+  position: relative;
+  border-bottom: 0;
+}
+.sp-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--exp-ink) 18%, transparent);
+  transform-origin: left;
+  animation: mLineDraw 1.3s var(--ease-in-out) 0.55s backwards;
+}
+@keyframes mLineDraw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.sp-header h1 .sp-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.16em 0.03em 0.1em;
+  margin: -0.16em -0.03em -0.1em;
+}
+.sp-char {
+  display: inline-block;
+  animation: mCharUp 1s var(--ease-out) backwards;
+  animation-delay: calc(0.4s + var(--ci, 0) * 0.035s);
+}
+@keyframes mCharUp {
+  from {
+    transform: translateY(110%) rotate(6deg);
+  }
+}
+
+.sp-header .sp-intro,
+.sp-header .sp-cv-download {
+  animation: mFadeUp 0.9s var(--ease-out) 0.75s backwards;
+}
+.sp-header .sp-cv-download {
+  animation-delay: 0.85s;
+}
+
+
+.section-page [data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1s var(--ease-out);
+}
+.section-page [data-reveal][data-shown] {
+  opacity: 1;
+  transform: none;
+}
+
+
+.sp-fill-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    color 0.45s var(--ease-in-out),
+    transform 0.2s ease,
+    border-color 0.3s ease;
+}
+.sp-fill-btn::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: var(--exp-ink);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.45s var(--ease-in-out);
+}
+.sp-fill-btn:hover::before {
+  transform: scaleY(1);
+}
+.sp-cta-btn.sp-fill-btn:hover,
+.sp-cv-download.sp-fill-btn:hover {
+  background: none;
+  color: var(--exp-paper);
+}
+.sp-fill-btn:active {
+  transform: scale(0.97);
+}
+
+.sp-form button.sp-fill-btn::before {
+  background: var(--exp-paper);
+}
+.sp-form button.sp-fill-btn:hover {
+  background: var(--exp-ink);
+  color: var(--exp-ink);
+}
+.sp-form button.sp-fill-btn:hover .glow-text {
+  color: var(--exp-ink);
+}
+.sp-form button:disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+
+.sp-timeline > li::before {
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 1.3s var(--ease-in-out) 0.35s;
+}
+.sp-timeline > li[data-shown]::before {
+  transform: scaleY(1);
+}
+.sp-timeline > li[data-shown] .spt-badge {
+  animation: mBadgePop 0.8s var(--ease-back) 0.1s backwards;
+}
+@keyframes mBadgePop {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+.sp-timeline > li[data-shown] .spt-body ul li {
+  animation: mFadeUp 0.7s var(--ease-out) backwards;
+  animation-delay: calc(0.35s + var(--i, 0) * 0.08s);
+}
+.spt-badge {
+  transition:
+    transform 0.4s var(--ease-back),
+    box-shadow 0.4s ease;
+}
+.sp-timeline > li:hover .spt-badge {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--exp-ink) 7%, transparent);
+}
+
+
+.skrow[data-shown] .skrow-tags li {
+  animation: mChipIn 0.6s var(--ease-out) backwards;
+  animation-delay: calc(0.18s + var(--i, 0) * 0.045s);
+}
+.skrow-tags li {
+  transition:
+    transform 0.3s var(--ease-out),
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.3s ease;
+}
+.skrow-tags li:hover {
+  transform: translateY(-3px);
+  border-color: var(--exp-ink);
+  background-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 6px 16px -10px rgba(0, 0, 0, 0.45);
+}
+.skrow-title,
+.skrow-num {
+  transition:
+    transform 0.45s var(--ease-out),
+    color 0.3s ease;
+}
+.skrow:hover .skrow-title {
+  transform: translateX(8px);
+}
+.skrow:hover .skrow-num {
+  color: var(--exp-ink);
+}
+
+.sp-lang-bar > span {
+  animation: none;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.4s var(--ease-out) 0.45s;
+}
+.skrow[data-shown] .sp-lang-bar > span {
+  transform: scaleX(1);
+}
+
+
+.sp-prose[data-shown] .sp-facts li {
+  animation: mChipIn 0.6s var(--ease-out) backwards;
+  animation-delay: calc(0.25s + var(--i, 0) * 0.07s);
+}
+.sp-facts li {
+  transition:
+    transform 0.3s var(--ease-out),
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+.sp-facts li:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(255, 255, 255, 0.75);
+}
+
+.section-page .sp-portrait[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+.sp-portrait img {
+  clip-path: inset(100% 0 0 0);
+  transform: scale(1.08);
+  transition:
+    clip-path 1.3s var(--ease-in-out) 0.2s,
+    transform 1.6s var(--ease-out) 0.2s;
+}
+.sp-portrait[data-shown] img {
+  clip-path: inset(0 0 0 0);
+  transform: scale(1);
+}
+.sp-portrait figcaption {
+  opacity: 0;
+  transition: opacity 0.8s ease 1.1s;
+}
+.sp-portrait[data-shown] figcaption {
+  opacity: 1;
+}
+
+
+.sp-social-links li[data-reveal] {
+  transition-delay: calc(var(--i, 0) * 0.08s);
+}
+.sp-social-links a,
+.sp-plain li > a {
+  transition:
+    padding 0.4s var(--ease-out),
+    opacity 0.2s ease;
+}
+.sp-social-links a:hover,
+.sp-plain li > a:hover {
+  opacity: 1;
+  padding-left: 0.7rem;
+}
+.sp-plain li > a:hover span:first-child {
+  font-weight: 500;
+}
+.sp-arrow {
+  display: inline-block;
+  margin-left: 0.3em;
+  transition: transform 0.35s var(--ease-out);
+}
+.sp-plain li > a:hover .sp-arrow {
+  transform: translate(3px, -3px);
+}
+.sp-prose[data-shown] .sp-plain li {
+  animation: mFadeUp 0.7s var(--ease-out) backwards;
+  animation-delay: calc(0.3s + var(--i, 0) * 0.07s);
+}
+
+.sp-email {
+  border-bottom: 0;
+  padding-bottom: 2px;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px
+    no-repeat;
+  transition: background-size 0.55s var(--ease-in-out);
+}
+.sp-email:hover {
+  background-position: 100% 100%;
+  background-size: 0 1px;
+}
+
+
+.sp-form input,
+.sp-form textarea {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+.sp-form input:focus,
+.sp-form textarea:focus {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--exp-ink) 7%, transparent);
+  background-color: rgba(255, 255, 255, 0.45);
+}
+.sp-form label span {
+  transition:
+    color 0.25s ease,
+    transform 0.3s var(--ease-out);
+  transform-origin: left;
+}
+.sp-form label:focus-within span {
+  color: var(--exp-ink);
+  transform: translateX(3px);
+}
+.sp-form-status {
+  margin: 0;
+  min-height: 1.4em;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+.sp-form.is-sent .sp-form-status,
+.sp-form.is-error .sp-form-status {
+  animation: mFadeUp 0.6s var(--ease-out);
+}
+.sp-form.is-sending .sp-fill-btn .glow-text {
+  animation: mHintBreath 1s ease-in-out infinite;
+}
+
+
+.sp-next {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.9rem;
+  width: 100%;
+  margin: 10vh 0 0;
+  padding: 6vh 0 0;
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--exp-ink) 14%, transparent);
+  background: none;
+  font: inherit;
+  color: var(--exp-ink);
+  text-align: left;
+  cursor: none;
+}
+.sp-body-wide .sp-next {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 6vh 26px 14vh;
+  box-sizing: border-box;
+}
+.sp-next-label {
+  font-size: 0.64rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--exp-ink-soft);
+}
+.sp-next-title {
+  display: flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: clamp(2.4rem, 8vw, 5.6rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+.sp-next-text {
+  padding-bottom: 0.06em;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 3px
+    no-repeat;
+  transition: background-size 0.7s var(--ease-in-out);
+}
+.sp-next-arrow {
+  display: inline-block;
+  font-weight: 400;
+  transform: translateX(-0.2em);
+  opacity: 0.35;
+  transition:
+    transform 0.6s var(--ease-out),
+    opacity 0.4s ease;
+}
+.sp-next:hover .sp-next-text {
+  background-size: 100% 3px;
+}
+.sp-next:hover .sp-next-arrow {
+  transform: translateX(0.25em);
+  opacity: 1;
+}
+
+
+.experience-root :is(button, a):focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 5px;
+}
+
+
+@media (max-width: 720px) {
+  .experience-root[data-page="open"] .global-meta {
+    top: 16px;
+    gap: 12px;
+  }
+  .experience-root[data-page="open"] .sound-toggle {
+    display: none;
+  }
+  .sp-body-wide .sp-next {
+    padding: 5vh 18px 12vh;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .sp-next {
+    cursor: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .identity-name,
+  .identity-node,
+  .identity-node::after,
+  .chrome-top,
+  .chrome-bottom,
+  .global-meta,
+  .hint-line-action,
+  .section-page,
+  .section-page.is-leaving,
+  .sp-header::after,
+  .sp-char,
+  .sp-header .sp-intro,
+  .sp-header .sp-cv-download,
+  .section-page [data-shown] *,
+  .sp-form-status {
+    animation: none !important;
+  }
+  .identity-node::after {
+    display: none;
+  }
+  .section-page [data-reveal],
+  .sp-timeline > li::before,
+  .sp-lang-bar > span,
+  .sp-portrait img,
+  .sp-portrait figcaption {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}
+
+.tsec-stats strong span {
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: none;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+}

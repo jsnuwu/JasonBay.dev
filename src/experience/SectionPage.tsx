@@ -1,4 +1,14 @@
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import {
+  Fragment,
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type FormEvent,
+} from "react";
 import { useLanguage } from "../i18n/useLanguage";
 import { EMAIL, getSocials } from "./content";
 import portrait from "../assets/avatar/BayJason.jpg";
@@ -48,9 +58,35 @@ function orgLogo(org: string) {
 
 interface Props {
   id: string;
+  origin: { x: number; y: number };
   onBack: () => void;
   onOpen: (id: string) => void;
 }
+
+function SplitTitle({ text }: { text: string }) {
+  return (
+    <h1 aria-label={text}>
+      {text.split(" ").map((word, wi) => (
+        <Fragment key={wi}>
+          {wi > 0 && " "}
+          <span className="sp-word" aria-hidden="true">
+            {Array.from(word).map((ch, ci) => (
+              <span
+                className="sp-char"
+                key={ci}
+                style={{ "--ci": wi * 3 + ci } as CSSProperties}
+              >
+                {ch}
+              </span>
+            ))}
+          </span>
+        </Fragment>
+      ))}
+    </h1>
+  );
+}
+
+type FormState = "idle" | "sending" | "sent" | "error";
 
 const SKILL_ICONS: [RegExp, string][] = [
   [/html/i, "devicon-html5-plain colored"],
@@ -158,13 +194,24 @@ const SUB_INTRO: Record<string, { de: string; en: string }> = {
   },
 };
 
-export default function SectionPage({ id, onBack, onOpen }: Props) {
+export default function SectionPage({ id, origin, onBack, onOpen }: Props) {
   const { t, lang } = useLanguage();
   const de = lang === "de";
   const scrollRef = useRef<HTMLDivElement>(null);
+  const topbarRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLSpanElement>(null);
   const overscrollRef = useRef(0);
   const leavingRef = useRef(false);
   const [pull, setPull] = useState(0);
+  const [formState, setFormState] = useState<FormState>("idle");
+
+  const leave = useCallback(() => {
+    const node = scrollRef.current;
+    if (leavingRef.current) return;
+    leavingRef.current = true;
+    node?.classList.add("is-leaving");
+    window.setTimeout(onBack, 480);
+  }, [onBack]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0 });
@@ -173,13 +220,61 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
   useEffect(() => {
     const node = scrollRef.current;
     if (!node) return;
-
-    const leave = () => {
-      if (leavingRef.current) return;
-      leavingRef.current = true;
-      node.classList.add("is-leaving");
-      window.setTimeout(onBack, 420);
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const max = node.scrollHeight - node.clientHeight;
+      const ratio = max > 0 ? node.scrollTop / max : 0;
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${ratio})`;
+      }
+      topbarRef.current?.classList.toggle("is-scrolled", node.scrollTop > 12);
     };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    node.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      node.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, [id]);
+
+  useEffect(() => {
+    const node = scrollRef.current;
+    if (!node) return;
+    const seen = new WeakSet<Element>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) {
+            en.target.setAttribute("data-shown", "");
+            io.unobserve(en.target);
+          }
+        });
+      },
+      { root: node, rootMargin: "0px 0px -8% 0px", threshold: 0.05 },
+    );
+    const scan = () => {
+      node.querySelectorAll("[data-reveal]").forEach((el) => {
+        if (seen.has(el)) return;
+        seen.add(el);
+        io.observe(el);
+      });
+    };
+    scan();
+    const mo = new MutationObserver(scan);
+    mo.observe(node, { childList: true, subtree: true });
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+    };
+  }, [id]);
+
+  useEffect(() => {
+    const node = scrollRef.current;
+    if (!node) return;
 
     const onWheel = (e: WheelEvent) => {
       if (leavingRef.current) return;
@@ -227,21 +322,49 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
       node.removeEventListener("touchmove", onTouchMove);
       node.removeEventListener("touchend", onTouchEnd);
     };
-  }, [onBack, pull]);
+  }, [leave, pull]);
 
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setFormState("sending");
+    try {
+      const res = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      form.reset();
+      setFormState("sent");
+    } catch {
+      setFormState("error");
+    }
+  };
+
+  const order = Object.keys(TITLES);
   const title = TITLES[id] ? (de ? TITLES[id].de : TITLES[id].en) : id;
   const intro = INTRO[id] ? (de ? INTRO[id].de : INTRO[id].en) : "";
-  const total = Object.keys(TITLES).length;
+  const total = order.length;
   const num =
-    String(Object.keys(TITLES).indexOf(id) + 1).padStart(2, "0") +
+    String(order.indexOf(id) + 1).padStart(2, "0") +
     " / " +
     String(total).padStart(2, "0");
+  const nextId = order[(order.indexOf(id) + 1) % total];
+  const nextTitle = de ? TITLES[nextId].de : TITLES[nextId].en;
+  const isLast = order.indexOf(id) === total - 1;
 
   return (
     <div
       className={`section-page ${id === "work" ? "section-page-dark" : ""}`}
       ref={scrollRef}
-      style={{ transform: pull ? `translateY(${pull * 40}px)` : undefined }}
+      style={
+        {
+          "--ox": `${(origin.x * 100).toFixed(1)}%`,
+          "--oy": `${(origin.y * 100).toFixed(1)}%`,
+          transform: pull ? `translateY(${pull * 40}px)` : undefined,
+        } as CSSProperties
+      }
     >
       <div
         className="sp-pull"
@@ -251,22 +374,28 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
         <span>{de ? "LOSLASSEN FÜR RAUM" : "RELEASE FOR SPACE"}</span>
       </div>
 
-      <div className="sp-topbar">
-        <button className="sp-back" onClick={onBack}>
+      <div className="sp-topbar" ref={topbarRef}>
+        <button className="sp-back" onClick={leave}>
+          <span className="sp-back-arrow" aria-hidden="true">
+            ↑
+          </span>
           <span className="glow-text">
-            {de ? "↑ ZURÜCK ZUM RAUM" : "↑ BACK TO SPACE"}
+            {de ? "ZURÜCK ZUM RAUM" : "BACK TO SPACE"}
           </span>
         </button>
         <span className="sp-num">{num}</span>
+        <span className="sp-progress" aria-hidden="true">
+          <span ref={progressRef} />
+        </span>
       </div>
 
       {id !== "work" && (
         <header className="sp-header">
-          <h1>{title}</h1>
+          <SplitTitle text={title} />
           {intro && <p className="sp-intro">{intro}</p>}
           {id === "skills-experience" && (
             <button
-              className="sp-cv-download"
+              className="sp-cv-download sp-fill-btn"
               onClick={() =>
                 import("./generateCv").then(({ downloadCv }) =>
                   downloadCv(lang, t),
@@ -292,8 +421,12 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
                 .filter((s) =>
                   ["Instagram", "TikTok", "YouTube"].includes(s.label),
                 )
-                .map((s) => (
-                  <li key={s.label}>
+                .map((s, si) => (
+                  <li
+                    key={s.label}
+                    data-reveal
+                    style={{ "--i": si } as CSSProperties}
+                  >
                     <a href={s.href} target="_blank" rel="noopener noreferrer">
                       <img
                         className="sp-social-logo"
@@ -318,7 +451,7 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
         {id === "skills-experience" && (
           <>
             <section className="sp-subsection">
-              <div className="sp-sub-head">
+              <div className="sp-sub-head" data-reveal>
                 <h2>{de ? SUB_TITLES.experience.de : SUB_TITLES.experience.en}</h2>
                 <p className="sp-sub-intro">
                   {de ? SUB_INTRO.experience.de : SUB_INTRO.experience.en}
@@ -328,7 +461,7 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
                 {t.experience.entries.map((e) => {
                   const logo = orgLogo(e.org);
                   return (
-                    <li key={e.org}>
+                    <li key={e.org} data-reveal>
                       <span
                         className={`spt-badge${logo ? " has-logo" : ""}`}
                         data-org={logo?.slug}
@@ -348,8 +481,13 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
                         <span className="spt-org">{e.org}</span>
                         <span className="spt-role">{e.role}</span>
                         <ul>
-                          {e.bullets.map((b) => (
-                            <li key={b}>{b}</li>
+                          {e.bullets.map((b, bi) => (
+                            <li
+                              key={b}
+                              style={{ "--i": bi } as CSSProperties}
+                            >
+                              {b}
+                            </li>
                           ))}
                         </ul>
                       </div>
@@ -360,7 +498,7 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
             </section>
 
             <section className="sp-subsection">
-              <div className="sp-sub-head">
+              <div className="sp-sub-head" data-reveal>
                 <h2>{de ? SUB_TITLES.skills.de : SUB_TITLES.skills.en}</h2>
                 <p className="sp-sub-intro">
                   {de ? SUB_INTRO.skills.de : SUB_INTRO.skills.en}
@@ -368,18 +506,21 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
               </div>
               <div className="sp-skills">
                 {t.skills.groups.map((g, gi) => (
-                  <div className="skrow" key={g.title}>
+                  <div className="skrow" key={g.title} data-reveal>
                     <span className="skrow-num">
                       {String(gi + 1).padStart(2, "0")}
                     </span>
                     <h3 className="skrow-title">{g.title}</h3>
                     <ul className="skrow-tags">
-                      {g.items.split(",").map((raw) => {
+                      {g.items.split(",").map((raw, ii) => {
                         const it = raw.trim();
                         const logo = SKILL_LOGOS[socialKey(it)];
                         const icon = skillIcon(it);
                         return (
-                          <li key={it}>
+                          <li
+                            key={it}
+                            style={{ "--i": ii } as CSSProperties}
+                          >
                             {logo ? (
                               <img
                                 className="skrow-logo"
@@ -402,7 +543,7 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
                     </ul>
                   </div>
                 ))}
-                <div className="skrow">
+                <div className="skrow" data-reveal>
                   <span className="skrow-num">
                     {String(t.skills.groups.length + 1).padStart(2, "0")}
                   </span>
@@ -431,28 +572,28 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
         {id === "about" && (
           <>
             <div className="sp-about">
-              <div className="sp-prose">
+              <div className="sp-prose" data-reveal>
                 <p className="sp-lead">{t.about.lead}</p>
                 <ul className="sp-facts">
-                  <li>
+                  <li style={{ "--i": 0 } as CSSProperties}>
                     <span aria-hidden="true">🎂</span>
                     {de ? "Jahrgang 2005" : "Born 2005"}
                   </li>
-                  <li>
+                  <li style={{ "--i": 1 } as CSSProperties}>
                     <span aria-hidden="true">📍</span>
                     Vaihingen an der Enz
                   </li>
-                  <li>
+                  <li style={{ "--i": 2 } as CSSProperties}>
                     <span aria-hidden="true">🚗</span>
                     {de
                       ? "Führerschein Klasse B & A2"
                       : "Driver's license class B & A2"}
                   </li>
-                  <li>
+                  <li style={{ "--i": 3 } as CSSProperties}>
                     <span aria-hidden="true">🗣️</span>
                     {de ? "Deutsch (Muttersprache)" : "German (native)"}
                   </li>
-                  <li>
+                  <li style={{ "--i": 4 } as CSSProperties}>
                     <span aria-hidden="true">🏍️</span>
                     {de
                       ? "Hobbys: Motorrad, Wandern, Tiere"
@@ -466,14 +607,14 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
                     : "Before the apprenticeship I did a voluntary social year at Lebenshilfe Vaihingen-Mühlacker. Then came the apprenticeship as an IT specialist for application development at adesso, which I completed in January 2026 (IHK). Since then I've been working as a Junior Software Engineer at Telution."}
                 </p>
               </div>
-              <figure className="sp-portrait">
+              <figure className="sp-portrait" data-reveal>
                 <img src={portrait} alt="Jason Bay" />
                 <figcaption>Jason Bay · Vaihingen an der Enz</figcaption>
               </figure>
             </div>
 
             <section className="sp-subsection">
-              <div className="sp-sub-head">
+              <div className="sp-sub-head" data-reveal>
                 <h2>{de ? SUB_TITLES.gallery.de : SUB_TITLES.gallery.en}</h2>
                 <p className="sp-sub-intro">
                   {de ? SUB_INTRO.gallery.de : SUB_INTRO.gallery.en}
@@ -487,17 +628,22 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
         )}
         {id === "contact" && (
           <div className="sp-contact">
-            <div className="sp-prose">
+            <div className="sp-prose" data-reveal>
               <p>{t.contact.intro}</p>
               <a className="sp-email" href={`mailto:${EMAIL}`}>
                 {EMAIL}
               </a>
               <ul className="sp-plain">
-                {getSocials().map((s) => (
-                  <li key={s.label}>
+                {getSocials().map((s, si) => (
+                  <li key={s.label} style={{ "--i": si } as CSSProperties}>
                     <a href={s.href} target="_blank" rel="noopener noreferrer">
                       <span>{s.label}</span>
-                      <span>{s.handle} ↗</span>
+                      <span className="sp-plain-handle">
+                        {s.handle}
+                        <span className="sp-arrow" aria-hidden="true">
+                          ↗
+                        </span>
+                      </span>
                     </a>
                   </li>
                 ))}
@@ -505,9 +651,11 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
             </div>
 
             <form
-              className="sp-form"
+              className={`sp-form is-${formState}`}
               action="https://formspree.io/f/mreakbje"
               method="POST"
+              onSubmit={onSubmit}
+              data-reveal
             >
               <label>
                 <span>{de ? "Name" : "Name"}</span>
@@ -536,14 +684,36 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
                   required
                 />
               </label>
-              <button type="submit">{t.contact.submit}</button>
+              <button
+                type="submit"
+                className="sp-fill-btn"
+                disabled={formState === "sending"}
+              >
+                <span className="glow-text">
+                  {formState === "sending"
+                    ? de
+                      ? "Wird gesendet …"
+                      : "Sending …"
+                    : t.contact.submit}
+                </span>
+              </button>
+              <p className="sp-form-status" role="status" aria-live="polite">
+                {formState === "sent" &&
+                  (de
+                    ? "Danke! Deine Nachricht ist angekommen, ich melde mich bald."
+                    : "Thanks! Your message arrived, I'll get back to you soon.")}
+                {formState === "error" &&
+                  (de
+                    ? "Das hat leider nicht geklappt. Schreib mir gern direkt per E-Mail."
+                    : "That didn't work, sorry. Feel free to email me directly.")}
+              </p>
             </form>
           </div>
         )}
 
         {id !== "contact" && id !== "work" && (
           <section className="sp-subsection sp-cta">
-            <div className="sp-cta-inner">
+            <div className="sp-cta-inner" data-reveal>
               <h2>{de ? "Sag Hallo." : "Say hi."}</h2>
               <p>
                 {de
@@ -552,7 +722,7 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
               </p>
               <button
                 type="button"
-                className="sp-cta-btn"
+                className="sp-cta-btn sp-fill-btn"
                 onClick={() => onOpen("contact")}
               >
                 <span className="glow-text">
@@ -562,6 +732,29 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
             </div>
           </section>
         )}
+
+        <button
+          type="button"
+          className="sp-next"
+          onClick={() => onOpen(nextId)}
+          data-reveal
+        >
+          <span className="sp-next-label">
+            {isLast
+              ? de
+                ? "Zurück zum Anfang"
+                : "Back to start"
+              : de
+                ? "Nächste Seite"
+                : "Next page"}
+          </span>
+          <span className="sp-next-title">
+            <span className="sp-next-text">{nextTitle}</span>
+            <span className="sp-next-arrow" aria-hidden="true">
+              →
+            </span>
+          </span>
+        </button>
       </div>
     </div>
   );
