@@ -8,6 +8,15 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    name: "fly-snake",
+    description:
+      "Ein echter Ausschnitt des Fruchtfliegen-Gehirns spielt Snake · direkt im Browser. 4.812 Neuronen und 266.216 Verbindungen aus dem MaleCNS-Connectome (Janelia/Google) steuern die Schlange: Augen-Neuronen sehen Apfel und Wände, Lenkneuronen entscheiden die Richtung. Dazu lernt die Fliege wie im Pilzkörper einer echten Fliege mit Dopamin dazu. Mit Tempo bis Turbo, neuer oder vortrainierter Fliege und exportierbarem Gedächtnis.",
+    descriptionEn:
+      "A real slice of the fruit fly brain plays Snake · right in the browser. 4,812 neurons and 266,216 connections from the MaleCNS connectome (Janelia/Google) steer the snake: visual neurons see the apple and walls, steering neurons pick the direction. On top of that, the fly learns with dopamine, much like the mushroom body of a real fly. With speeds up to turbo, a fresh or pre-trained fly, and exportable memory.",
+    tech: "TypeScript, JavaScript, Python, Canvas",
+    link: "https://jsnuwu.github.io/fly-snake/",
+  },
+  {
     name: "League Of Legends @adesso",
     description:
       "Ein React Playground in Form einer League of Legends Team-Maker Web-App. Die Anwendung ermöglicht es, zwei Teams zu erstellen, Spieler hinzuzufügen und (ehemals) mithilfe einer KI faire Teams basierend auf Spieler-Daten zu generieren. Das Projekt dient sowohl als Lern- & Experimentierumgebung als auch als Funktions-Prototyp.",

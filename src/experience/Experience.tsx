@@ -176,7 +176,11 @@ export default function Experience() {
 
         const freeOrbit = scene === "about";
         let x = orbitBase.current.x + mx * (freeOrbit ? 0.008 : 0.005);
-        const y = clamp(orbitBase.current.y - my * 0.004, -0.85, 0.85);
+        const y = clamp(
+          orbitBase.current.y + my * (freeOrbit ? 0.004 : -0.004),
+          -0.85,
+          0.85,
+        );
         if (!freeOrbit) x = clamp(x, -0.7, 0.7);
         dragRef.current = { x, y };
 

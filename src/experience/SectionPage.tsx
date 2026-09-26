@@ -5,6 +5,7 @@ import portrait from "../assets/avatar/BayJason.jpg";
 import tiktokLogo from "../assets/images/TikTok.png";
 import youtubeLogo from "../assets/images/Youtube.png";
 import instagramLogo from "../assets/images/Instagram.png";
+import microsoftLogo from "../assets/images/microsoft.svg";
 import adessoLogo from "../assets/images/adessologo2.png";
 import telutionLogo from "../assets/images/telution-logo.webp";
 import lebenshilfeLogo from "../assets/images/lebenshilfe.de-removebg-preview.png";
@@ -21,6 +22,11 @@ const SOCIAL_LOGOS: Record<string, string> = {
   tiktok: tiktokLogo,
   youtube: youtubeLogo,
   instagram: instagramLogo,
+};
+
+const SKILL_LOGOS: Record<string, string> = {
+  ...SOCIAL_LOGOS,
+  "microsoft 365": microsoftLogo,
 };
 
 function socialKey(name: string) {
@@ -56,6 +62,8 @@ const SKILL_ICONS: [RegExp, string][] = [
   [/react/i, "devicon-react-original colored"],
   [/vue/i, "devicon-vuejs-plain colored"],
   [/figma/i, "devicon-figma-plain colored"],
+  [/canva/i, "devicon-canva-original colored"],
+  [/photoshop/i, "devicon-photoshop-plain colored"],
   [/wordpress/i, "devicon-wordpress-plain colored"],
   [/spring/i, "devicon-spring-plain colored"],
   [/php/i, "devicon-php-plain colored"],
@@ -368,7 +376,7 @@ export default function SectionPage({ id, onBack, onOpen }: Props) {
                     <ul className="skrow-tags">
                       {g.items.split(",").map((raw) => {
                         const it = raw.trim();
-                        const logo = SOCIAL_LOGOS[socialKey(it)];
+                        const logo = SKILL_LOGOS[socialKey(it)];
                         const icon = skillIcon(it);
                         return (
                           <li key={it}>

@@ -227,15 +227,11 @@ export const translations: Record<Lang, Translations> = {
       groups: [
         {
           title: "Schwerpunkt Frontend",
-          items: "HTML5, CSS3, JavaScript, TypeScript, Angular, Tailwind CSS, Responsive Design",
+          items: "HTML5, CSS3, JavaScript, TypeScript, Angular, React, Vue.js, Tailwind CSS, Responsive Design",
         },
         {
           title: "Design & Web",
-          items: "Figma, WordPress, Elementor",
-        },
-        {
-          title: "Weitere Frameworks",
-          items: "React, Vue.js",
+          items: "Figma, Canva, Photoshop, WordPress, Elementor",
         },
         {
           title: "Backend & Daten",
@@ -243,11 +239,11 @@ export const translations: Record<Lang, Translations> = {
         },
         {
           title: "Tools & Arbeitsweise",
-          items: "Git, Docker, Scrum, Unit Testing, JIRA, Confluence, YouTrack",
+          items: "Git, Docker, Scrum, Unit Testing, JIRA, Confluence, YouTrack, Microsoft 365",
         },
         {
           title: "Content & Social",
-          items: "Video-Schnitt, TikTok, YouTube, Instagram",
+          items: "Video-Schnitt, CapCut, TikTok, YouTube, Instagram",
         },
       ],
       languages: [
@@ -402,15 +398,11 @@ export const translations: Record<Lang, Translations> = {
       groups: [
         {
           title: "Frontend focus",
-          items: "HTML5, CSS3, JavaScript, TypeScript, Angular, Tailwind CSS, Responsive Design",
+          items: "HTML5, CSS3, JavaScript, TypeScript, Angular, React, Vue.js, Tailwind CSS, Responsive Design",
         },
         {
           title: "Design & Web",
-          items: "Figma, WordPress, Elementor",
-        },
-        {
-          title: "Other frameworks",
-          items: "React, Vue.js",
+          items: "Figma, Canva, Photoshop, WordPress, Elementor",
         },
         {
           title: "Backend & Data",
@@ -418,11 +410,11 @@ export const translations: Record<Lang, Translations> = {
         },
         {
           title: "Tools & Method",
-          items: "Git, Docker, Scrum, Unit Testing, JIRA, Confluence, YouTrack",
+          items: "Git, Docker, Scrum, Unit Testing, JIRA, Confluence, YouTrack, Microsoft 365",
         },
         {
           title: "Content & Social",
-          items: "Video editing, TikTok, YouTube, Instagram",
+          items: "Video editing, CapCut, TikTok, YouTube, Instagram",
         },
       ],
       languages: [
