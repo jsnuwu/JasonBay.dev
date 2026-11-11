@@ -14,6 +14,7 @@ import ScrambledText from "./ScrambledText";
 import video1 from "../assets/TikTokPreview/1.mp4";
 import video2 from "../assets/TikTokPreview/2.mp4";
 import video3 from "../assets/TikTokPreview/3.mp4";
+import video5 from "../assets/TikTokPreview/5.mp4";
 import video4 from "../assets/TikTokPreview/4.mp4";
 import video6 from "../assets/TikTokPreview/6.mp4";
 import video66 from "../assets/TikTokPreview/66.mp4";
@@ -22,6 +23,7 @@ const VIDEOS = [
   { id: 1, src: video1 },
   { id: 2, src: video2 },
   { id: 3, src: video3 },
+  { id: 5, src: video5 },
   { id: 4, src: video4 },
   { id: 6, src: video6 },
   { id: 66, src: video66 },
